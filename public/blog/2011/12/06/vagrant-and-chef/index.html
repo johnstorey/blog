@@ -1,0 +1,156 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Vagrant and Chef  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="Vagrant and Chef, oh my! I read with interest the high level discussion over at Matt Butcher&rsquo;s Blog regarding the use of Vagrant to improve &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Vagrant and Chef</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-06T17:08:00-08:00" pubdate data-updated="true">Dec 6<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content"><p>Vagrant and Chef, oh my!</p>
+
+<p>I read with interest the high level discussion over at <a href="http://technosophos.com/content/building-custom-drupal-image-vagrant">Matt Butcher&rsquo;s Blog</a> regarding the use of <a href="http://vagrantup.com">Vagrant</a> to improve your Drupal development this morning with some interest. Matt is a super smart guy who has previously written about a hobby horse of mine, namely, that development is best done in a virtual machine. Check his blog for the reasoning &mdash; it&rsquo;s solid.</p>
+
+<p>But today I felt he really glossed over the use of Vagrant. We are working with Vagrant internally for a Drupal project and a J2EE project. This is still early stage &mdash; our Chef recipes are somewhat primitive for example &mdash; but already we are seeing marked increases in development velocity. As we contine to find time here and there to work with Chef Servers and refine the workflow it seems obvious that one really should maintain base Vagrantfiles representing major architectures used for major categories of sites in house. Likely we&rsquo;ll end up forking a base Vagrantfile template to refine based on the individual needs of each client. For instance, Varnish should be tweaked based on site content and usage patterns.</p>
+
+<p>In addition there is an argument for company repositories for</p>
+
+<ul>
+<li>custom Vagrant boxes</li>
+<li>packages for the applications being installed for each client</li>
+<li>the Drupal code and modules being used</li>
+<li>the tools used to build the solution, and so forth</li>
+</ul>
+
+
+<p>This is a contentious point though. The old school philosophy of &ldquo;keep copies of everything, even the tools you used to build it, in case you can&rsquo;t get them elsewhere when you need them in the future&rdquo; seems a bit overzealous. But then again, I would not feel that way if 5 years from now we need to spin up an old CentOS site with applications that are no longer available on the web &hellip;</p>
+
+<p>No point in drawing you into our internal dialogues though. The point is, really doing this right is much more complex than Matt has made it out to be. When we feel we&rsquo;ve settled into the right setup for our company I&rsquo;ll make a point of revisiting the topic in this space for all of you. Give it a couple of months. Meanwhile Vagrant and Chef are incredibly powerful tools being implemented in the company and, honestly, we could not be happier to have them. It&rsquo;s the magic in the computer all over again.</p>
+
+<p>Now if I could figure out why the mods to this Redmine cookbook don&rsquo;t seem to be taking full effect &hellip;</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Vagrant and Chef by @johnroberstorey&url=http://blog.johnstorey.org/blog/2011/12/06/vagrant-and-chef/" title="Share Vagrant and Chef on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2011/12/06/vagrant-and-chef/" title="Share Vagrant and Chef on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2011/12/06/vagrant-and-chef/" title="Share Vagrant and Chef on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2011/12/06/vagrant-and-chef/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2011/12/06/vagrant-and-chef/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

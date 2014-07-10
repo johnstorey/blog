@@ -1,0 +1,301 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Personal Projects AMI 0.5  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="The Need Every developer has their own projects. Mostly you can keep local source code repositories and
+be happy. But what if you are working with a &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Personal Projects AMI 0.5</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-10T07:03:00-07:00" pubdate data-updated="true">Jul 10<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content"><h1>The Need</h1>
+
+<p>Every developer has their own projects. Mostly you can keep local source code repositories and
+be happy. But what if you are working with a friend or two, and want to share your code? Github gives a decent answer
+for this, and if you want a private repository the cost is not too bad. But what if, as I wrote about in an earlier
+post, you want to keep your own private configuration files for moving from machine to machine? Or you just don&rsquo;t want
+someone else holding your code? In that case you want your own repository.</p>
+
+<p>Might as well make it into an Amazon AMI.</p>
+
+<p>So here is the first release (well v0.21) of an Amazon AMI that will let you quickly set up multiple projects with
+git and and a great defect tracker.</p>
+
+<h1>Solution Choices</h1>
+
+<h2>EC2 is Cheap</h2>
+
+<p>Recently I looked again at Amazon instance costs as part of a cost and security audit for a client. It turns out that
+small instances, if bought reserved for a year, are now US $54. Micro-instances are $14 month to month, and less if
+reserved for a year.</p>
+
+<p>Which such low costs it makes sense to just run the repository on Amazon. My goal is, as features are added in later
+versions, to keep this running smoothly on a micro-instance.</p>
+
+<h2>Which AMI?</h2>
+
+<p>Again, this is not a hard choice. I wanted a 32-bit AMI image of Ubuntu, and Canoncial has helpful links
+at <a href="http://cloud.ubuntu.com.">http://cloud.ubuntu.com.</a> Why 32-bit? Because Amazon small instances are not available on 64-bit AMIs.</p>
+
+<p>For the current release the AMI is in the US West region. Clearly this is not acceptable, and getting it
+available in all regions is in the works.</p>
+
+<h2>Gitosis or Gitalite?</h2>
+
+<p>It&rsquo;s not enough to have a git repository. You want features such as
+&ndash;  Be able to add and remove users with public keys, not by creating user accounts for them
+&ndash;  Be able to host multiple repositories easily
+&ndash;  Be able to add and remove user access to repositories via configuration
+&ndash;  Have all your configuration choices versioned so you can roll back to earlier setups</p>
+
+<p>Both Gitosis and Gitalite achieve these goals by keeping a text configuration file stored in their underlying Git repositories.
+You can add users, remove them, attach them to various project repositories, and control the type of access you desire. This
+is great! But Gitosis has one fault in my mind. There seems to be no way to <em>control access at the branch level</em>. In public
+projects this is necessary in order to allow you to manage a project, let others branch within it, then only allow them to
+issue pull requests to you rather than commit directly to the main branch itself. In the enterprise this functionality
+is required to implement development workflow policies. People <em>will</em> commit to the main branch if they have access to it,
+no matter what policies are in place. They will do it the night before a major deliverable, break the build, and cause
+you major pain.</p>
+
+<p>Don&rsquo;t let this happen to you. Use Gitolite, with it&rsquo;s branch level ACLs.</p>
+
+<p>I installed it according to these <a href="http://computercamp.cdwilson.us/git-gitolite-git-daemon-gitweb-setup-on-ubunt">blog instructions</a>.</p>
+
+<p>Unfortunately I never got the Gitweb working with these instructions.</p>
+
+<h2>Mantis or JIRA or ?</h2>
+
+<p>You want a bug tracker with multiple project support, because you&rsquo;ll have multiple projects (or this solution
+may be overkill for you). The choice here was quick and simple for me:</p>
+
+<ul>
+<li>I believe JIRA to be more functional, and all my clients use it</li>
+<li>I believe Mantis to be less functional</li>
+<li>My impression is Mantis requires drastically fewer resources</li>
+<li>Since I&rsquo;ll interact with them mostly through Eclipse&rsquo;s Mylyn plugin, they will look the same to me</li>
+<li>I want to keep resources down to run an an EC2 micro-instance</li>
+</ul>
+
+
+<p>Victor: Mantis.</p>
+
+<p>Installed as specified <a href="http://www.ghacks.net/2009/09/08/install-mantis-bug-tracking-tool-on-your-ubuntu-server/">in this blog post</a>. As it
+stands Mantis cannot send e-mail, which will cripple it. So I recommend you <a href="http://www.mantisbt.org/forums/viewtopic.php?t=15398&amp;f=3">follow these instructions</a>
+ and you&rsquo;ll have it sending e-mail via GMail in 5 minutes. Specifically, the AMI is set-up for GMail. You just need to add in your GMail
+ username and password by editing /var/www/mantis/config.inc.php.</p>
+
+<p> Of course you can set up a full-fledged mail server and do it properly.</p>
+
+<h2>Gitweb or Gitalist?</h2>
+
+<p>Ah, now the real choices. I must have spent 6 hours over 3 days trying to get either these working with Gitolite. All to get functionality
+I already have and am more likely to use via my Eclipse IDE. At that point I stepped back, decided the value add of the web interface did not
+match the effort I was putting in. It&rsquo;s not in this version of the AMI.</p>
+
+<p>That being said, even with the few themes I found, Gitweb appears ugly. If anyone can get it running and let me know how before I
+get back to this I&rsquo;d use it. But more, I&rsquo;d love to see <a href="http://www.gitalist.com/">Gitalist</a> running here. Much prettier and
+maybe just a bit more functional.</p>
+
+<p>For now though there is no web interface to Git on the AMI. Did I mention that your IDE already does all this? Why leave it?</p>
+
+<h1>How To Use It</h1>
+
+<h2>Get It</h2>
+
+<p>Log into your Amazon account and select the US-West region. The AMI you want is ami-6dbeec28.</p>
+
+<p>Make sure you give it a security group with ports 22, 80, 443 and 9418 open.</p>
+
+<h2>Set-up Mantis</h2>
+
+<p>Mantis is configured with the default log-in user</p>
+
+<pre><code>administrator
+root
+</code></pre>
+
+<p>I&rsquo;d advise you change it ASAP, then follow the link above to get email working. Really, all I have done is take out my GMail account settings
+and left the rest in. So if you insert your GMail username and password you should be good to go.</p>
+
+<p>That&rsquo;s it. Issue tracking is now enabled.</p>
+
+<h2>Set-up Gitolite</h2>
+
+<p>Now here I had to stop part way through. Why? Setting up Gitolite requires the use of <em>your</em> public key. That&rsquo;s how administrative access is controlled.
+There is not much left to do though. Do the following</p>
+
+<ul>
+<li>SCP your public key to the /tmp directory of your EC2 instance (let&rsquo;s call it username.pub)</li>
+<li>SSH into the EC2 instance</li>
+<li>sudo chmod 666 /tmp/username.pub</li>
+<li>sudo -H -u gitolite gl-setup /tmp/username.pub</li>
+<li>sudo chmod g+r /var/lib/gitolite/projects.list</li>
+<li>sudo chmod -R g+rx /var/lib/gitolite/repositories</li>
+<li>sudo vi /var/lib/gitolite/.gitolite.rc</li>
+<li> Change the $REPO_MASK to 027</li>
+<li>Reboot the instance</li>
+<li> sudo reboot</li>
+</ul>
+
+
+<p>Now we can test it out on the local machine</p>
+
+<ul>
+<li>git clone gitolite@git.server:gitolite-admin.git</li>
+<li>cd gitolite-admin</li>
+<li>vi conf/gitolite.conf</li>
+<li>For the testing repo enable the git-daemon access by adding</li>
+<li> R = daemon</li>
+<li>Commit the file and push it</li>
+<li> git commit -a -m &ldquo;Enable git-daemon for testing.git&rdquo;</li>
+<li> git push</li>
+<li>Now you can clone the testing repository with
+
+<ul>
+<li>git clone git://git.server/testing.git</li>
+</ul>
+</li>
+</ul>
+
+
+<p>That&rsquo;s it! Go read up on the details of how to configure Gitolite &mdash; you&rsquo;ll be very happy with what
+you can now do!</p>
+
+<h1>Futures</h1>
+
+<p>Clearly there are a number of features missing that need to be in future versions of this solution.
+In order of importance to me they are
+&ndash;  OpenVPN: I want to optionally lock down the solution for client projects
+&ndash;  Gitalist: web repository browsers are very popular, and I should provide that for team members at work
+&ndash;  Script the final set-up steps for Gitolite
+&ndash;  Gerrit: Code reviews are something I strongly support, and I want support built into workflows around this AMI
+&ndash;  CI: Probably Hudson/Jenkins. The only worry here is the overhead may mean it does not work in an EC2 micro-instance</p>
+
+<p>Feedback is welcome. This was put together quickly, and I&rsquo;m sure there are many improvements that can be made
+beyond the ones I&rsquo;ve listed above!</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Personal Projects AMI 0.5 by @johnroberstorey&url=http://blog.johnstorey.org/blog/2011/07/10/personal-projects-ami-0.5/" title="Share Personal Projects AMI 0.5 on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2011/07/10/personal-projects-ami-0.5/" title="Share Personal Projects AMI 0.5 on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2011/07/10/personal-projects-ami-0.5/" title="Share Personal Projects AMI 0.5 on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2011/07/10/personal-projects-ami-0.5/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2011/07/10/personal-projects-ami-0.5/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

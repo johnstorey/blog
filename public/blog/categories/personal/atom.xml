@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: personal | John Dreams]]></title>
+  <link href="http://blog.johnstorey.org/blog/categories/personal/atom.xml" rel="self"/>
+  <link href="http://blog.johnstorey.org/"/>
+  <updated>2014-07-09T18:10:14-07:00</updated>
+  <id>http://blog.johnstorey.org/</id>
+  <author>
+    <name><![CDATA[John Storey]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[WTF Apple ?!?]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/04/19/wtf-apple/"/>
+    <updated>2012-04-19T10:10:00-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/04/19/wtf-apple</id>
+    <content type="html"><![CDATA[<p>Apple! My confused little company that brings beauty to computing. A little heart to heart. You, me, and the internet.</p>
+
+<p>What misbegotten security theatre meme makes you suddenly want 3 &mdash; 3! &mdash; questions answered before you let me download more apps to my iPad 3? Why, of all the questions, are they so strange that I can only answer one? Why not let me choose the questions AND the answers? Why not let me opt out? Why is it so hard to buy things using you as a channel?</p>
+
+<p>Let me calm down.</p>
+
+<p>Look, more factors of authentication is not the answer. You quickly get past the point where the irritation is greater than the benefits. I will now go and fill in random answers to your random questions. You have wasted my time to the benefit of neither of us, and really irritated me.</p>
+
+<p>Is this what you wanted?</p>
+]]></content>
+  </entry>
+  
+</feed>

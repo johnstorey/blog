@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: emacs | John Dreams]]></title>
+  <link href="http://blog.johnstorey.org/blog/categories/emacs/atom.xml" rel="self"/>
+  <link href="http://blog.johnstorey.org/"/>
+  <updated>2014-07-09T18:10:14-07:00</updated>
+  <id>http://blog.johnstorey.org/</id>
+  <author>
+    <name><![CDATA[John Storey]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Emacs Dired Nodes]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/12/06/emacs-dired-nodes/"/>
+    <updated>2012-12-06T07:09:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/12/06/emacs-dired-nodes</id>
+    <content type="html"><![CDATA[<h1>Dired mode in Emacs.</h1>
+
+<p>As part of my current attempt to revive old / acquire new Emacs skills, these are notes to myself on some of the neat things you can do with dired mode. This effort is motivated by the fact I now develop locally on OS-X, remotely on an Ubuntu VM, and plan to dual-boot the new Macbook Pro. Also, occasionally, I pair program with one of my guys on their VM or machine.</p>
+
+<p>So I&rsquo;ve cleaning up my github account with my dotfiles so that I can more easily move my environment between machines and use the same tools, such as Emacs.</p>
+
+<p>Emacs has too much beauty to grok fully while remembering to find time to breathe, so this is a subset of notes gathered from several sources.</p>
+
+<table border="1" class="nrm" style="border:solid 1px #000000;border-collapse:collapse;margin:.5ex; width: 100%">
+  <caption>Dired Commands</caption>
+  <tr>
+    <td align="center" valign="top" style="border:solid thin #808080; padding: .5ex; width: 20%;">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M-x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;find-dired-mode&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;M-x&nbsp;hl-line-mode&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;highlights&nbsp;current&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<enter>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      go&nbsp;into&nbsp;a&nbsp;directory&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;leave&nbsp;a&nbsp;directory&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C-s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      change&nbsp;arguments&nbsp;to&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;inserts&nbsp;directory&nbsp;
+      &nbsp;under&nbsp;cursor&nbsp;into&nbsp;&nbsp;current&nbsp;buffer.
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buffer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;deletes&nbsp;directory&nbsp;&nbsp;<br />
+      from&nbsp;current&nbsp;buffer&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;touch&nbsp;current&nbsp;file&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;rename&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;symlink&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;compress&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;uncompress&nbsp;file&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;mark&nbsp;for&nbsp;deletion&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;expunge&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mark&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;unmark&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;unmark&nbsp;all&nbsp;files&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C-t&nbsp;C-t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      Incrementally&nbsp;search<br />
+      &nbsp;through&nbsp;all&nbsp;files&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&nbsp;g&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      mark&nbsp;files&nbsp;based&nbsp;on&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;regexp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      mark&nbsp;all&nbsp;directories
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;copy&nbsp;marked&nbsp;(or&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;current)&nbsp;items&nbsp;to&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kill&nbsp;ring&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C-x&nbsp;C-q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;wdired.&nbsp;All&nbsp;file&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;names&nbsp;are&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;editable.&nbsp;Commit&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;with&nbsp;'C-c&nbsp;C-c'&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+</table>
+
+
+<h2>Primary sources:</h2>
+
+<ul>
+<li><a href="http://emacsmovies.org/blog/2012/12/04/dired/">http://emacsmovies.org/blog/2012/12/04/dired/</a></li>
+<li><a href="http://ergoemacs.org/emacs/file_management.html">http://ergoemacs.org/emacs/file_management.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Emacsclient Ignores Init File]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/"/>
+    <updated>2012-11-14T21:47:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file</id>
+    <content type="html"><![CDATA[<p>Strangely</p>
+
+<p><code></p>
+
+<pre><code>emacsclient -t
+</code></pre>
+
+<p></code></p>
+
+<p>does not seem to use my ~/.emacs.d/init.el file in the latest Emacs 24 when I start it as a daemon and open a frame. This is true on Ubuntu 12.?? and OSX.</p>
+
+<p>This is really irritating, but since I really only need one frame 99% of the time I guess I&rsquo;ll ignore it. I did put an hour into playing with it and following Google Searches, but if anyone can tell me why this is so, I&rsquo;d love to know. I&rsquo;d like to have the daemon started when I boot my Macbook and my development VM, then have the client come up fast.</p>
+
+<p>Interestingly if I load the init file in a buffer and evaluate the buffer, it all works fine.</p>
+
+<p>Humpf.</p>
+
+<p><strong>UPDATE:</strong> Of course this was simple late night, unclear thinking. All that was not working was keyboard-translate, which makes sense. Adding an alias to my environment worked around the issue and now all is well.</p>
+
+<p><code></p>
+
+<pre><code>alias emacs=emacsclient -t --eval '(keyboard-translate ?\C-t ?\C-x)'
+</code></pre>
+
+<p></code></p>
+
+<p>Now my emacs setup runs in all my environments properly. Next: move the various dotfilies into a <em>dotfiles/</em> directory, toss it on github, and replicate that across environments. This will also neccessitate some thought as I commonly run tmux on my Macbook, ssh to my development server, then run tmux there. So the same .tmux-conf file with the same control key clearly won&rsquo;t work.</p>
+
+<p>Maybe it&rsquo;s time to simply stop doing that and change my workflow. A problem to think about after a good nights sleep &hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Emacs Optimizations to Make]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/11/07/emacs-optimizations-to-make/"/>
+    <updated>2012-11-07T07:44:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/11/07/emacs-optimizations-to-make</id>
+    <content type="html"><![CDATA[<p>Notes to myself:</p>
+
+<p>Optimize Emacs for ctags with current usage (PHP and JS mostly):</p>
+
+<p><a href="http://www.koumbit.org/en/articles/using-exuberant-ctags-drupal">http://www.koumbit.org/en/articles/using-exuberant-ctags-drupal</a></p>
+
+<p><a href="http://mwop.net/blog/134-exuberant-ctags-with-PHP-in-Vim.html">http://mwop.net/blog/134-exuberant-ctags-with-PHP-in-Vim.html</a></p>
+
+<p><a href="http://weblogs.asp.net/george_v_reilly/archive/2009/03/24/exuberant-ctags-and-javascript.aspx">http://weblogs.asp.net/george_v_reilly/archive/2009/03/24/exuberant-ctags-and-javascript.aspx</a></p>
+
+<p>Make Emacs work with terminal that works with Zsh and Tmux embedded (yes, that&rsquo;s right! Tmux in Emacs, not the other way around! It works for my workflow.):</p>
+
+<p><a href="http://stackoverflow.com/questions/367442/getting-emacs-ansi-term-and-zsh-to-play-nicely">http://stackoverflow.com/questions/367442/getting-emacs-ansi-term-and-zsh-to-play-nicely</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Emacs Customization of the Week]]></title>
+    <link href="http://blog.johnstorey.org/blog/2011/12/02/emacs-customization-of-the-week/"/>
+    <updated>2011-12-02T17:12:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2011/12/02/emacs-customization-of-the-week</id>
+    <content type="html"><![CDATA[<p>What is the number one <em>worst</em> thing about emacs?</p>
+
+<p>Surround your pullquote like this {" text to be quoted "}</p>
+
+<p>Luckily Steve Yegge saved the day here years ago. In his post <a href="https://sites.google.com/site/steveyegge2/effective-emacs">Effective Emacs</a> he points out that we could map it to &lsquo;C-x C-m&rsquo;. What a difference that makes. In a single day&rsquo;s use this mapping has become far more natural and useful. Read the post and map the keys guys &mdash; it&rsquo;s great.</p>
+
+<p>(I swear, years later, and I still feel like a tyro on Emacs.)</p>
+
+<p>This was good info, but let&rsquo;s be honest, I also wanted to post to try my new <a href="http://octopresso.org">Octopress</a> static website generator running on the <a href="http://amazonaws.com">Amazon AWS S3</a> setup. So far I&rsquo;m liking it, though the default SASS will need some tweaking. Mostly I expect to keep it though.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mobile_Web-and-Drupal.markdown]]></title>
+    <link href="http://blog.johnstorey.org/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown/"/>
+    <updated>2011-12-02T11:06:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown</id>
+    <content type="html"><![CDATA[<p>Recently I&rsquo;ve been looking at a number of projects that end my temprorary sojurn from the joys and frustrations of Drupal. It&rsquo;s a family people, and I&rsquo;m glad to be home.</p>
+
+<p>Along the way I have been reading and thinking alot about mobile design with Drupal. My analysis is that it is all in the air right now, but some key thoughts seem to hold sway in the overall community.</p>
+
+<ol>
+<li>Responsive web design just needs the height and width of the device from the CSS media queries, and all will be well with the world.</li>
+<li>If you have an existing site, the <a href="http://drupal.org/projects/mobile_tools">Mobile Tools</a> is the way to go. It relies on the HTTP user agent information, not media queries.</li>
+<li>Omega Theme is the risen star for mobile web design. (It really does have some nice features, or at least the web themer GF assures me they are incredible).</li>
+</ol>
+
+
+<p>Now I have issues with all these memes, which irritates me as I have two web applications that need to be delivered. Maybe one of the web gurus out there has some thoughts?</p>
+
+<p>Choice #1 ignores the platform. Well, Android 2.3 on tablet A and tablet B might be modified in a way that works differently yet is important to me. Recently we did a custom app for an internal device for a global manufacturer where this was the case. True, it may only happen one more time in my life, but I want to be able to account for it.</p>
+
+<p>Choice #2 has lots of appeal because it is a solution integrated to Panels. Panels continues to be one of the major value adds we get out of the Drupal platform. But I am not convinced I can rely on the user agent telling me enough &mdash; I need that media query as well.</p>
+
+<p>Chocie #3 really does have my attention, but without a clean Panels integration, and without the information from user agent I feel like there are too many combinations that cannot be covered.</p>
+
+<p>Possibly I am letting perfect be the enemy of good here. I&rsquo;ll leave the final decision to the themer of course, but my current thought is we should use</p>
+
+<ul>
+<li>Panels</li>
+<li>a Panels friendly theme that can leverage responsive design</li>
+<li>a module that passes user agent info into a responsive theme in case it&rsquo;s useful to the themer</li>
+</ul>
+
+
+<p>So what&rsquo;s the web think? Am I on the right path, or am I overthinking? The weekend projects involve putting a solution like this together (once I go through the <a href="http://vagrantup.com">Vagrant</a> setup for Drupal I&rsquo;ve been using lately with some friends.) So I&rsquo;d love the feedback.</p>
+]]></content>
+  </entry>
+  
+</feed>

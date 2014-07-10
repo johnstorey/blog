@@ -1,0 +1,164 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Emacsclient Ignores Init File  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="Strangely emacsclient -t does not seem to use my ~/.emacs.d/init.el file in the latest Emacs 24 when I start it as a daemon and open a frame. This is &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Emacsclient Ignores Init File</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-14T21:47:00-08:00" pubdate data-updated="true">Nov 14<sup>th</sup>, 2012</time></div>
+	</header>
+	<div class="entry-content"><p>Strangely</p>
+
+<p><code></p>
+
+<pre><code>emacsclient -t
+</code></pre>
+
+<p></code></p>
+
+<p>does not seem to use my ~/.emacs.d/init.el file in the latest Emacs 24 when I start it as a daemon and open a frame. This is true on Ubuntu 12.?? and OSX.</p>
+
+<p>This is really irritating, but since I really only need one frame 99% of the time I guess I&rsquo;ll ignore it. I did put an hour into playing with it and following Google Searches, but if anyone can tell me why this is so, I&rsquo;d love to know. I&rsquo;d like to have the daemon started when I boot my Macbook and my development VM, then have the client come up fast.</p>
+
+<p>Interestingly if I load the init file in a buffer and evaluate the buffer, it all works fine.</p>
+
+<p>Humpf.</p>
+
+<p><strong>UPDATE:</strong> Of course this was simple late night, unclear thinking. All that was not working was keyboard-translate, which makes sense. Adding an alias to my environment worked around the issue and now all is well.</p>
+
+<p><code></p>
+
+<pre><code>alias emacs=emacsclient -t --eval '(keyboard-translate ?\C-t ?\C-x)'
+</code></pre>
+
+<p></code></p>
+
+<p>Now my emacs setup runs in all my environments properly. Next: move the various dotfilies into a <em>dotfiles/</em> directory, toss it on github, and replicate that across environments. This will also neccessitate some thought as I commonly run tmux on my Macbook, ssh to my development server, then run tmux there. So the same .tmux-conf file with the same control key clearly won&rsquo;t work.</p>
+
+<p>Maybe it&rsquo;s time to simply stop doing that and change my workflow. A problem to think about after a good nights sleep &hellip;</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Emacsclient Ignores Init File by @johnroberstorey&url=http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/" title="Share Emacsclient Ignores Init File on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/" title="Share Emacsclient Ignores Init File on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/" title="Share Emacsclient Ignores Init File on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

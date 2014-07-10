@@ -1,0 +1,222 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Drupal Access Grants  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="It&rsquo;s been quite a while since this blog has been posted too &mdash; or existed! Apparently the VPS hosting it was killed in a cleanup at some &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Drupal Access Grants</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T15:25:19-07:00" pubdate data-updated="true">Jul 9<sup>th</sup>, 2014</time></div>
+	</header>
+	<div class="entry-content"><p>It&rsquo;s been quite a while since this blog has been posted too &mdash; or existed! Apparently the VPS hosting it was killed in a cleanup at some point in the past. I&rsquo;ve lost some posts. Oops!</p>
+
+<p>But we are back, and today is a topic on one of my favorite topics &mdash; coding Drupal. In this case, Drupal 7.</p>
+
+<h1>Access and Access Grants</h1>
+
+<p>The last time I tried to customize the permission rules in Drupal was in Drupal 6, and grants were not an option. Instead there was the node access system, and various modules you could use to customize them. IIRC, I ended up using taxonomy access lite, which allowed me to customize access based on the tag on the content type. If any code denied access to a piece of content, even if 10 other modules said &lsquo;allow&rsquo;, the access was not granted. On top of that, the node access system seemed fairly fragile.</p>
+
+<p>The experience sucked.</p>
+
+<p>As part of a Drupal application in the health care industry I had to put some interesting rules around CRUD access to a content type, Prescription. Specifically the interesting requirements were</p>
+
+<blockquote><p>Create a content type &lsquo;Prescription&rsquo;.
+Give it a reference to an associated Nurse writing the Prescription.
+Give it a reference to an associated Doctor, who can alter and approve the prescription.
+Make the Prescription private to the client organization on the web application.
+Within that organization, only let the Doctor and Nurse referenced by a Prescription view it.</p></blockquote>
+
+<p>It was the last one that got me thinking. I started research, and found that Drupal 7 has hook_node_access_records() and hook_node_grants(). A little time with a debugger and watching changes to the node_access table opened up a clean, simple implementation of the requirements.</p>
+
+<h1>How Access Grants Work</h1>
+
+<p>Here is how things work. All access to a node in Drupal must pass permission checks according to the settings in the node_access table. So while you are developing, keeping an eye on this table is a wise idea.</p>
+
+<p>When you do nothing, a row is created in that table that allows anyone to view that content type. But we aren&rsquo;t going to &ldquo;do nothing&rdquo; &mdash; we are going to make our own rules.</p>
+
+<p>When you implement hook_node_access_records(), it will be called every time a node is saved. You have the opportunity to change what is going into the node_access table at this point. While you can read the details at <a href="https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_access_records/7">hook_node_access_records</a>, here is a simple one that modifies the access grant for a Prescription content type.</p>
+
+<pre><code>function mymodule_node_access_records($node) {
+  $grants = array() ;
+
+  if ($node-&gt;type == 'prescription') {
+    $grants[] = array(
+      'realm' = 'all',
+      'gid' =&gt; 0,
+      'grant_view' =&gt; 0,
+      'grant_update' =&gt; 1,
+      'grant_delete' =&gt; 0,
+      'priority' =&gt; 1,
+    );
+   }
+ return $grants;
+}
+</code></pre>
+
+<p>The interesting points here are the &lsquo;realm&rsquo; and &lsquo;gid&rsquo; parameters. Together, with the $node->id field, comprise the key of the node access table. Combined, the realm and gid are a unique grant for the node. There values are abritrary, but the gid must be an integer.</p>
+
+<p>So the above says if someone has the realm &lsquo;all&rsquo; and gid &lsquo;0&rsquo;, don&rsquo;t let them see the node in question, let them update it, and don&rsquo;t let them delete it.</p>
+
+<p>Once grants are checked, if they pass, then the base node access system &mdash; the one you usually modify on the permissions tab &mdash; are checked. If <em>both</em> pass then the node is presented to the user.</p>
+
+<p>Now you get pretty flexible here. In my situation I made some custom permissions, named the realms after them, and made two entries in the $grants array. In them I used, in turn, the user id of the Doctor and Nurse referenced by the Prescription. Now I had two rows in the node access table for the Prescription. One for the Doctor and one for the Nurse.</p>
+
+<p>But how about the check when viewing the node?</p>
+
+<h2>hook_node_grants</h2>
+
+<p>This is the other side of the equation. When the user attempts to access the node for any CRUD operation, hook_node_grants is called in your module. Read the documentation here: <a href="://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_grants/7">hook_node_grants</a>.</p>
+
+<p>Basically you are returning an array whose key is the realm from hook_node_access_records, and whose value is the gid. If a record in the node_access table matches the node id, the realm, and the gid, the access permissions for the operation in that row are used.</p>
+
+<p>Let&rsquo;s say a user has the &lsquo;custom view prescription&rsquo; permission. You might write the hook like this</p>
+
+<pre><code>function mymodule_node_grants($account, $op) {
+  $grants = array();
+
+  if (user_acces('custom view prescription', $account)) {
+    $grants['custom view prescription'] = array($account-&gt;uid);
+  }
+
+  return $grants;
+}
+</code></pre>
+
+<p>This code specifies to Drupal that, subject to the current permissions settings, the current user has the grant &lsquo;custom view prescription&rsquo;-uid. What that means was defined by a call to hook_node_access_records when the node was created.</p>
+
+<h1>So What?</h1>
+
+<p>When you take the time to think about it, I just very simply outlined a very small amount of code that implements a highly customized permissions system that, out of the box, Drupal does not support. Once I understood the interplay of the systems, this took about 2 hours to write and to write tests.</p>
+
+<p>Grants, unlike custom access modules, even works with Views. This is a very flexible system that puts the ability to create all sorts of custom access patterns for your Drupal applications, meaning the complexity of the solutions you are able to provide just greatly increased.</p>
+
+<p>Oh, and what about the standard access patterns? Well, after checking grants, Drupal still checks the regular access patterns. So if by some horrible mistake a doctor in one hospital is somehow associated with the prescription of another hospital, a smple separation of content into private organic groups denies the inappropriate access.</p>
+
+<p>This was the result of a delightful Saturday afternoon with the Drupal documentation, a book on Safari Books Online, and a debugger. Some days just go nice.</p>
+
+<p>Now back to running the engineering department. Annual reviews are due in a week &hellip;</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Drupal Access Grants by @johnroberstorey&url=http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants/" title="Share Drupal Access Grants on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants/" title="Share Drupal Access Grants on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants/" title="Share Drupal Access Grants on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

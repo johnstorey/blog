@@ -1,0 +1,170 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Node.js and mongoDB BOF  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="These are unedited notes from the MongoSV 2011 Conference mongoDB node.js driver has native and JS BSON libraries. Many forums recommend using the JS &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Node.js and mongoDB BOF</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-09T16:47:00-08:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content"><p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
+
+<p>mongoDB node.js driver has native and JS BSON libraries. Many forums recommend using the JS one. Moderator agrees. He may split the JS driver out to a completely separate repository and project.</p>
+
+<p>Now it does cool things like getting the raw, unparsed BSON data. Good for HTML5 games for example, where the parsing is too slow.</p>
+
+<p>Then native C++ driver is 2X slower serializing data, and 5X faster deserializer. Moderator blames it on his own limited C++ skills. In practice he does not see this as a limiting factor in most applications.</p>
+
+<h1>GridFS</h1>
+
+<p>Moderator experimenting with a feature like GridFS. Uses a collection of documents that have a chunk in them that is binary. Wants to make binary types in mongo much more efficent. Basically the moment it hits binary, like a video, it starts streaming it without much overhead.</p>
+
+<h1>Mongoose</h1>
+
+<p>If you want performance, don&rsquo;t use it. It&rsquo;s all about validating types; getters and setters; more expressive query builder; etc. It&rsquo;s alot slower.</p>
+
+<p>In V8 try / catch and getter / setter are just not optimized. Also there are some crazy overloading of operator types.</p>
+
+<h1>Safe Writes</h1>
+
+<p>Off by default in JS and most mongoDB drivers. Considering making it on by default. Otherwise there is no way for you to know if your transactions work for example.</p>
+
+<h1>SSL Support</h1>
+
+<p>v2.2 they will add SSL support to the drivers. It&rsquo;s only waiting on US Export license approval.</p>
+
+<h1>Multi CPU systems</h1>
+
+<p>In Node.js you used to have to fire up a node process per CPU. Now it&rsquo;s in a configuration file.</p>
+
+<h1>Advantage of V8</h1>
+
+<p>Because you are on V8 you get to use the latest JS stuff all the time. object.create(), not this.prototype for example.</p>
+
+<p>Buffer objects are created outside of V8 heap and stays until you release it. But is direct memory access speed. Increased JS driver speed by 5x.</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Node.js and mongoDB BOF by @johnroberstorey&url=http://blog.johnstorey.org/blog/2011/12/09/node-dot-js-and-mongodb-bof/" title="Share Node.js and mongoDB BOF on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2011/12/09/node-dot-js-and-mongodb-bof/" title="Share Node.js and mongoDB BOF on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2011/12/09/node-dot-js-and-mongodb-bof/" title="Share Node.js and mongoDB BOF on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2011/12/09/node-dot-js-and-mongodb-bof/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2011/12/09/node-dot-js-and-mongodb-bof/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

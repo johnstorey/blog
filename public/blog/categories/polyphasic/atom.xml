@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: polyphasic | John Dreams]]></title>
+  <link href="http://blog.johnstorey.org/blog/categories/polyphasic/atom.xml" rel="self"/>
+  <link href="http://blog.johnstorey.org/"/>
+  <updated>2014-07-09T18:10:14-07:00</updated>
+  <id>http://blog.johnstorey.org/</id>
+  <author>
+    <name><![CDATA[John Storey]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Polyslipups and House Hunting]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/10/08/polyslipups-and-house-hunting/"/>
+    <updated>2012-10-08T09:48:00-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/10/08/polyslipups-and-house-hunting</id>
+    <content type="html"><![CDATA[<p>Just a quick update in my journal here.</p>
+
+<p>Friday night I decided to sleep through the night. This turned out to be a suprisingly bad idea. Rather than giving me an exceptionally good nights sleep I work irritable, and stayed that way through the day. Also, I did not stay awake on Saturday from an unusual amount of exhaustion. Luckily I seem to have gotten back on Everyman 3 Sunday and feel like I am on track again.</p>
+
+<p>On top of that I did not realize how used I had already become to having the additional time. Much was not done and frustration ensued. The upshot: monophasic is not a sleeping pattern that maximizes my happiness.</p>
+
+<p>Also on Friday, even though we weren&rsquo;t planning to be ready to buy a house until December, but an incredible loft conversion in the right place with all the right things came on the market. We made an offer, and I spent Saturady putting together the financial paperwork for the loan application. It is very unlikely that it will all work out and we are likely to proceed with the original plan to look in December / January, but it would be very nice to get this one.</p>
+
+<p>Don&rsquo;t ask me if it will work out &mdash; I think our lack of preparation led to a weak offer. But maybe God thinks differently. I&rsquo;ve seen much stranger things happen.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA['Sleep Still Rules Me']]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/09/29/sleep-still-rules-me/"/>
+    <updated>2012-09-29T16:55:00-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/09/29/sleep-still-rules-me</id>
+    <content type="html"><![CDATA[<p>This is more a note to myself so I can reflect on it in the future.</p>
+
+<p>I am now on day 6 of Everyman 3. I misset the alarm for my 11 AM nap and overslept by about an hour. So I figured &ldquo;hey, no worries, at least I can skip my 4 PM nap.&rdquo; At 4 I was in a local coffee shop watching an MIT Open CourseWare class. Suddenly a wave of weariness washed over me.</p>
+
+<p>Apparently my body is getting used to sleeping at 4 PM for 20 minutes. This is great! So I went home and lay down. Without even realizing that I had fallen asleep I awoke 13 minutes later. I felt relaxed and very awake.</p>
+
+<p>So what am I deducing? My body is adjusting to the Everyman 3 sleep schedule well. While I could have stayed awake it would have been very sub-optimal.</p>
+
+<p>Things I did in the last 24 hours I would not have done on a regular sleep schedule:</p>
+
+<ul>
+<li>Evaluate ZSH and installed it on my Macbook Air.</li>
+<li>Found an open source tiling window manager, Spectacle, and installed it on the Macbook Air as well.</li>
+<li>Went through a calculus class with <a href="http://thegreatcourses.com">The Great Courses</a>.</li>
+<li>Got about half way through the first MIT lecture I am taking.</li>
+</ul>
+
+
+<p>That&rsquo;s on top of my early Saturday morning bike ride, reading of Barron&rsquo;s, and catching up on the companies in my portfolio.</p>
+
+<p>It&rsquo;s 5 PM now, and I plan to sleep only another 20 minutes in the next 10. What will I finish during that time?</p>
+
+<p>I&rsquo;m loving this. Now to make some dinner, then get back to the MIT course. Eventually the my cute half(I refuse to say &lsquo;better half&rsquo; preferring equality) will wake up and we&rsquo;ll go to the movies to see Dredd. Yes, on top of everything else, I now have time to tend to the relationship again, and that&rsquo;s paying nice dividends as well.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[First Polyphasic Friday]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/09/29/first-polyphasic-friday/"/>
+    <updated>2012-09-29T00:04:00-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/09/29/first-polyphasic-friday</id>
+    <content type="html"><![CDATA[<p>Here it is midnight on my first weekend on Everyman 3. I lay down for 20 minutes at 10:30 PM, and now I&rsquo;m awake until 3 AM when I take a 3 hour sleep. That&rsquo;s the big sleep for the day, and the majority of the 4 hours a day rest.</p>
+
+<p>So far it&rsquo;s good. I&rsquo;ve been allowing myself a cup of coffee when I first wake from a nap, but now I am wondering if it is interfering with my ability to take my naps. True, I am on day 4 and it is supposed to take a month to fully adapt, but I still feel I don&rsquo;t get to sleep fast enough on the 20 minute nap. In another week I&rsquo;ll have to see where I am &hellip;</p>
+
+<p>My mental faculties are ok, but not the top of where they can be. I am not fully rested &mdash; but I am as rested as I was on a normal weeknights sleep. This is the first night to myself where I don&rsquo;t need to work with the offshore teams. I&rsquo;ve continued working on my long, backlogged TODO list. Today I fixed this blog and put it on GitHub. After 4 months I finally got the email at johnstorey.org working again. After I complete this post my plan is to evaluate ZSH as a Bash replacement. If I have time and motivation after that I will start going through the MIT Open Courseware classes for Scheme. I last programmed a Lisp language about 24 years ago (ouch! getting old, aren&rsquo;t I!). Scheme did not exist back then boys and girls. But these days I keep bumping into Clojure, which is Lisp based. My thought is to</p>
+
+<ul>
+<li>Learn Scheme.</li>
+<li>Review the MIT Open Courseware algorithm classes that are in Scheme.</li>
+<li>Work through a paper I found to write a Scheme compiler in Scheme.</li>
+</ul>
+
+
+<p>This will meet the goals I have of</p>
+
+<ul>
+<li>Getting back into a functional language.</li>
+<li>Lay a foundation for Emacs scripting.</li>
+<li>Refresh my algorithms knowledge &mdash; every developer needs to do this every few years.</li>
+<li>Write a compiler, which strangely, I&rsquo;ve never done. In concept it seems simple. Read some text, follow rules to transform it, and end up with the final transform creating assembly or object code.</li>
+</ul>
+
+
+<p>Not sure how far I will get on the Scheme front tonight as I am feeling an urge to space out and watch Season 3 of Fringe on Amazon. But it would be good to start.</p>
+
+<p>I am enjoying the extra free time. I event started a light exercise routine again. At 11 PM I was the only one in the fitness center on a Friday night. The security guard gave me strange looks as she walked by, but hey, I <em>am</em> living unusual hours right now. I&rsquo;ll monitor how the exercise interacts with my sleep schedule and overall rest.</p>
+
+<p>Now, on to that ZSH evaluation &hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Trying Polyphasic Sleeping]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/09/27/trying-polyphasic-sleeping/"/>
+    <updated>2012-09-27T20:10:00-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/09/27/trying-polyphasic-sleeping</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s been a long time since I&rsquo;ve posted. Why? Because my job takes up 100% of my time, and my girlfriend another 30%. Life has gone back to extreme craziness.</p>
+
+<p>Finally I was speaking to a client about <em>The Four Hour Body</em>, which I have yet to read. He spoke about polyphasic sleeping, which rang a bell in my head from years ago &hellip;</p>
+
+<p>People are functional on 2 hours sleep? Say what? It&rsquo;s true. That&rsquo;s called the &ldquo;Uberman&rdquo; in the polyphasic world, and it&rsquo;s the most hard core you can get. All you do is nap every 4 hours. No other sleep.</p>
+
+<p>Ouch.</p>
+
+<p>But for 7+ years the IT staffer <a href="http://www.puredoxyk.com/index.php/polyphasic-sleep-portal/">puredoxyk</a>  has lived the &ldquo;Everyman 3&rdquo; schedule. In this plan you sleep three hours a night and have 3 daily naps of 20 minutes, for a total of 4 hours of sleep in 24. Better, it is a schedule that allows you to interact with the rest of humanity. Now I have people I talk to daily 12 and 13 timezones away. So I&rsquo;m often talking to them in the middle of the night, then with clients the next day. If there was only a way to be functional while doing that I could really smooth things out in many projects. Plus I could blog more, work on the novel plot, learn Clojure, review Calculus (I&rsquo;m ashamed to say I&rsquo;ve forgotten most of it), and more &hellip;</p>
+
+<p>I&rsquo;m truly insane. It&rsquo;s day 3 now. My body is starting to adapt &mdash; or so I think. I didn&rsquo;t really maintain a great sleep schedule before, so it&rsquo;s hard to say. But yesterday I started actually sleeping during the 20 minute naps. I believe I am dreaming, but as before, I don&rsquo;t seem to remember 99% of my dreams. Today I woke from my 20 minute nap relaxed and refreshed. That should be a sign that REM sleep has been experienced.</p>
+
+<p>Also, in the last 3 days, I&rsquo;ve accomplished more than I usually do in a week.</p>
+
+<p>We&rsquo;ll see how well this lasts. It is supposed to take a month to really get your body used to it. The extra time is super useful in today&rsquo;s world though. I feel like back in the 90s when I did Atkins. Everyone thought it would kill me somehow. Instead there was a decrease in my waist from 48" to 33". Could polyphasic sleeping be a repeat?</p>
+
+<p>Stay tuned. See if I last!</p>
+]]></content>
+  </entry>
+  
+</feed>

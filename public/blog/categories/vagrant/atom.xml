@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vagrant | John Dreams]]></title>
+  <link href="http://blog.johnstorey.org/blog/categories/vagrant/atom.xml" rel="self"/>
+  <link href="http://blog.johnstorey.org/"/>
+  <updated>2014-07-09T18:10:14-07:00</updated>
+  <id>http://blog.johnstorey.org/</id>
+  <author>
+    <name><![CDATA[John Storey]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Deficencies with Vagrant]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/"/>
+    <updated>2012-01-07T08:13:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant</id>
+    <content type="html"><![CDATA[<p>I love the Vagrant project. Someday, hopefully soon, I&rsquo;ll be able to switch my whole developer organization over to using it. Here&rsquo;s a note to myself about what needs to happen first. I&rsquo;m posting so I can refer back from time to time and see if it&rsquo;s something we can use now (don&rsquo;t look at me, I&rsquo;m hacking on (Drupal)[<a href="http://drupal.org/">http://drupal.org/</a>]).</p>
+
+<h1>Cannot Run in Bridged Mode</h1>
+
+<p>You know what? For some reason in Virtual Box XDebug can only talk to a host  debugger if it&rsquo;s running in bridged networking mode. Unfortunately that is not a current Vagrant feature. I have seen a patch to network.rb that does not seem to work for me. Also I heard there is a patch in branch on Debian that was recently submitted.</p>
+
+<p>On a personal level, if anyone can help me get XDebug working on OSX Lion and talking to MacGDP back on the host, I&rsquo;d greatly appreciate it. For my own work.</p>
+
+<h1>Cannot Run on Windows Well</h1>
+
+<p>This is a problem with gems that use native DLLs. Why do I care? <em>I</em> don&rsquo;t. Windows can disappear off the surface of hard drives across the planet for my money. But much of my company is full of developers who don&rsquo;t and don&rsquo;t desire to learn to work with anything other than Windows. I&rsquo;m just not going to move them anytime soon.</p>
+
+<p>Unfortunately here is a current reality</p>
+
+<ul>
+<li>On Windows, Vagrant does not work on Ruby.</li>
+<li>It does work on JRuby.</li>
+<li>JRuby does not allow gems that use native API components.</li>
+<li>Chef requires native API components.</li>
+</ul>
+
+
+<h1>When These Issues Resolve</h1>
+
+<p>I&rsquo;ll be able to move the organization to Vagrant. Until then I&rsquo;ll get some of the value by distributing virtual machines and letting people share their source code folders into it.</p>
+
+<p>It&rsquo;s annoying though. Vagrant is a great piece of software.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant and Chef]]></title>
+    <link href="http://blog.johnstorey.org/blog/2011/12/06/vagrant-and-chef/"/>
+    <updated>2011-12-06T17:08:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2011/12/06/vagrant-and-chef</id>
+    <content type="html"><![CDATA[<p>Vagrant and Chef, oh my!</p>
+
+<p>I read with interest the high level discussion over at <a href="http://technosophos.com/content/building-custom-drupal-image-vagrant">Matt Butcher&rsquo;s Blog</a> regarding the use of <a href="http://vagrantup.com">Vagrant</a> to improve your Drupal development this morning with some interest. Matt is a super smart guy who has previously written about a hobby horse of mine, namely, that development is best done in a virtual machine. Check his blog for the reasoning &mdash; it&rsquo;s solid.</p>
+
+<p>But today I felt he really glossed over the use of Vagrant. We are working with Vagrant internally for a Drupal project and a J2EE project. This is still early stage &mdash; our Chef recipes are somewhat primitive for example &mdash; but already we are seeing marked increases in development velocity. As we contine to find time here and there to work with Chef Servers and refine the workflow it seems obvious that one really should maintain base Vagrantfiles representing major architectures used for major categories of sites in house. Likely we&rsquo;ll end up forking a base Vagrantfile template to refine based on the individual needs of each client. For instance, Varnish should be tweaked based on site content and usage patterns.</p>
+
+<p>In addition there is an argument for company repositories for</p>
+
+<ul>
+<li>custom Vagrant boxes</li>
+<li>packages for the applications being installed for each client</li>
+<li>the Drupal code and modules being used</li>
+<li>the tools used to build the solution, and so forth</li>
+</ul>
+
+
+<p>This is a contentious point though. The old school philosophy of &ldquo;keep copies of everything, even the tools you used to build it, in case you can&rsquo;t get them elsewhere when you need them in the future&rdquo; seems a bit overzealous. But then again, I would not feel that way if 5 years from now we need to spin up an old CentOS site with applications that are no longer available on the web &hellip;</p>
+
+<p>No point in drawing you into our internal dialogues though. The point is, really doing this right is much more complex than Matt has made it out to be. When we feel we&rsquo;ve settled into the right setup for our company I&rsquo;ll make a point of revisiting the topic in this space for all of you. Give it a couple of months. Meanwhile Vagrant and Chef are incredibly powerful tools being implemented in the company and, honestly, we could not be happier to have them. It&rsquo;s the magic in the computer all over again.</p>
+
+<p>Now if I could figure out why the mods to this Redmine cookbook don&rsquo;t seem to be taking full effect &hellip;</p>
+]]></content>
+  </entry>
+  
+</feed>

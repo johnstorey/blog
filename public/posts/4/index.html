@@ -1,0 +1,160 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>A blog about tech and management.  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="Slacker I admit it &mdash; I have been slack about posting to my blog in its short 3 years
+of existence. It&rsquo;s always seemed a huge effort, and &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/07/01/blog-relaunch/">
+			
+				Blog Relaunch</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-01T07:03:00-07:00" pubdate data-updated="true">Jul 1<sup>st</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<h1>Slacker</h1>
+
+<p>I admit it &mdash; I have been slack about posting to my blog in its short 3 years
+of existence. It&rsquo;s always seemed a huge effort, and work is always a time sink.
+Right now I&rsquo;m running an offshoring company and am up, literally, at all hours
+keeping teams on three continents running. Once I smooth things out I&rsquo;m sure
+there will be other reasons why I can&rsquo;t post.</p>
+
+<p>But I want to write for my blog.</p>
+
+<p>So I have done a few things:
+&ndash;  I usually want to post when in my IDE and looking at code
+&ndash;  Dave Winer interested me in his blog post letting me know that Amazon S3 buckets can be used static web sites now
+&ndash;  Wordpress, more and more, seemed too bloated to blog on. Ditto Drupal</p>
+
+<p>So I finally started searching for static web site generators, and have settled
+on Jekyll, the generator for the wonderful GitHub. Many users maintain their
+Jekyll based blogs as public GitHub repositories, so I took a clone of one
+Elijah Miller&rsquo;s site (attribution in right hand column). Enabling S3 as a
+website was trivial once I read the S3 documentation. Where my domain was
+hosted I did a hard redirect of &lsquo;www.johnstorey.org&rsquo; to the Amazon supplied site.
+Bam! My blog is there, running fast, and gorgeous.</p>
+
+<p>Now there are some steps I have skipped on this lazy Saturday afternoon, namely
+&ndash;  Get my local Jenkins server to watch git commits of my blog text, auto-rebuild it, and push to both GitHub and Amazon S3
+&ndash;  Run or write a script to get Amazon 53 DNS services working with the blog.
+  &ndash;  Should fix the address bar so every page says &lsquo;www.johnstorey.org&rsquo;
+  &ndash;  Should avoid breaking Google Analytics, which I am sure I have done
+&ndash; Write a script to be called by Jenkins to do the moving of the new blog contents to Amazon S3</p>
+
+<p>Still, this is a fast, low maintenance, source code verisioned blog. Very nice!</p>
+
+<p>Now if you will excuse me, my buddy here is doing some interesting work with
+programming GPUs. Also I have
+&ndash;  To learn CoffeScript.
+&ndash;  A book on Maven to read.
+&ndash;  To research how to localize Groovy and use property files so I can show my offshore team how to improve their code.
+&ndash;  And I see the cloned CSS does not handle &lt;ul&gt; tags at all. Need to fix that.</p>
+
+<p>Let&rsquo;s see if I don&rsquo;t maintain this blog better in the years to come.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <nav id="pagenavi">
+        
+            <a href="3" class="prev">Previous</a>
+        
+        
+    </nav>
+
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: drupal | John Dreams]]></title>
+  <link href="http://blog.johnstorey.org/blog/categories/drupal/atom.xml" rel="self"/>
+  <link href="http://blog.johnstorey.org/"/>
+  <updated>2014-07-09T18:10:14-07:00</updated>
+  <id>http://blog.johnstorey.org/</id>
+  <author>
+    <name><![CDATA[John Storey]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal Access Grants]]></title>
+    <link href="http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants/"/>
+    <updated>2014-07-09T15:25:19-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s been quite a while since this blog has been posted too &mdash; or existed! Apparently the VPS hosting it was killed in a cleanup at some point in the past. I&rsquo;ve lost some posts. Oops!</p>
+
+<p>But we are back, and today is a topic on one of my favorite topics &mdash; coding Drupal. In this case, Drupal 7.</p>
+
+<h1>Access and Access Grants</h1>
+
+<p>The last time I tried to customize the permission rules in Drupal was in Drupal 6, and grants were not an option. Instead there was the node access system, and various modules you could use to customize them. IIRC, I ended up using taxonomy access lite, which allowed me to customize access based on the tag on the content type. If any code denied access to a piece of content, even if 10 other modules said &lsquo;allow&rsquo;, the access was not granted. On top of that, the node access system seemed fairly fragile.</p>
+
+<p>The experience sucked.</p>
+
+<p>As part of a Drupal application in the health care industry I had to put some interesting rules around CRUD access to a content type, Prescription. Specifically the interesting requirements were</p>
+
+<blockquote><p>Create a content type &lsquo;Prescription&rsquo;.
+Give it a reference to an associated Nurse writing the Prescription.
+Give it a reference to an associated Doctor, who can alter and approve the prescription.
+Make the Prescription private to the client organization on the web application.
+Within that organization, only let the Doctor and Nurse referenced by a Prescription view it.</p></blockquote>
+
+<p>It was the last one that got me thinking. I started research, and found that Drupal 7 has hook_node_access_records() and hook_node_grants(). A little time with a debugger and watching changes to the node_access table opened up a clean, simple implementation of the requirements.</p>
+
+<h1>How Access Grants Work</h1>
+
+<p>Here is how things work. All access to a node in Drupal must pass permission checks according to the settings in the node_access table. So while you are developing, keeping an eye on this table is a wise idea.</p>
+
+<p>When you do nothing, a row is created in that table that allows anyone to view that content type. But we aren&rsquo;t going to &ldquo;do nothing&rdquo; &mdash; we are going to make our own rules.</p>
+
+<p>When you implement hook_node_access_records(), it will be called every time a node is saved. You have the opportunity to change what is going into the node_access table at this point. While you can read the details at <a href="https://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_access_records/7">hook_node_access_records</a>, here is a simple one that modifies the access grant for a Prescription content type.</p>
+
+<pre><code>function mymodule_node_access_records($node) {
+  $grants = array() ;
+
+  if ($node-&gt;type == 'prescription') {
+    $grants[] = array(
+      'realm' = 'all',
+      'gid' =&gt; 0,
+      'grant_view' =&gt; 0,
+      'grant_update' =&gt; 1,
+      'grant_delete' =&gt; 0,
+      'priority' =&gt; 1,
+    );
+   }
+ return $grants;
+}
+</code></pre>
+
+<p>The interesting points here are the &lsquo;realm&rsquo; and &lsquo;gid&rsquo; parameters. Together, with the $node->id field, comprise the key of the node access table. Combined, the realm and gid are a unique grant for the node. There values are abritrary, but the gid must be an integer.</p>
+
+<p>So the above says if someone has the realm &lsquo;all&rsquo; and gid &lsquo;0&rsquo;, don&rsquo;t let them see the node in question, let them update it, and don&rsquo;t let them delete it.</p>
+
+<p>Once grants are checked, if they pass, then the base node access system &mdash; the one you usually modify on the permissions tab &mdash; are checked. If <em>both</em> pass then the node is presented to the user.</p>
+
+<p>Now you get pretty flexible here. In my situation I made some custom permissions, named the realms after them, and made two entries in the $grants array. In them I used, in turn, the user id of the Doctor and Nurse referenced by the Prescription. Now I had two rows in the node access table for the Prescription. One for the Doctor and one for the Nurse.</p>
+
+<p>But how about the check when viewing the node?</p>
+
+<h2>hook_node_grants</h2>
+
+<p>This is the other side of the equation. When the user attempts to access the node for any CRUD operation, hook_node_grants is called in your module. Read the documentation here: <a href="://api.drupal.org/api/drupal/modules%21node%21node.api.php/function/hook_node_grants/7">hook_node_grants</a>.</p>
+
+<p>Basically you are returning an array whose key is the realm from hook_node_access_records, and whose value is the gid. If a record in the node_access table matches the node id, the realm, and the gid, the access permissions for the operation in that row are used.</p>
+
+<p>Let&rsquo;s say a user has the &lsquo;custom view prescription&rsquo; permission. You might write the hook like this</p>
+
+<pre><code>function mymodule_node_grants($account, $op) {
+  $grants = array();
+
+  if (user_acces('custom view prescription', $account)) {
+    $grants['custom view prescription'] = array($account-&gt;uid);
+  }
+
+  return $grants;
+}
+</code></pre>
+
+<p>This code specifies to Drupal that, subject to the current permissions settings, the current user has the grant &lsquo;custom view prescription&rsquo;-uid. What that means was defined by a call to hook_node_access_records when the node was created.</p>
+
+<h1>So What?</h1>
+
+<p>When you take the time to think about it, I just very simply outlined a very small amount of code that implements a highly customized permissions system that, out of the box, Drupal does not support. Once I understood the interplay of the systems, this took about 2 hours to write and to write tests.</p>
+
+<p>Grants, unlike custom access modules, even works with Views. This is a very flexible system that puts the ability to create all sorts of custom access patterns for your Drupal applications, meaning the complexity of the solutions you are able to provide just greatly increased.</p>
+
+<p>Oh, and what about the standard access patterns? Well, after checking grants, Drupal still checks the regular access patterns. So if by some horrible mistake a doctor in one hospital is somehow associated with the prescription of another hospital, a smple separation of content into private organic groups denies the inappropriate access.</p>
+
+<p>This was the result of a delightful Saturday afternoon with the Drupal documentation, a book on Safari Books Online, and a debugger. Some days just go nice.</p>
+
+<p>Now back to running the engineering department. Annual reviews are due in a week &hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Drupalizing a Web Project]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/04/11/drupalizing-a-web-project/"/>
+    <updated>2012-04-11T08:45:00-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/04/11/drupalizing-a-web-project</id>
+    <content type="html"><![CDATA[<p>These are notes from <a href="http://dev.nodeone.se/en/drupalizing-a-web-project">http://dev.nodeone.se/en/drupalizing-a-web-project</a> for myself. Yes, a blog post summarizing a blog post. Just think of this as a page in my notebook. Without the dead trees.</p>
+
+<ol>
+<li>Understand the problem domain, likely issues, and needed functionality.</li>
+<li>Map out content types and entities.</li>
+<li> Access control.</li>
+<li> Reuse across site?</li>
+<li> Inter-relationships?</li>
+<li>User groups and their properties.</li>
+<li> Roles.</li>
+<li> Profiles.</li>
+<li> Etc.</li>
+<li>Consider views into the data.</li>
+<li>Consider business rules that can be put in Rules module.</li>
+<li>Look at what this process might have missed.</li>
+<li>Non-IA</li>
+<li> Performance and scalability.</li>
+<li> Localization and internationalization.</li>
+<li> Data migration.</li>
+<li> Integration</li>
+<li> Etc.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Adventures in Drupal Services endpoints]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/02/14/adventures-in-drupal-services-endpoints/"/>
+    <updated>2012-02-14T10:06:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/02/14/adventures-in-drupal-services-endpoints</id>
+    <content type="html"><![CDATA[<p>Adventures with Drupal Services</p>
+
+<p>If you are writing a web services interface on top of Drupal 7, you might be tempted to do something like use menu callbacks. The menu system in Drupal really is just a bunch of code that is called and spits back HTML for you. It&rsquo;s common to write your own menu code that takes and spits back whatever you want. Now that I think of it, this is probably how the Drupal Services module is written way down. There is certainly no immediately obvious reason not to do it that way.</p>
+
+<p>These are some notes I found while getting a simple services module written. They, like my current knowledge, are incomplete. In many areas I have yet to fathom why they are like this. My concern is limited to the use of the REST Server in the Services 3 code.</p>
+
+<h1>More than CRUD.</h1>
+
+<p>All this section comes from reading the code in services/servers/rest_server/includes/RESTServer.inc., particularly the method <strong>resolveController()</strong>. This method is the source of the most common error when writing your own services &mdash; <strong>Cannot find controller</strong>. It is worth your time to read the code and get a sense of how it works.</p>
+
+<p>Services has CRUD hardwired into it. It assumes the following CRUD methods:</p>
+
+<ul>
+<li>retrieve</li>
+<li>create</li>
+<li>update</li>
+<li>delete</li>
+</ul>
+
+
+<p>Now this is clearly not enough to make a pretty, full featured REST API. So Services 3 allows you to add in two other types of API endpoints.</p>
+
+<h2>Actions.</h2>
+
+<p>According to the README for the REST server for services, actions</p>
+
+<p><quote>
+are performed directly on the resource type, not an individual resource.
+</quote></p>
+
+<p>An example is given of telling a search engine to reindex itself. This does not act on any particular piece of content, but rather works across all the content at one time.</p>
+
+<p>For my purposes I wanted to use more descriptive names on my endpoints than, say, &lsquo;create&rsquo; so I only used actions. But I could have easily given an alias to the create endpoint in the code. In retrospect I should have gone that way but we&rsquo;ll look at code using actions for everything in this post.</p>
+
+<h2>Targeted Actions.</h2>
+
+<p>These are like actions, something that does not fit in the default CRUD API layout. The difference is that these work on an particular piece of content. For example, an endpoint might tell Drupal to append some content to an entity.</p>
+
+<p>POST <a href="http://example.com/api/entity/123/append/run%20concluded">http://example.com/api/entity/123/append/run%20concluded</a></p>
+
+<p>This hypothetical call would append the string &ldquo;run concluded&rdquo; to some field on the entity with etid 123.</p>
+
+<p>I did not use targeted actions, so they won&rsquo;t be in the code in this post, but the idea is prett simple.</p>
+
+<h2>Relations.</h2>
+
+<p>Relations are a little different in that they retrieve content related to the content in question. For example, you might want an API to get a list of all files associated with a particular entity. You might want it to read like this</p>
+
+<p>GET <a href="http://example.com/api/entity/243/filelist">http://example.com/api/entity/243/filelist</a></p>
+
+<p>Pretty simple when you understand it. These terms are all used in the documentation, but how to create anything other than the basic CRUD endpoints in your custom code is not explained. We&rsquo;ll be showing you how to create custom actions (discerned from studying how the code works) here. Presumably relations are not all that different, but I will not swear to it.</p>
+
+<h2>Why all the different types?</h2>
+
+<p>I can only assume that there is some REST specification of which I am unaware. It seems fine to me to make them all &lsquo;actions&rsquo;, which is much like saying &lsquo;menu callbacks&rsquo;. The code for the REST server would be simplified, as would writing hooks for it. But Greg Dunlap has been doing Services for quite some time, and I have faith that he led a total rewrite of the framework for a reason. So for now I am concerning myself with what is, rather than why it is that way.</p>
+
+<p>(brief pause as plane is landing and I need to shut off the laptop.)</p>
+
+<h1>Some code &mdash; finally!</h1>
+
+<p>At the end of the day, the best thing turns out to study the <strong>resolveController()</strong> method in <strong>RESTServer.inc</strong>, as explained above. Then look at the implementations of <strong>hook_services_resources()</strong> in the directory <strong>services/resources</strong>. They will show you how to declare actions.</p>
+
+<p>With all this background, we can finally do the actual simple part: write the code.</p>
+
+<h2>Hooks away!</h2>
+
+<p>Some days I love Drupal&rsquo;s hook system. It makes coding so pleasurable. Other times I wonder about bootstrap costs. But that&rsquo;s another story.</p>
+
+<p>First, let&rsquo;s declare a simple api with actions only and no CRUD. Here are some custom entry points for the &lsquo;drupalchat&rsquo; endpoint. Also notice that the &lsquo;messagecreate&rsquo; endpoint takes a &lsquo;struct&rsquo; type of parameter, which is populated by Services with payload data for a POST call. For the sake of simplicity we&rsquo;ll not comment on the standard access callback.</p>
+
+<p><code>
+/<em>*
+ * Implements hook_services_resources().
+ </em>/
+function chat_rest_services_resources() {
+  $resources[&lsquo;drupalchat&rsquo;] = array();
+  $resources[&lsquo;drupalchat&rsquo;][&lsquo;actions&rsquo;] = array(</p>
+
+<pre><code>'messagecreate' =&gt; array(
+  'help' =&gt; 'Send a new chat message.',
+  'callback' =&gt; '_chat_rest_send_msg',
+  'access callback' =&gt; 'chat_rest_access',
+  'access arguments' =&gt; array('create'),
+  'access arguments append' =&gt; TRUE,
+  'args' =&gt; array(
+    array(
+      'name' =&gt; 'data',
+      'type' =&gt; 'struct',
+      'description' =&gt; 'Recipient user id and message to send.',
+      'source' =&gt; 'data',
+      'optional' =&gt; FALSE,
+    ),
+  ),
+),
+'newmessages' =&gt; array(
+  'help' =&gt; 'Get any new chat messages.',
+  'callback' =&gt; '_chat_rest_retrieve',
+  'access callback' =&gt; 'chat_rest_access',
+  'access arguments' =&gt; array('new'),
+  'access arguments append' =&gt; TRUE,
+),
+'updatebuddylist' =&gt; array(
+  'help' =&gt; 'Get currently buddy list status.',
+  'callback' =&gt; '_chat_rest_buddylist',
+  'access callback' =&gt; 'chat_rest_access',
+  'access arguments' =&gt; array('new'),
+  'access arguments append' =&gt; TRUE,
+),
+</code></pre>
+
+<p>  );</p>
+
+<p>  return $resources;
+}
+</code></p>
+
+<p>Lastly, define the endpoints to be shown in the Services configuration page.</p>
+
+<p><code>
+function chat_rest_default_services_endpoint() {
+  $endpoint = new stdClass;
+  $endpoint->disabled = FALSE; // endpoint disabled initially
+  $endpoint->name = &lsquo;drupalchat&rsquo;;
+  $endpoint->title = &lsquo;Drupalchat REST API&rsquo;;
+  $endpoint->server = &lsquo;rest_server&rsquo;;
+  $endpoint->path = &lsquo;js-api&rsquo;;
+  $endpoint->authentication = array(</p>
+
+<pre><code>'drupalchat' =&gt; array(
+  'alias' =&gt; '',
+  'actions' =&gt; array(
+    'messagecreate' =&gt; array(
+      'enabled' =&gt; 1,
+    ),
+    'newmessages' =&gt; array(
+      'enabled' =&gt; 1,
+    ),
+    'updatebuddylist' =&gt; array(
+      'enabled' =&gt; 1,
+    ),
+  ),
+),
+</code></pre>
+
+<p>  );</p>
+
+<p>  // TODO turn this debug to 0
+  $endpoint->debug = 1;
+  $endpoints[] = $endpoint;
+  return $endpoints;
+}
+</code></p>
+
+<p>That&rsquo;s it! Declaring a custom Services endpoint (or here, 3)  really is not that difficult once you understand how to do it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Deficencies with Vagrant]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/"/>
+    <updated>2012-01-07T08:13:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant</id>
+    <content type="html"><![CDATA[<p>I love the Vagrant project. Someday, hopefully soon, I&rsquo;ll be able to switch my whole developer organization over to using it. Here&rsquo;s a note to myself about what needs to happen first. I&rsquo;m posting so I can refer back from time to time and see if it&rsquo;s something we can use now (don&rsquo;t look at me, I&rsquo;m hacking on (Drupal)[<a href="http://drupal.org/">http://drupal.org/</a>]).</p>
+
+<h1>Cannot Run in Bridged Mode</h1>
+
+<p>You know what? For some reason in Virtual Box XDebug can only talk to a host  debugger if it&rsquo;s running in bridged networking mode. Unfortunately that is not a current Vagrant feature. I have seen a patch to network.rb that does not seem to work for me. Also I heard there is a patch in branch on Debian that was recently submitted.</p>
+
+<p>On a personal level, if anyone can help me get XDebug working on OSX Lion and talking to MacGDP back on the host, I&rsquo;d greatly appreciate it. For my own work.</p>
+
+<h1>Cannot Run on Windows Well</h1>
+
+<p>This is a problem with gems that use native DLLs. Why do I care? <em>I</em> don&rsquo;t. Windows can disappear off the surface of hard drives across the planet for my money. But much of my company is full of developers who don&rsquo;t and don&rsquo;t desire to learn to work with anything other than Windows. I&rsquo;m just not going to move them anytime soon.</p>
+
+<p>Unfortunately here is a current reality</p>
+
+<ul>
+<li>On Windows, Vagrant does not work on Ruby.</li>
+<li>It does work on JRuby.</li>
+<li>JRuby does not allow gems that use native API components.</li>
+<li>Chef requires native API components.</li>
+</ul>
+
+
+<h1>When These Issues Resolve</h1>
+
+<p>I&rsquo;ll be able to move the organization to Vagrant. Until then I&rsquo;ll get some of the value by distributing virtual machines and letting people share their source code folders into it.</p>
+
+<p>It&rsquo;s annoying though. Vagrant is a great piece of software.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mobile Drupal Made Easy]]></title>
+    <link href="http://blog.johnstorey.org/blog/2012/01/01/mobile-drupal-cheap/"/>
+    <updated>2012-01-01T14:58:00-08:00</updated>
+    <id>http://blog.johnstorey.org/blog/2012/01/01/mobile-drupal-cheap</id>
+    <content type="html"><![CDATA[<p>January 1st, 2012. What a great year 2011 has been! A VP Engineering position where we turned the company around from self-immolation, and moving in with the girlfriend. No matter what else you can say, it&rsquo;s been exciting and one of the bigger growth experiences of my life. So how to top it in 2012? Hey, how to match it?</p>
+
+<p>I have no idea. So instead I took my one week off at the end of the year (hey, turning that company around was a 7 day a week job!) to return to my favorite technology, Drupal. After some struggles with the Drupal 7 core code I can create entities and fields willy nilly. In real life it&rsquo;s almost always better to create them in the UI and export them with Features, but for really understanding what&rsquo;s happening you need to get as deep into the code as possible. So I did that, and used the knowledge to sketch out a new module idea with a friend. You should see the fruits of that around March. She&rsquo;s busy writing a book for Packt, and I have real life coming back in two days. That&rsquo;s going to slow us down.</p>
+
+<p>Now, on to the topic of this post &hellip;</p>
+
+<h1>Mobile Drupal Made Easy</h1>
+
+<p>That company where they hired me in as VPE? After a year the first project has come along where Drupal seems the most appropriate answer (along with Apache Solr and possibly Node.js). We have the client kickoff the second week of January, then it&rsquo;s a pell mell rush for a three month delivery. Having had a months warning one of the first things we did was sketch out a preliminary architecture, then map out the areas where we had missing experience or an unclear idea how to proceed. One of those was in how to make mobile apps connected to Drupal in the most convienent way possible.</p>
+
+<p>The short story was, for this client, make a standalone app makes little sense. Yes, we want to be in the app store, but we are going to use about zero percent of the native functionality. So despite a strong Sencha Touch skillset we want to try a new approach.</p>
+
+<h1>Proposed: Responsive Web in a Phone Gap Wrapper</h1>
+
+<p>We plan to create a responsive web design (we&rsquo;ve done some internal development tests with the Omega Theme to great success.) Then wrap it in PhoneGap or Sencha Touch wrapped in Phone Gap. That&rsquo;s the part we have not tried yet.</p>
+
+<p>So I have a full day until real life work starts up. The emails already indicate the client pressure will be huge, and the new project starting up won&rsquo;t lessen anything. Let&rsquo;s see if you get a post showing PhoneGap wrapping XHTML and sized with a responsive web design. I have high hopes the approach will work fine because (a) it makes sense, and (b) it turns out there is a session on how to do the same thing being given at Drupalcon Denver in March.</p>
+
+<p>Look for a post showing how to do this over the next few weeks.</p>
+
+<p>Happy New Year!
+John</p>
+]]></content>
+  </entry>
+  
+</feed>

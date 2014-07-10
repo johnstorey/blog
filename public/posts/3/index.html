@@ -1,0 +1,1026 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>A blog about tech and management.  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="These are unedited notes from the MongoSV 2011 Conference Jared Rosoff
+&#106;&#x73;&#x72;&#x40;&#49;&#48;&#103;&#101;&#x6e;&#46;&#99;&#111;&#x6d; &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner">
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/12/09/mongodb-on-aws/">
+			
+				MongoDB on AWS</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-09T16:46:00-08:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
+
+<p>Jared Rosoff
+<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x6a;&#115;&#114;&#x40;&#49;&#48;&#x67;&#101;&#110;&#46;&#99;&#x6f;&#x6d;">&#106;&#x73;&#x72;&#x40;&#49;&#48;&#103;&#101;&#x6e;&#46;&#99;&#111;&#x6d;</a></p>
+
+<h1>Single node setup</h1>
+
+<h2>Instance sizing</h2>
+
+<p>mongoDB&rsquo;s storage engine is meant to work on a 64-bit platform.</p>
+
+<p>Micro instances are terrible DB servers. The CPU bursts then slows. You only want to do development and testing. You never want to run a production DB. But they make great arbiters and config servers.</p>
+
+<p>Large + normal way people go. Cluster compute instances are great for really huge mongoDB instances.</p>
+
+<p>mongoDB uses disk and RAM, so high CPU instance probably a waste of money.</p>
+
+<h2>OS</h2>
+
+<p>Any Gnu Linux good. 10gen starts with AMZN one.</p>
+
+<ul>
+<li>turn off atime</li>
+<li><p>raise file descriptior limits</p>
+
+<p>cat >> /etc/security/limits.conf &lt;&lt; EOF</p>
+
+<ul>
+<li>hard nofile 65536</li>
+<li>soft profile 65536
+EOF</li>
+</ul>
+</li>
+<li><p>DO NOT use large VM pages</p></li>
+<li>Use ext4, xfs (ext3 preallocate files and db will pause during this)</li>
+<li>Use RAID</li>
+<li> RAID10 on mongoD</li>
+<li> RAID1 on configDB</li>
+<li><em>Warning!</em> Known problems with Ubuntu 10.04 &amp; EBS</li>
+</ul>
+
+
+<h1>mongoDB Data Note</h1>
+
+<p>Reccomend</p>
+
+<ul>
+<li>64 bit instance</li>
+<li>more RAM = better</li>
+<li>run ext4 or xfs file system</li>
+<li>turn off atmie &amp; diratime</li>
+<li>EBS volumes in RAID10</li>
+</ul>
+
+
+<p>MTBF of EBS > an actual disk drive. RAID10 helps compensate for this.</p>
+
+<p>Each EBS can sustaine 100 IOPS (i/o per second) so more stripes the more IOPs per mongoDB instance. So more disk drives is very important. This run in production by many clients.</p>
+
+<h2>Config Server</h2>
+
+<ul>
+<li>64 bit instance</li>
+<li> micro is fine</li>
+<li>EBS volumes in RAID1 is fine</li>
+</ul>
+
+
+<h2>Arbiter</h2>
+
+<p>Just needs a network</p>
+
+<ul>
+<li>micro is fine</li>
+<li>no storage requirements</li>
+<li>must be separate from rest of replica sets</li>
+</ul>
+
+
+<h1>Single region replica set</h1>
+
+<p>3 mongoDBs in a region, in separate availability zones. Gives some guarantee that the instances run on different boxes, avoiding a single point of failure.</p>
+
+<p>Still vulnerable to a region going down.</p>
+
+<h2>Disaster recovery site</h2>
+
+<p>To avoid single region death people commonly keep 2 mongoDBs in region-1, and that is production. region-2 is just a hot copy. If region-1 goes down, we can stand up region-2 quickly and change the DNS entry. Maybe takes a few hours max until AWS sorts itself out.</p>
+
+<h1>Multi Data Center</h1>
+
+<p>Want to run in multiple regions with auto-failover. To do that you need 3 regions. Within mongoDB to get a quorum you need > 50% to select a master. So set up replica sets in 3 separate regions, region-1, region-2 and region-3.</p>
+
+<p>When one region goes down the mongo replicate set will select a master from the other two.</p>
+
+<p>You pay a price in latency. Writing may be across the country (assuming all regions are in the same country).</p>
+
+<h1>Sharded Clusters</h1>
+
+<p>definition: Lots of replica sets grouped together as a cluster.</p>
+
+<p>So all the above advice applies. Just set up shards in each region instead of one instance.</p>
+
+<h1>Provisioning</h1>
+
+<p>Create one secruity group with mongodB instances. Create another with app servers. Grant access to mongoDB security group for app server group.</p>
+
+<h1>Backups</h1>
+
+<p>If you are using EBS you can take snapshots, even of multiple EBSs for RAID setups.</p>
+
+<p>Other considerations are architecture specific.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/12/09/foursquare/">
+			
+				Foursquare</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-09T16:46:00-08:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
+
+<h1>Stats</h1>
+
+<ul>
+<li>15 M users</li>
+<li>Peak 2500 HTTP QPS</li>
+<li>80 check ins per sec</li>
+<li>8 production mongodb clisuter</li>
+<li>8 shards of users, 12 shards of check-ins</li>
+<li>Users: 250 updates / sec, 4k ops per sec, 46MB per sec</li>
+</ul>
+
+
+<p>Using Solr as their search stack.</p>
+
+<p>EC2 supports 50 faults / sec / drive.</p>
+
+<p>They retain the entire working set in RAM. Once they go to disk they see huge volume of errors.</p>
+
+<p>Right now using 4 EBS volumes with RAID 0. Thinking about RAID 10.</p>
+
+<p>Overtime fragmentation leads to bloat. If you view db.stats you can see this in data size, index size, and storage size.</p>
+
+<h1>Problem: EBS performance degrades</h1>
+
+<p>Solution? Kill the mongodb process and restart on a new EBS volume. Then do the same with the backup.</p>
+
+<p>Symptons</p>
+
+<ul>
+<li>ioutil % on one volume > 90%</li>
+<li>qr / qw counts spike</li>
+<li>fault rates > 10 in mongostat</li>
+<li>sometimes tcploss counts spike</li>
+</ul>
+
+
+<h1>Problem: Fresh Mongo instance has not paged in all the data</h1>
+
+<p>Solution</p>
+
+<ul>
+<li>cat > /dev/null works too unless your dataset is > RAM</li>
+</ul>
+
+
+<p>Also cool ideas are in the Instagram blog with something they call &lsquo;intouch&rsquo;.</p>
+
+<h1>Hits</h1>
+
+<ul>
+<li>Always set new replica set members to initialSync from a secondary or they will hammer primary</li>
+<li>It&rsquo;s easy to inadvertently steal page cache from mongod (hint: less -n)</li>
+<li>Booleans are 2 bytes long in BSON. We now use bitfields.</li>
+</ul>
+
+
+<h1>Backfills</h1>
+
+<p>Common pattern: we want to instert / update a recond on every user / checkin / venue.</p>
+
+<p>Used to do this sequentially by ID.</p>
+
+<p>Now have a library that connects to mongoC, retrieves shard ranges, and runs 1 thread per shard.</p>
+
+<h1>Migrating Collections</h1>
+
+<p>You can migrate at the mongoDB level.</p>
+
+<p>Oplogs to the rescue.</p>
+
+<p>each oplog entry is idempotent, so long as data is replayed to the current op, consistency is.</p>
+
+<p>This is basically how Mongo implements RECOVERING state.</p>
+
+<h2>Not all Roses</h2>
+
+<ul>
+<li>Since moving from unshareded to sharded cluster, add to add shard key</li>
+<li>Insert / update ops required transformation for shard key</li>
+</ul>
+
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/12/09/tech-changes/">
+			
+				Tech Changes</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-09T12:21:00-08:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p>I am writing this at the Silicon Valley MongoDB conference, MongoSV. MongoDB is interesting to me as it is a re-imagining of an object database I used in the 1990&rsquo;s. Not that they copied it &mdash; but it&rsquo;s been re-invented in the form of mongoDB. mmap() is again a major thing in databases.</p>
+
+<p>So at the Q&amp;A I naturally wondered if the major theme of those years of my life, allocating memory so that related data was on a single page in memory, was relevant to MongoDB. I used to maintaing a custom memory allocater, help clients rewrite their code and more, all to reduce the number of pages that would be swapped in and out of memory by the data store.</p>
+
+<p>The accurate response from the engineer? &ldquo;I think that is a micro-optimization that should only be considered inside the Mongo server itself.&rdquo; Which is something he said they should think more about internally. (Aside: 25K+ writes per second on cheap commodity hardware and they weren&rsquo;t yet totally tweaked? Wow!)</p>
+
+<p>I had sort of expected the response, but still it triggered a small introspection that led to the words you are reading now.</p>
+
+<p>Things change, others are just re-implemented, and if you don&rsquo;t keep re-imagining yourself with that in mind you are tech job roadkill. Everytime I turn around I see engineers ossifying because they now have richer personal lives, or have seen too many ideas re-tread, or feel they have been unfairly treated in a startup. But you know what? <em>Now</em> is the best time I can imagine to be in tech. <em>Now</em> is all the opportunity. <em>Now</em> in the best chance for your experience to shine in bigger, greater challenges that have real world impact. So keep pushing on and constantly learning. True, we will have less of a personal life than other professions, but be honest. For us the computer <em>is</em> the game. If they did not pay us we would be driven to do it ourselves.</p>
+
+<p>Now I have to go. The mongoDB on AWS talk is starting &hellip;</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/12/06/vagrant-and-chef/">
+			
+				Vagrant and Chef</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-06T17:08:00-08:00" pubdate data-updated="true">Dec 6<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p>Vagrant and Chef, oh my!</p>
+
+<p>I read with interest the high level discussion over at <a href="http://technosophos.com/content/building-custom-drupal-image-vagrant">Matt Butcher&rsquo;s Blog</a> regarding the use of <a href="http://vagrantup.com">Vagrant</a> to improve your Drupal development this morning with some interest. Matt is a super smart guy who has previously written about a hobby horse of mine, namely, that development is best done in a virtual machine. Check his blog for the reasoning &mdash; it&rsquo;s solid.</p>
+
+<p>But today I felt he really glossed over the use of Vagrant. We are working with Vagrant internally for a Drupal project and a J2EE project. This is still early stage &mdash; our Chef recipes are somewhat primitive for example &mdash; but already we are seeing marked increases in development velocity. As we contine to find time here and there to work with Chef Servers and refine the workflow it seems obvious that one really should maintain base Vagrantfiles representing major architectures used for major categories of sites in house. Likely we&rsquo;ll end up forking a base Vagrantfile template to refine based on the individual needs of each client. For instance, Varnish should be tweaked based on site content and usage patterns.</p>
+
+<p>In addition there is an argument for company repositories for</p>
+
+<ul>
+<li>custom Vagrant boxes</li>
+<li>packages for the applications being installed for each client</li>
+<li>the Drupal code and modules being used</li>
+<li>the tools used to build the solution, and so forth</li>
+</ul>
+
+
+<p>This is a contentious point though. The old school philosophy of &ldquo;keep copies of everything, even the tools you used to build it, in case you can&rsquo;t get them elsewhere when you need them in the future&rdquo; seems a bit overzealous. But then again, I would not feel that way if 5 years from now we need to spin up an old CentOS site with applications that are no longer available on the web &hellip;</p>
+
+<p>No point in drawing you into our internal dialogues though. The point is, really doing this right is much more complex than Matt has made it out to be. When we feel we&rsquo;ve settled into the right setup for our company I&rsquo;ll make a point of revisiting the topic in this space for all of you. Give it a couple of months. Meanwhile Vagrant and Chef are incredibly powerful tools being implemented in the company and, honestly, we could not be happier to have them. It&rsquo;s the magic in the computer all over again.</p>
+
+<p>Now if I could figure out why the mods to this Redmine cookbook don&rsquo;t seem to be taking full effect &hellip;</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/12/02/emacs-customization-of-the-week/">
+			
+				Emacs Customization of the Week</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-02T17:12:00-08:00" pubdate data-updated="true">Dec 2<sup>nd</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p>What is the number one <em>worst</em> thing about emacs?</p>
+
+<p><span class='pullquote-right' data-pullquote='default position of the bloody meta key.'>
+It&rsquo;s the default position of the bloody meta key.  What is it in every keyboard operating system? The Alt key, the Command key, or who knows what else. Alternatively you can use the ESC key. That&rsquo;s the quickest way to move your pinky too far and cause an injury. (Ha! You thought the CTRL key was the worst, didn&rsquo;t you?)
+</span></p>
+
+<p>Luckily Steve Yegge saved the day here years ago. In his post <a href="https://sites.google.com/site/steveyegge2/effective-emacs">Effective Emacs</a> he points out that we could map it to &lsquo;C-x C-m&rsquo;. What a difference that makes. In a single day&rsquo;s use this mapping has become far more natural and useful. Read the post and map the keys guys &mdash; it&rsquo;s great.</p>
+
+<p>(I swear, years later, and I still feel like a tyro on Emacs.)</p>
+
+<p>This was good info, but let&rsquo;s be honest, I also wanted to post to try my new <a href="http://octopresso.org">Octopress</a> static website generator running on the <a href="http://amazonaws.com">Amazon AWS S3</a> setup. So far I&rsquo;m liking it, though the default SASS will need some tweaking. Mostly I expect to keep it though.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown/">
+			
+				Mobile_Web-and-Drupal.markdown</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-02T11:06:00-08:00" pubdate data-updated="true">Dec 2<sup>nd</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p>Recently I&rsquo;ve been looking at a number of projects that end my temprorary sojurn from the joys and frustrations of Drupal. It&rsquo;s a family people, and I&rsquo;m glad to be home.</p>
+
+<p>Along the way I have been reading and thinking alot about mobile design with Drupal. My analysis is that it is all in the air right now, but some key thoughts seem to hold sway in the overall community.</p>
+
+<ol>
+<li>Responsive web design just needs the height and width of the device from the CSS media queries, and all will be well with the world.</li>
+<li>If you have an existing site, the <a href="http://drupal.org/projects/mobile_tools">Mobile Tools</a> is the way to go. It relies on the HTTP user agent information, not media queries.</li>
+<li>Omega Theme is the risen star for mobile web design. (It really does have some nice features, or at least the web themer GF assures me they are incredible).</li>
+</ol>
+
+
+<p>Now I have issues with all these memes, which irritates me as I have two web applications that need to be delivered. Maybe one of the web gurus out there has some thoughts?</p>
+
+<p>Choice #1 ignores the platform. Well, Android 2.3 on tablet A and tablet B might be modified in a way that works differently yet is important to me. Recently we did a custom app for an internal device for a global manufacturer where this was the case. True, it may only happen one more time in my life, but I want to be able to account for it.</p>
+
+<p>Choice #2 has lots of appeal because it is a solution integrated to Panels. Panels continues to be one of the major value adds we get out of the Drupal platform. But I am not convinced I can rely on the user agent telling me enough &mdash; I need that media query as well.</p>
+
+<p>Chocie #3 really does have my attention, but without a clean Panels integration, and without the information from user agent I feel like there are too many combinations that cannot be covered.</p>
+
+<p>Possibly I am letting perfect be the enemy of good here. I&rsquo;ll leave the final decision to the themer of course, but my current thought is we should use</p>
+
+<ul>
+<li>Panels</li>
+<li>a Panels friendly theme that can leverage responsive design</li>
+<li>a module that passes user agent info into a responsive theme in case it&rsquo;s useful to the themer</li>
+</ul>
+
+
+<p>So what&rsquo;s the web think? Am I on the right path, or am I overthinking? The weekend projects involve putting a solution like this together (once I go through the <a href="http://vagrantup.com">Vagrant</a> setup for Drupal I&rsquo;ve been using lately with some friends.) So I&rsquo;d love the feedback.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/10/08/jobs-is-dead/">
+			
+				Jobs Is Dead</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-08T07:03:00-07:00" pubdate data-updated="true">Oct 8<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p>Steve Jobs died a few days ago. All over the interwebs people compete to be the most
+public in eulogizing him. Richard Stallman made an honest observation that Jobs was
+the enemy of freedom in computer software and hardware, and is being attacked without
+mercy. Here are some of my thoughts that, in the common hubris of the times, I imagine
+others will want to read.</p>
+
+<h1>Stallman&rsquo;s comments</h1>
+
+<p>The comment I see copied around the web is</p>
+
+<p><quote>
+As Chicago Mayor Harold Washington said of the corrupt former Mayor Daley, ÒIÕm not glad heÕs
+dead, but IÕm glad heÕs gone.Ó Nobody deserves to have to die Ð not Jobs, not Mr. Bill, not even people guilty of
+bigger evils than theirs. But we all deserve the end of JobsÕ malign influence on peopleÕs computing.
+</quote></p>
+
+<p>From Richard Stallman&rsquo;s point of view he is 100% correct. What amazes me is that the
+people who most eulogize Jobs and and object to the comment are liberal. Jobs was a
+businessman, and a hero of capitalism in my book. Apple, Pixar, NeXt &hellip; every company he
+touched he made money from and, along the way, made it so attractive that you loved him for
+charging twice his competitors. I would think he would be a hero of capitalism and maligned
+here in the San Francisco Bay area. But then again, we all like to talk liberal and chase our
+money here. Maybe this is not so surprising at all.</p>
+
+<p>I type this on a Macbook by the way. Let&rsquo;s not say I am exempt from this.</p>
+
+<h1>Jobs Himself</h1>
+
+<p>A visionary, a great businessman his greatest ability was to consistently reject anything that
+did not fit into his vision. Others designed and built, he forced them into a channel. Jobs
+was a businessman and leader without equal. Fighting the market much more than Bill Gates he
+still managed to do an equivalent effort.</p>
+
+<h1>Apple without Jobs</h1>
+
+<p>Others say no, but can they have the vision? Do they carry the legend that made people doubt
+themselves when Jobs said they were wrong? I don&rsquo;t think so. The next sea change in the
+computer industry will capsize Apple. Maybe Jobs left enough of a plan so that Apple will lead
+that change. But even so one will come they won&rsquo;t lead, and I doubt anyone will be able to
+lead them to a new future in a new world.</p>
+
+<h1>Place Your Bets</h1>
+
+<p>So where does that leave us? Microsoft is a has been. Apple is on the path. Google is a
+decent bet with its younger founders, but they don&rsquo;t seem to have their future that tightly
+mapped out either.</p>
+
+<p>Nonetheless, right now, there is the next war: the private web, or the public? The Titans &mdash; no, let
+us say Olympians, the successors to and lesser versions of the Titans &mdash; look to be Facebook
+and Google. If Facebook wins, our information will be tied up in their servers, parceled, and
+sold. If Google wins they will have the information on it to be parceled and sold.</p>
+
+<p>As I read recently &ldquo;If you are getting the service for free, you aren&rsquo;t the customer. You
+are the product.&rdquo;</p>
+
+<p>Maybe we should reconsider Stallman&rsquo;s position after all.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/07/16/less-shiny-more-done/">
+			
+				Less Shiny, More Done</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-16T07:03:00-07:00" pubdate data-updated="true">Jul 16<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<p>Today I spent hours installing and playing with Fedora 15 and Ubuntu 11.04 to see the new UIs everyone
+is going on about.</p>
+
+<p>The past month I&rsquo;ve fought with the documentation free Sencha Touch to try to make it work. Why? Because
+I have a client with a UI built on it, and someday I may need to help out a team that works on that UI.
+Yet I have successfully used Titanium Appcelerator in projects in the past.</p>
+
+<p>I&rsquo;m learning Coffeescript though I already know JavaScript.</p>
+
+<p>None of these things are <strong>producing</strong> anything, and only the last seems to hold promise of helping me
+get more done faster.</p>
+
+<p>I&rsquo;m going back to Titanium Appcelerator, ignoring the new shiny shiny UIs, and going to work on <strong>making</strong>
+things with the tools I have.</p>
+
+<p>This is a public pledge. Which I&rsquo;ll keep. Until the new shiny shiny is out anyways.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/07/10/personal-projects-ami-0.5/">
+			
+				Personal Projects AMI 0.5</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-10T07:03:00-07:00" pubdate data-updated="true">Jul 10<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<h1>The Need</h1>
+
+<p>Every developer has their own projects. Mostly you can keep local source code repositories and
+be happy. But what if you are working with a friend or two, and want to share your code? Github gives a decent answer
+for this, and if you want a private repository the cost is not too bad. But what if, as I wrote about in an earlier
+post, you want to keep your own private configuration files for moving from machine to machine? Or you just don&rsquo;t want
+someone else holding your code? In that case you want your own repository.</p>
+
+<p>Might as well make it into an Amazon AMI.</p>
+
+<p>So here is the first release (well v0.21) of an Amazon AMI that will let you quickly set up multiple projects with
+git and and a great defect tracker.</p>
+
+<h1>Solution Choices</h1>
+
+<h2>EC2 is Cheap</h2>
+
+<p>Recently I looked again at Amazon instance costs as part of a cost and security audit for a client. It turns out that
+small instances, if bought reserved for a year, are now US $54. Micro-instances are $14 month to month, and less if
+reserved for a year.</p>
+
+<p>Which such low costs it makes sense to just run the repository on Amazon. My goal is, as features are added in later
+versions, to keep this running smoothly on a micro-instance.</p>
+
+<h2>Which AMI?</h2>
+
+<p>Again, this is not a hard choice. I wanted a 32-bit AMI image of Ubuntu, and Canoncial has helpful links
+at <a href="http://cloud.ubuntu.com.">http://cloud.ubuntu.com.</a> Why 32-bit? Because Amazon small instances are not available on 64-bit AMIs.</p>
+
+<p>For the current release the AMI is in the US West region. Clearly this is not acceptable, and getting it
+available in all regions is in the works.</p>
+
+<h2>Gitosis or Gitalite?</h2>
+
+<p>It&rsquo;s not enough to have a git repository. You want features such as
+&ndash;  Be able to add and remove users with public keys, not by creating user accounts for them
+&ndash;  Be able to host multiple repositories easily
+&ndash;  Be able to add and remove user access to repositories via configuration
+&ndash;  Have all your configuration choices versioned so you can roll back to earlier setups</p>
+
+<p>Both Gitosis and Gitalite achieve these goals by keeping a text configuration file stored in their underlying Git repositories.
+You can add users, remove them, attach them to various project repositories, and control the type of access you desire. This
+is great! But Gitosis has one fault in my mind. There seems to be no way to <em>control access at the branch level</em>. In public
+projects this is necessary in order to allow you to manage a project, let others branch within it, then only allow them to
+issue pull requests to you rather than commit directly to the main branch itself. In the enterprise this functionality
+is required to implement development workflow policies. People <em>will</em> commit to the main branch if they have access to it,
+no matter what policies are in place. They will do it the night before a major deliverable, break the build, and cause
+you major pain.</p>
+
+<p>Don&rsquo;t let this happen to you. Use Gitolite, with it&rsquo;s branch level ACLs.</p>
+
+<p>I installed it according to these <a href="http://computercamp.cdwilson.us/git-gitolite-git-daemon-gitweb-setup-on-ubunt">blog instructions</a>.</p>
+
+<p>Unfortunately I never got the Gitweb working with these instructions.</p>
+
+<h2>Mantis or JIRA or ?</h2>
+
+<p>You want a bug tracker with multiple project support, because you&rsquo;ll have multiple projects (or this solution
+may be overkill for you). The choice here was quick and simple for me:</p>
+
+<ul>
+<li>I believe JIRA to be more functional, and all my clients use it</li>
+<li>I believe Mantis to be less functional</li>
+<li>My impression is Mantis requires drastically fewer resources</li>
+<li>Since I&rsquo;ll interact with them mostly through Eclipse&rsquo;s Mylyn plugin, they will look the same to me</li>
+<li>I want to keep resources down to run an an EC2 micro-instance</li>
+</ul>
+
+
+<p>Victor: Mantis.</p>
+
+<p>Installed as specified <a href="http://www.ghacks.net/2009/09/08/install-mantis-bug-tracking-tool-on-your-ubuntu-server/">in this blog post</a>. As it
+stands Mantis cannot send e-mail, which will cripple it. So I recommend you <a href="http://www.mantisbt.org/forums/viewtopic.php?t=15398&amp;f=3">follow these instructions</a>
+ and you&rsquo;ll have it sending e-mail via GMail in 5 minutes. Specifically, the AMI is set-up for GMail. You just need to add in your GMail
+ username and password by editing /var/www/mantis/config.inc.php.</p>
+
+<p> Of course you can set up a full-fledged mail server and do it properly.</p>
+
+<h2>Gitweb or Gitalist?</h2>
+
+<p>Ah, now the real choices. I must have spent 6 hours over 3 days trying to get either these working with Gitolite. All to get functionality
+I already have and am more likely to use via my Eclipse IDE. At that point I stepped back, decided the value add of the web interface did not
+match the effort I was putting in. It&rsquo;s not in this version of the AMI.</p>
+
+<p>That being said, even with the few themes I found, Gitweb appears ugly. If anyone can get it running and let me know how before I
+get back to this I&rsquo;d use it. But more, I&rsquo;d love to see <a href="http://www.gitalist.com/">Gitalist</a> running here. Much prettier and
+maybe just a bit more functional.</p>
+
+<p>For now though there is no web interface to Git on the AMI. Did I mention that your IDE already does all this? Why leave it?</p>
+
+<h1>How To Use It</h1>
+
+<h2>Get It</h2>
+
+<p>Log into your Amazon account and select the US-West region. The AMI you want is ami-6dbeec28.</p>
+
+<p>Make sure you give it a security group with ports 22, 80, 443 and 9418 open.</p>
+
+<h2>Set-up Mantis</h2>
+
+<p>Mantis is configured with the default log-in user</p>
+
+<pre><code>administrator
+root
+</code></pre>
+
+<p>I&rsquo;d advise you change it ASAP, then follow the link above to get email working. Really, all I have done is take out my GMail account settings
+and left the rest in. So if you insert your GMail username and password you should be good to go.</p>
+
+<p>That&rsquo;s it. Issue tracking is now enabled.</p>
+
+<h2>Set-up Gitolite</h2>
+
+<p>Now here I had to stop part way through. Why? Setting up Gitolite requires the use of <em>your</em> public key. That&rsquo;s how administrative access is controlled.
+There is not much left to do though. Do the following</p>
+
+<ul>
+<li>SCP your public key to the /tmp directory of your EC2 instance (let&rsquo;s call it username.pub)</li>
+<li>SSH into the EC2 instance</li>
+<li>sudo chmod 666 /tmp/username.pub</li>
+<li>sudo -H -u gitolite gl-setup /tmp/username.pub</li>
+<li>sudo chmod g+r /var/lib/gitolite/projects.list</li>
+<li>sudo chmod -R g+rx /var/lib/gitolite/repositories</li>
+<li>sudo vi /var/lib/gitolite/.gitolite.rc</li>
+<li> Change the $REPO_MASK to 027</li>
+<li>Reboot the instance</li>
+<li> sudo reboot</li>
+</ul>
+
+
+<p>Now we can test it out on the local machine</p>
+
+<ul>
+<li>git clone gitolite@git.server:gitolite-admin.git</li>
+<li>cd gitolite-admin</li>
+<li>vi conf/gitolite.conf</li>
+<li>For the testing repo enable the git-daemon access by adding</li>
+<li> R = daemon</li>
+<li>Commit the file and push it</li>
+<li> git commit -a -m &ldquo;Enable git-daemon for testing.git&rdquo;</li>
+<li> git push</li>
+<li>Now you can clone the testing repository with
+
+<ul>
+<li>git clone git://git.server/testing.git</li>
+</ul>
+</li>
+</ul>
+
+
+<p>That&rsquo;s it! Go read up on the details of how to configure Gitolite &mdash; you&rsquo;ll be very happy with what
+you can now do!</p>
+
+<h1>Futures</h1>
+
+<p>Clearly there are a number of features missing that need to be in future versions of this solution.
+In order of importance to me they are
+&ndash;  OpenVPN: I want to optionally lock down the solution for client projects
+&ndash;  Gitalist: web repository browsers are very popular, and I should provide that for team members at work
+&ndash;  Script the final set-up steps for Gitolite
+&ndash;  Gerrit: Code reviews are something I strongly support, and I want support built into workflows around this AMI
+&ndash;  CI: Probably Hudson/Jenkins. The only worry here is the overhead may mean it does not work in an EC2 micro-instance</p>
+
+<p>Feedback is welcome. This was put together quickly, and I&rsquo;m sure there are many improvements that can be made
+beyond the ones I&rsquo;ve listed above!</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post">
+	<header>
+		<h2 class="title">
+			
+			<a href="/blog/2011/07/04/home-directory-in-git/">
+			
+				Home Directory in Git</a>
+		</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-04T07:03:00-07:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content">
+		<h1>Why</h1>
+
+<p>Saturday morning a friend of mine, lets call him
+Michael, and I were having breakfast. I asked why he was buying his own laptop
+when his employer gives him one. His response was that he had been through
+layoffs where his laptop was seized and he lost his personal work and projects.
+That let me back to this old item on my personal project list.</p>
+
+<p>Over the years most seasoned developers become intrigued by the idea of using
+version control to keep their configuration files and home directories backed
+up and portable between machines. It&rsquo;s a natural urge after all. Version control
+is something they use with code text daily, and it has saved their behinds many
+times over the years. A natural thing is to notice all text &mdash; writing,
+configuration files, everything &mdash; would benefit from the same tools.</p>
+
+<p>Today we also tend to use multiple virtual machines. I am not an individual
+contributor as much these days, yet I still log into multiple virtual machines
+to spot check the solutions my teams are building. My teams are on these sites every
+day, often SSH&rsquo;d in, sometimes piping the UI back to their local machine. All
+of us have tools and configuration files unique to our workflows.</p>
+
+<p>It is pretty easy to see where it becomes very useful to have your home directory
+in a version control system that you can quickly replicate into each
+machine you deal with. The mindset is quite accurately seen <a href="http://kitenet.net/~joey/svnhome/">in this
+blog post</a> by Joey Hess.</p>
+
+<h1>Issues</h1>
+
+<p>In my mind there are three issues to think through if you do decide to version
+control your digital life.
+&ndash;  Where do you store it?
+&ndash;  How do you separate public data, personal data, and machine specific configuration data?
+&ndash;  What do you and do you not version?</p>
+
+<h2>Where do you store it?</h2>
+
+<p>Let&rsquo;s be honest, if you don&rsquo;t own the machine where your repository is stored,
+you are opening yourself up to losing it. But on the other hand the convenience
+of having an organization maintain the repository for you is very nice. We must
+tread carefully here as we see what happens to people who blindly put their
+personal data on social networking sites then are suprised to find what those
+sites do with it. I would hate that to happen to, say, tax documents!</p>
+
+<p>If you use a distributed versioning system such as git, your gain some safety against losing your data. Because every
+machine gets a full copy of the repository (though you have to ask for all the
+branches, which is not often mentioned!) every machine potentially has everything
+stored on it.</p>
+
+<p>As for hosting, I recommend using your own hosted machine. Especially if you
+plan to version something like SSH keys. Hell, putting SSH keys in a repo
+that goes somewhere is risky as it is! But on the plus side it means you can
+easily sync them between your home and work machines, or anywhere else you
+need to. You&rsquo;ll have to make that call yourself, considering the risk of the
+keys being compromised, the effect if they are, and the convenience of being
+able to get them on a nem machine with &lsquo;git pull&rsquo;.</p>
+
+<p>For this it is probably safe enough to use an Amazon micro-instance. That
+means part of bootstrapping a new machine will be uploading
+the correct Amazon key pair. I&rsquo;m willing to go down that path for now.</p>
+
+<h2>Separating Data</h2>
+
+<p>Many of the blog posts I read on this topic suggest storing different types of
+data in different repositories. One for public, one for private, etc. That
+is pretty necessary when, say, you use a version control system like SVN.</p>
+
+<p>But again, we are using git. Branches are cheap. So maybe we really want to have branches for
+public data that goes on all machines; private data we need only some of the
+time; etc. Then make the master branch the public data. Fork it and add in the
+data. Rebase the private data branch to the public on a regular basis. Repeat
+as needed, then automate the rebasing with a nice cron or startup script.
+Probably startup so the script itself can be in the public data branch.</p>
+
+<p>Now here is the cool part. Only want the public data on your new machine?
+Just git-clone it. Want the private as well? Check it out.</p>
+
+<p>There are definite problem with this approach. If you are on the private branch
+and want to change something in the public branch, you need to remember to
+switch back to the public branch first. Which (a) will interfere with your
+workflow, and (b) mean you have to remember which branch everything came from.</p>
+
+<p>Because of this you may still want to have separate repositories. That will also
+provied another layer of protection in that if a machine with the public
+repo is compromised, the attacker cannot easiy git clone the private branch.</p>
+
+<p>That is the way I will go. I love the simplicity of having one repository,
+but fear the security threat it represents.</p>
+
+<h2>What to version</h2>
+
+<p>You could version everything. Your 100GB of music and video may not be the
+best choice though. On the other hand, maybe parts of /etc is. This requires
+considered thought. When in doubt on this, I like to use a general rule: start
+small, live with it awhile, then slowly add more. This is not a race and mistakes
+can carry high penalties. Block out time
+time on your Friday AM calendar, say 15 minutes, to decide whether to version
+more stuff or to schedule a time to re-design your versioning scheme because the
+current layout is not holding up in day to day use.</p>
+
+<p>For my part, I am going to start with stealing the layout described at <a href="http://kristian-domagala.blogspot.com/2008/10/home-direcotry-version-control.html">this blog post</a>
+by Kristian Domagala. The rest of his ideas, especially the use of Growl on the
+Mac to notify you of changes, also looks good. It only applies to one machine
+for me though so I think I&rsquo;ll leave it out for now.</p>
+
+<h1>Concrete steps</h1>
+
+<p>It&rsquo;s hard to be sure my steps are correct without testing them, but this seems
+to be the process.
+&ndash;  Really stop and rethink your directory layout and how it will work with the way your version control setup will work. Or steal a good idea, as I have above!
+&ndash;  Set up your repositories somewhere safe. Again, I am using an Amazon micro-instance, but that may not be secure enough for you.
+&ndash;  Think through what scripts you want to run to maintain this, and either write them now or add them to your project list
+&ndash;  Try using your setup in a practice run to see how it goes!</p>
+
+<p>I&rsquo;ll get back to you on the results of this process as soon as I can. I&rsquo;m curious
+myself, and to be honest, a bit excited. I lost my resume once many years ago and
+never really got back all the information. That was decades ago, but I could see
+it happening today as well. Seeing how things change on my machine over time,
+like a living journal, woud be another plus. Maybe I could do that with my email
+in Thunderbird somehow?</p>
+
+<p>Well, one thing at a time.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <nav id="pagenavi">
+        
+            <a href="2" class="prev">Previous</a>
+        
+        
+            <a href="4" class="next">Next</a>
+        
+    </nav>
+
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

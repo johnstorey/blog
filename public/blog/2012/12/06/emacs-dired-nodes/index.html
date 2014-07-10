@@ -1,0 +1,356 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Emacs Dired Nodes  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="Dired mode in Emacs. As part of my current attempt to revive old / acquire new Emacs skills, these are notes to myself on some of the neat things you &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Emacs Dired Nodes</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-06T07:09:00-08:00" pubdate data-updated="true">Dec 6<sup>th</sup>, 2012</time></div>
+	</header>
+	<div class="entry-content"><h1>Dired mode in Emacs.</h1>
+
+<p>As part of my current attempt to revive old / acquire new Emacs skills, these are notes to myself on some of the neat things you can do with dired mode. This effort is motivated by the fact I now develop locally on OS-X, remotely on an Ubuntu VM, and plan to dual-boot the new Macbook Pro. Also, occasionally, I pair program with one of my guys on their VM or machine.</p>
+
+<p>So I&rsquo;ve cleaning up my github account with my dotfiles so that I can more easily move my environment between machines and use the same tools, such as Emacs.</p>
+
+<p>Emacs has too much beauty to grok fully while remembering to find time to breathe, so this is a subset of notes gathered from several sources.</p>
+
+<table border="1" class="nrm" style="border:solid 1px #000000;border-collapse:collapse;margin:.5ex; width: 100%">
+  <caption>Dired Commands</caption>
+  <tr>
+    <td align="center" valign="top" style="border:solid thin #808080; padding: .5ex; width: 20%;">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M-x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;find-dired-mode&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;M-x&nbsp;hl-line-mode&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;highlights&nbsp;current&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<enter>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      go&nbsp;into&nbsp;a&nbsp;directory&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;leave&nbsp;a&nbsp;directory&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C-s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      change&nbsp;arguments&nbsp;to&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;inserts&nbsp;directory&nbsp;
+      &nbsp;under&nbsp;cursor&nbsp;into&nbsp;&nbsp;current&nbsp;buffer.
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buffer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;deletes&nbsp;directory&nbsp;&nbsp;<br />
+      from&nbsp;current&nbsp;buffer&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;touch&nbsp;current&nbsp;file&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;rename&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;symlink&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;compress&nbsp;or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;uncompress&nbsp;file&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;mark&nbsp;for&nbsp;deletion&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;expunge&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mark&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;unmark&nbsp;file&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;unmark&nbsp;all&nbsp;files&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C-t&nbsp;C-t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      Incrementally&nbsp;search<br />
+      &nbsp;through&nbsp;all&nbsp;files&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%&nbsp;g&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      mark&nbsp;files&nbsp;based&nbsp;on&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;regexp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      mark&nbsp;all&nbsp;directories
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;copy&nbsp;marked&nbsp;(or&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;current)&nbsp;items&nbsp;to&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kill&nbsp;ring&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C-x&nbsp;C-q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </td>
+    <td align="left" valign="top"  style="border:solid thin #808080; padding: .5ex" >
+      &nbsp;&nbsp;wdired.&nbsp;All&nbsp;file&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;names&nbsp;are&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;editable.&nbsp;Commit&nbsp;&nbsp;<br />
+      &nbsp;&nbsp;&nbsp;with&nbsp;&#8216;C-c&nbsp;C-c&#8217;&nbsp;&nbsp;&nbsp;
+    </td>
+  </tr>
+</table>
+
+
+<h2>Primary sources:</h2>
+
+<ul>
+<li><a href="http://emacsmovies.org/blog/2012/12/04/dired/">http://emacsmovies.org/blog/2012/12/04/dired/</a></li>
+<li><a href="http://ergoemacs.org/emacs/file_management.html">http://ergoemacs.org/emacs/file_management.html</a></li>
+</ul>
+
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Emacs Dired Nodes by @johnroberstorey&url=http://blog.johnstorey.org/blog/2012/12/06/emacs-dired-nodes/" title="Share Emacs Dired Nodes on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2012/12/06/emacs-dired-nodes/" title="Share Emacs Dired Nodes on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2012/12/06/emacs-dired-nodes/" title="Share Emacs Dired Nodes on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2012/12/06/emacs-dired-nodes/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2012/12/06/emacs-dired-nodes/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

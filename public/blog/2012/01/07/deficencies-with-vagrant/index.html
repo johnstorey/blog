@@ -1,0 +1,162 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Deficencies with Vagrant  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="I love the Vagrant project. Someday, hopefully soon, I&rsquo;ll be able to switch my whole developer organization over to using it. Here&rsquo;s a &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Deficencies With Vagrant</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-07T08:13:00-08:00" pubdate data-updated="true">Jan 7<sup>th</sup>, 2012</time></div>
+	</header>
+	<div class="entry-content"><p>I love the Vagrant project. Someday, hopefully soon, I&rsquo;ll be able to switch my whole developer organization over to using it. Here&rsquo;s a note to myself about what needs to happen first. I&rsquo;m posting so I can refer back from time to time and see if it&rsquo;s something we can use now (don&rsquo;t look at me, I&rsquo;m hacking on (Drupal)[<a href="http://drupal.org/">http://drupal.org/</a>]).</p>
+
+<h1>Cannot Run in Bridged Mode</h1>
+
+<p>You know what? For some reason in Virtual Box XDebug can only talk to a host  debugger if it&rsquo;s running in bridged networking mode. Unfortunately that is not a current Vagrant feature. I have seen a patch to network.rb that does not seem to work for me. Also I heard there is a patch in branch on Debian that was recently submitted.</p>
+
+<p>On a personal level, if anyone can help me get XDebug working on OSX Lion and talking to MacGDP back on the host, I&rsquo;d greatly appreciate it. For my own work.</p>
+
+<h1>Cannot Run on Windows Well</h1>
+
+<p>This is a problem with gems that use native DLLs. Why do I care? <em>I</em> don&rsquo;t. Windows can disappear off the surface of hard drives across the planet for my money. But much of my company is full of developers who don&rsquo;t and don&rsquo;t desire to learn to work with anything other than Windows. I&rsquo;m just not going to move them anytime soon.</p>
+
+<p>Unfortunately here is a current reality</p>
+
+<ul>
+<li>On Windows, Vagrant does not work on Ruby.</li>
+<li>It does work on JRuby.</li>
+<li>JRuby does not allow gems that use native API components.</li>
+<li>Chef requires native API components.</li>
+</ul>
+
+
+<h1>When These Issues Resolve</h1>
+
+<p>I&rsquo;ll be able to move the organization to Vagrant. Until then I&rsquo;ll get some of the value by distributing virtual machines and letting people share their source code folders into it.</p>
+
+<p>It&rsquo;s annoying though. Vagrant is a great piece of software.</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Deficencies with Vagrant by @johnroberstorey&url=http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/" title="Share Deficencies with Vagrant on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/" title="Share Deficencies with Vagrant on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/" title="Share Deficencies with Vagrant on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

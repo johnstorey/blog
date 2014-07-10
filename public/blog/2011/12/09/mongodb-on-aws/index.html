@@ -1,0 +1,248 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>MongoDB on AWS  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="These are unedited notes from the MongoSV 2011 Conference Jared Rosoff
+&#106;&#x73;&#x72;&#x40;&#49;&#48;&#103;&#101;&#x6e;&#46;&#99;&#111;&#x6d; &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">MongoDB on AWS</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-09T16:46:00-08:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content"><p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
+
+<p>Jared Rosoff
+<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x6a;&#115;&#114;&#x40;&#49;&#48;&#x67;&#101;&#110;&#46;&#99;&#x6f;&#x6d;">&#106;&#x73;&#x72;&#x40;&#49;&#48;&#103;&#101;&#x6e;&#46;&#99;&#111;&#x6d;</a></p>
+
+<h1>Single node setup</h1>
+
+<h2>Instance sizing</h2>
+
+<p>mongoDB&rsquo;s storage engine is meant to work on a 64-bit platform.</p>
+
+<p>Micro instances are terrible DB servers. The CPU bursts then slows. You only want to do development and testing. You never want to run a production DB. But they make great arbiters and config servers.</p>
+
+<p>Large + normal way people go. Cluster compute instances are great for really huge mongoDB instances.</p>
+
+<p>mongoDB uses disk and RAM, so high CPU instance probably a waste of money.</p>
+
+<h2>OS</h2>
+
+<p>Any Gnu Linux good. 10gen starts with AMZN one.</p>
+
+<ul>
+<li>turn off atime</li>
+<li><p>raise file descriptior limits</p>
+
+<p>cat >> /etc/security/limits.conf &lt;&lt; EOF</p>
+
+<ul>
+<li>hard nofile 65536</li>
+<li>soft profile 65536
+EOF</li>
+</ul>
+</li>
+<li><p>DO NOT use large VM pages</p></li>
+<li>Use ext4, xfs (ext3 preallocate files and db will pause during this)</li>
+<li>Use RAID</li>
+<li> RAID10 on mongoD</li>
+<li> RAID1 on configDB</li>
+<li><em>Warning!</em> Known problems with Ubuntu 10.04 &amp; EBS</li>
+</ul>
+
+
+<h1>mongoDB Data Note</h1>
+
+<p>Reccomend</p>
+
+<ul>
+<li>64 bit instance</li>
+<li>more RAM = better</li>
+<li>run ext4 or xfs file system</li>
+<li>turn off atmie &amp; diratime</li>
+<li>EBS volumes in RAID10</li>
+</ul>
+
+
+<p>MTBF of EBS > an actual disk drive. RAID10 helps compensate for this.</p>
+
+<p>Each EBS can sustaine 100 IOPS (i/o per second) so more stripes the more IOPs per mongoDB instance. So more disk drives is very important. This run in production by many clients.</p>
+
+<h2>Config Server</h2>
+
+<ul>
+<li>64 bit instance</li>
+<li> micro is fine</li>
+<li>EBS volumes in RAID1 is fine</li>
+</ul>
+
+
+<h2>Arbiter</h2>
+
+<p>Just needs a network</p>
+
+<ul>
+<li>micro is fine</li>
+<li>no storage requirements</li>
+<li>must be separate from rest of replica sets</li>
+</ul>
+
+
+<h1>Single region replica set</h1>
+
+<p>3 mongoDBs in a region, in separate availability zones. Gives some guarantee that the instances run on different boxes, avoiding a single point of failure.</p>
+
+<p>Still vulnerable to a region going down.</p>
+
+<h2>Disaster recovery site</h2>
+
+<p>To avoid single region death people commonly keep 2 mongoDBs in region-1, and that is production. region-2 is just a hot copy. If region-1 goes down, we can stand up region-2 quickly and change the DNS entry. Maybe takes a few hours max until AWS sorts itself out.</p>
+
+<h1>Multi Data Center</h1>
+
+<p>Want to run in multiple regions with auto-failover. To do that you need 3 regions. Within mongoDB to get a quorum you need > 50% to select a master. So set up replica sets in 3 separate regions, region-1, region-2 and region-3.</p>
+
+<p>When one region goes down the mongo replicate set will select a master from the other two.</p>
+
+<p>You pay a price in latency. Writing may be across the country (assuming all regions are in the same country).</p>
+
+<h1>Sharded Clusters</h1>
+
+<p>definition: Lots of replica sets grouped together as a cluster.</p>
+
+<p>So all the above advice applies. Just set up shards in each region instead of one instance.</p>
+
+<h1>Provisioning</h1>
+
+<p>Create one secruity group with mongodB instances. Create another with app servers. Grant access to mongoDB security group for app server group.</p>
+
+<h1>Backups</h1>
+
+<p>If you are using EBS you can take snapshots, even of multiple EBSs for RAID setups.</p>
+
+<p>Other considerations are architecture specific.</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=MongoDB on AWS by @johnroberstorey&url=http://blog.johnstorey.org/blog/2011/12/09/mongodb-on-aws/" title="Share MongoDB on AWS on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2011/12/09/mongodb-on-aws/" title="Share MongoDB on AWS on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2011/12/09/mongodb-on-aws/" title="Share MongoDB on AWS on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2011/12/09/mongodb-on-aws/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2011/12/09/mongodb-on-aws/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>

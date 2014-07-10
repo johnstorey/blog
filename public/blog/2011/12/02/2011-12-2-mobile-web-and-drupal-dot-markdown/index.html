@@ -1,0 +1,164 @@
+
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+	<meta charset="utf-8">
+	<title>Mobile_Web-and-Drupal.markdown  | John Dreams</title>
+
+	<meta name="author" content="John Storey">
+
+<meta name="description" content="Recently I&rsquo;ve been looking at a number of projects that end my temprorary sojurn from the joys and frustrations of Drupal. It&rsquo;s a family &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">John Dreams</a></h1>
+<span class="tagline">A blog about tech and management.</span>
+<nav id="main-nav"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archives</a></li>
+	<li><a href="/contact">Contact</a></li>
+</ul>
+</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<header>
+		<h2 class="title">Mobile_Web-and-Drupal.markdown</h2>
+		<div class="meta date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-02T11:06:00-08:00" pubdate data-updated="true">Dec 2<sup>nd</sup>, 2011</time></div>
+	</header>
+	<div class="entry-content"><p>Recently I&rsquo;ve been looking at a number of projects that end my temprorary sojurn from the joys and frustrations of Drupal. It&rsquo;s a family people, and I&rsquo;m glad to be home.</p>
+
+<p>Along the way I have been reading and thinking alot about mobile design with Drupal. My analysis is that it is all in the air right now, but some key thoughts seem to hold sway in the overall community.</p>
+
+<ol>
+<li>Responsive web design just needs the height and width of the device from the CSS media queries, and all will be well with the world.</li>
+<li>If you have an existing site, the <a href="http://drupal.org/projects/mobile_tools">Mobile Tools</a> is the way to go. It relies on the HTTP user agent information, not media queries.</li>
+<li>Omega Theme is the risen star for mobile web design. (It really does have some nice features, or at least the web themer GF assures me they are incredible).</li>
+</ol>
+
+
+<p>Now I have issues with all these memes, which irritates me as I have two web applications that need to be delivered. Maybe one of the web gurus out there has some thoughts?</p>
+
+<p>Choice #1 ignores the platform. Well, Android 2.3 on tablet A and tablet B might be modified in a way that works differently yet is important to me. Recently we did a custom app for an internal device for a global manufacturer where this was the case. True, it may only happen one more time in my life, but I want to be able to account for it.</p>
+
+<p>Choice #2 has lots of appeal because it is a solution integrated to Panels. Panels continues to be one of the major value adds we get out of the Drupal platform. But I am not convinced I can rely on the user agent telling me enough &mdash; I need that media query as well.</p>
+
+<p>Chocie #3 really does have my attention, but without a clean Panels integration, and without the information from user agent I feel like there are too many combinations that cannot be covered.</p>
+
+<p>Possibly I am letting perfect be the enemy of good here. I&rsquo;ll leave the final decision to the themer of course, but my current thought is we should use</p>
+
+<ul>
+<li>Panels</li>
+<li>a Panels friendly theme that can leverage responsive design</li>
+<li>a module that passes user agent info into a responsive theme in case it&rsquo;s useful to the themer</li>
+</ul>
+
+
+<p>So what&rsquo;s the web think? Am I on the right path, or am I overthinking? The weekend projects involve putting a solution like this together (once I go through the <a href="http://vagrantup.com">Vagrant</a> setup for Drupal I&rsquo;ve been using lately with some friends.) So I&rsquo;d love the feedback.</p>
+</div>
+	
+
+</article>
+
+	
+	<div class="share">
+		<ul>
+			<li>
+  <a href="https://twitter.com/intent/tweet?text=Mobile_Web-and-Drupal.markdown by @johnroberstorey&url=http://blog.johnstorey.org/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown/" title="Share Mobile_Web-and-Drupal.markdown on Twitter">
+    <img src="/images/social/twitter.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://www.facebook.com/sharer.php?u=http://blog.johnstorey.org/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown/" title="Share Mobile_Web-and-Drupal.markdown on Facebook">
+    <img src="/images/social/facebook.png" />
+  </a>
+</li>
+
+			<li>
+  <a href="https://plus.google.com/share?url=http://blog.johnstorey.org/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown/" title="Share Mobile_Web-and-Drupal.markdown on Google Plus">
+    <img src="/images/social/google.png" />
+  </a>
+</li>
+
+		</ul>
+	</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">&copy; 2014
+
+    John Storey
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/hyphenator.js"></script>
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnstorey1969';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2011/12/02/2011-12-2-mobile-web-and-drupal-dot-markdown/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+</body>
+</html>
