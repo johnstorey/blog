@@ -4,7 +4,7 @@
 
 url: http://blog.johnstorey.org
 title: John Dreams
-subtitle: A blog about tech and management.
+subtitle: A blog about faith, tech and management.
 author: John Storey
 simple_search: https://www.google.com/search
 description:
@@ -91,8 +91,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name: johnstorey1969
-disqus_show_comment_count: false
+disqus_short_name: blogjohnstoreyorg
+disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:
