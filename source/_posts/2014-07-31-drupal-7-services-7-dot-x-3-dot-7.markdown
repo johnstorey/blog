@@ -19,15 +19,15 @@ I assume that you are familiar with Drupal and Services, and want to log in usin
 
 ## /api/user/login.
 
-This part is simple. POST to the /user/login resource on your endpoint.
+This part is simple, but the key to everything. POST to the /user/login resource on your endpoint.
 
 1.  No Drupal specific headers.
 2.  The POST should work with a header of Content-Type =  application/json, but I always need to set it to application/x-www-urlencoded. I have no idea why.
 3.  In the requestbody set the values for username and password.
 4.  You will get back a login response with session_name, sessid, and token parameters.
 5.  In all subsequent calls set the following headers
-  1. Cookie must be set to <session_name>=<sessid>. Yes, session_name and sessid become the value, separated by an equal sign.
-  2. Set X-CSRF-Token to <token>.
+  1.  'Cookie' must be set to '<session_name>=<sessid>'. That is: set the value of Cookie to session_name and sessid, separated by an equal sign.
+  2.  'Set X-CSRF-Token' to '<token>'.
 
 You are done -- Drupal now knows who your client is logged in as.
 
