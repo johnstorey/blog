@@ -156,7 +156,7 @@ Services Module 7.x-3.7</p>
 
 <ol>
 <li>No Drupal specific headers.</li>
-<li>POST body should accept application/json, but I always need to set it to application/x-www-urlencoded. I have no idea why.</li>
+<li>The POST should work with a header of Content-Type =  application/json, but I always need to set it to application/x-www-urlencoded. I have no idea why.</li>
 <li>In the requestbody set the values for username and password.</li>
 <li>You will get back a login response with session_name, sessid, and token parameters.</li>
 <li>In all subsequent calls set the following headers</li>

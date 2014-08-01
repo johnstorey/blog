@@ -22,7 +22,7 @@ I assume that you are familiar with Drupal and Services, and want to log in usin
 This part is simple. POST to the /user/login resource on your endpoint.
 
 1.  No Drupal specific headers.
-2.  POST body should accept application/json, but I always need to set it to application/x-www-urlencoded. I have no idea why.
+2.  The POST should work with a header of Content-Type =  application/json, but I always need to set it to application/x-www-urlencoded. I have no idea why.
 3.  In the requestbody set the values for username and password.
 4.  You will get back a login response with session_name, sessid, and token parameters.
 5.  In all subsequent calls set the following headers
