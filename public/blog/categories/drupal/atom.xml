@@ -4,7 +4,7 @@
   <title><![CDATA[Category: drupal | John Dreams]]></title>
   <link href="http://blog.johnstorey.org/blog/categories/drupal/atom.xml" rel="self"/>
   <link href="http://blog.johnstorey.org/"/>
-  <updated>2014-07-31T21:30:05-07:00</updated>
+  <updated>2014-08-01T05:06:13-07:00</updated>
   <id>http://blog.johnstorey.org/</id>
   <author>
     <name><![CDATA[John Storey]]></name>
@@ -33,7 +33,7 @@ Services Module 7.x-3.7</p>
 
 <h2>/api/user/login.</h2>
 
-<p>This part is simple. POST to the /user/login resource on your endpoint.</p>
+<p>This part is simple, but the key to everything. POST to the /user/login resource on your endpoint.</p>
 
 <ol>
 <li>No Drupal specific headers.</li>
@@ -41,8 +41,8 @@ Services Module 7.x-3.7</p>
 <li>In the requestbody set the values for username and password.</li>
 <li>You will get back a login response with session_name, sessid, and token parameters.</li>
 <li>In all subsequent calls set the following headers</li>
-<li> Cookie must be set to &lt;session_name>=<sessid>. Yes, session_name and sessid become the value, separated by an equal sign.</li>
-<li> Set X-CSRF-Token to <token>.</li>
+<li>  &lsquo;Cookie&rsquo; must be set to &lsquo;session_name=sessid&rsquo;. That is: set the value of Cookie to session_name and sessid, separated by an equal sign.</li>
+<li>  &lsquo;Set X-CSRF-Token&rsquo; to &lsquo;token&rsquo;.</li>
 </ol>
 
 
