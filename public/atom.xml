@@ -4,13 +4,65 @@
   <title><![CDATA[John Dreams]]></title>
   <link href="http://blog.johnstorey.org/atom.xml" rel="self"/>
   <link href="http://blog.johnstorey.org/"/>
-  <updated>2014-07-09T18:48:07-07:00</updated>
+  <updated>2014-07-31T21:23:39-07:00</updated>
   <id>http://blog.johnstorey.org/</id>
   <author>
     <name><![CDATA[John Storey]]></name>
     
   </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal 7 Services 7.x-3.7]]></title>
+    <link href="http://blog.johnstorey.org/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7/"/>
+    <updated>2014-07-31T21:01:05-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7</id>
+    <content type="html"><![CDATA[<h1>Environment.</h1>
+
+<p>Drupal 7
+Services Module 7.x-3.7</p>
+
+<h1>Instructions for Authenticating a User.</h1>
+
+<p>This is a reminder of the current process to log in a user and authenticate with the Drupal Services module. To be honest, when I have time to look at it, I think the RESTful module by Gizra will be a better solution for headless Drupal projects, but today Services is what I know and use.</p>
+
+<p>This came about because I needed to jump in and make an existing NodeJS API work with Drupal on the back-end for a team member.</p>
+
+<p>I assume that you are familiar with Drupal and Services, and want to log in using the basic authentication bundled with Services. OAuth is a different (but when needed, awesome) beast.</p>
+
+<h2>/api/user/login.</h2>
+
+<p>This part is simple. POST to the /user/login resource on your endpoint.</p>
+
+<ol>
+<li>No Drupal specific headers.</li>
+<li>POST body should accept application/json, but I always need to set it to application/x-www-urlencoded. I have no idea why.</li>
+<li>In the requestbody set the values for username and password.</li>
+<li>You will get back a login response with session_name, sessid, and token parameters.</li>
+<li>In all subsequent calls set the following headers</li>
+<li> Cookie must be set to &lt;session_name>=<sessid>. Yes, session_name and sessid become the value, separated by an equal sign.</li>
+<li> Set X-CSRF-Token to <token>.</li>
+</ol>
+
+
+<p>You are done &mdash; Drupal now knows who your client is logged in as.</p>
+
+<h2>/system/connect.</h2>
+
+<p>POST to this endpoint, and if you have configured things correctly, you should get the user you logged in as back as an object. If you get the anonymous user, you&rsquo;ve done something wrong.</p>
+
+<h2>/user/logout.</h2>
+
+<p>To be extra sure, call /user/logout. You should get a value of TRUE back in your response body. Calling /system/connect now gives you back the anonymous user object.</p>
+
+<h1>Summary.</h1>
+
+<p>There are many descriptions of how to log users in and out, and the advice changes with different releases of the module. This works in the environment specified at the top of this blog post.</p>
+
+<p>I hope this helps others out there &mdash; I&rsquo;m sure I&rsquo;ll refer to this six months from now, when I myself have forgotten the details!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Drupal Access Grants]]></title>
@@ -920,143 +972,6 @@ John</p>
 <p>Because you are on V8 you get to use the latest JS stuff all the time. object.create(), not this.prototype for example.</p>
 
 <p>Buffer objects are created outside of V8 heap and stays until you release it. But is direct memory access speed. Increased JS driver speed by 5x.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MoPub Scaling]]></title>
-    <link href="http://blog.johnstorey.org/blog/2011/12/09/mopub-scaling/"/>
-    <updated>2011-12-09T16:47:00-08:00</updated>
-    <id>http://blog.johnstorey.org/blog/2011/12/09/mopub-scaling</id>
-    <content type="html"><![CDATA[<p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
-
-<p>50ms to process each event.</p>
-
-<ul>
-<li>Started as 3 founders hoping to bring Angry Birds on to the platform. Their customers are app developers.</li>
-<li>Needed to scale quickly as customers came on</li>
-<li>0 time to spend time on ops</li>
-<li>chose Google App Engine</li>
-<li>Python (?Guido? works on this team)</li>
-</ul>
-
-
-<p>Business objects are siloed per user account. One to many relationships.</p>
-
-<p>Collect stats for every ad serve and ad interaction.</p>
-
-<p>On app engine have a simple stats model.</p>
-
-<h1>Realtime stats in GAE</h1>
-
-<ul>
-<li>datastore
-
-<ul>
-<li>expensive writes</li>
-<li>slow writes 1 / sec/ entity group</li>
-<li>fast reads 3 ms</li>
-</ul>
-</li>
-<li>memcache</li>
-<li>TaskQueues</li>
-</ul>
-
-
-<p>Cannot do sums over objects in GAE or even native map / reduces</p>
-
-<p>Solution: Buffer into memcache then periodically flush to the datastore by pushing them into a TaskQueue.</p>
-
-<h1>GAE Shortcomings</h1>
-
-<ul>
-<li>Transient downtime for writes</li>
-<li>Read before write</li>
-<li>memcache is fleeting, leading to data loss</li>
-<li>Objects have become too large for transactions</li>
-<li>writing to datastore, even buffered is expensive</li>
-<li> pay for datastore CPU and app CPU. Way too costly.</li>
-</ul>
-
-
-<h1>AWS + Mongo</h1>
-
-<ul>
-<li>We have control of each service and the machines on which they run</li>
-<li>access to RAM!</li>
-<li>fire and forget increments</li>
-<li>our entire machinery for recording mulitple stats is a series of increment instructions sent to MongoDB (which handles all buffering and flushing.)</li>
-</ul>
-
-
-<h1>First Attempt: Data Model</h1>
-
-<p>One document per published advertiser per month. Each document stores data for all days and hours in the month.</p>
-
-<h2>Initial results</h2>
-
-<ul>
-<li>Pros
-
-<ul>
-<li>Scales with # business objects</li>
-<li>Queries for highel level cross products</li>
-<li>Queries for stats for a given date range result in only reading the # of months total documents in the range</li>
-</ul>
-</li>
-<li>Cons</li>
-<li> Lots of little documents</li>
-<li> more</li>
-</ul>
-
-
-<h1>Solution: New Data Model</h1>
-
-<p>Account for ??? in our data model.</p>
-
-<p>Everything in the account stored with hash table.</p>
-
-<p>Created IndexDocument to store the reverse indices to do the higher-level cross sections</p>
-
-<h2>Results</h2>
-
-<ul>
-<li>2 machines handle all the writes</li>
-<li>Mongo load is now miniscule</li>
-<li>each update really 2 (StatsDocument and StatsIndex)</li>
-<li>Each get is really 2 gets (same objects)</li>
-<li>One document per account per day</li>
-<li> # documents scale with # accounts</li>
-<li> we do the simple aggregation in python</li>
-<li> size of document scales with # business objects within account</li>
-<li> more</li>
-</ul>
-
-
-<h1>Lessons Learned</h1>
-
-<ul>
-<li>Better to have fewer, larger documents if there is a logical hierarchy than many smaller documents arranged flatly</li>
-<li>Log everything because you will make mistakes</li>
-<li> This has saved us time and again</li>
-<li>Buy more memory</li>
-<li> It&rsquo;s cheap!</li>
-<li> Solved our cache misses</li>
-<li> Some problems cannot be solved just by throwing memory at the problem</li>
-</ul>
-
-
-<h1>Future Work</h1>
-
-<p>Mobile User store</p>
-
-<ul>
-<li>will record every interaction of every user</li>
-<li>ML: map / reduce jobs to glean data about our suers and segment them</li>
-<li>per user targeting with minimum latency</li>
-<li>relevancy => better user experience => app devs make more money</li>
-</ul>
-
 ]]></content>
   </entry>
   

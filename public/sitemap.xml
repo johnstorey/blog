@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://blog.johnstorey.org/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7/</loc>
+    <lastmod>2014-07-31T21:01:05-07:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.johnstorey.org/blog/2014/07/09/drupal-access-grants/</loc>
     <lastmod>2014-07-09T15:25:19-07:00</lastmod>
     <priority>0.8</priority>
@@ -191,35 +197,35 @@
   
   <url>
     <loc>http://blog.johnstorey.org/404.html</loc>
-    <lastmod>2014-07-09T18:48:07-07:00</lastmod>
+    <lastmod>2014-07-31T21:23:39-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.johnstorey.org/archives/</loc>
-    <lastmod>2014-07-09T18:48:07-07:00</lastmod>
+    <lastmod>2014-07-31T21:23:39-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.johnstorey.org/blog/archives/</loc>
-    <lastmod>2014-07-09T18:48:07-07:00</lastmod>
+    <lastmod>2014-07-31T21:23:39-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.johnstorey.org/blog/</loc>
-    <lastmod>2014-07-09T18:48:07-07:00</lastmod>
+    <lastmod>2014-07-31T21:23:39-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://blog.johnstorey.org/</loc>
-    <lastmod>2014-07-09T18:48:07-07:00</lastmod>
+    <lastmod>2014-07-31T21:23:39-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

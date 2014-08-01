@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mongodb | John Dreams]]></title>
   <link href="http://blog.johnstorey.org/blog/categories/mongodb/atom.xml" rel="self"/>
   <link href="http://blog.johnstorey.org/"/>
-  <updated>2014-07-09T18:48:07-07:00</updated>
+  <updated>2014-07-31T21:23:39-07:00</updated>
   <id>http://blog.johnstorey.org/</id>
   <author>
     <name><![CDATA[John Storey]]></name>
@@ -201,7 +201,7 @@
     <content type="html"><![CDATA[<p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
 
 <p>Jared Rosoff
-<a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x6a;&#x73;&#x72;&#64;&#x31;&#48;&#x67;&#x65;&#x6e;&#46;&#x63;&#111;&#x6d;">&#x6a;&#115;&#114;&#64;&#49;&#48;&#103;&#x65;&#x6e;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x6a;&#x73;&#x72;&#64;&#49;&#x30;&#x67;&#x65;&#110;&#x2e;&#x63;&#111;&#109;">&#106;&#115;&#114;&#64;&#49;&#48;&#x67;&#101;&#110;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
 <h1>Single node setup</h1>
 
