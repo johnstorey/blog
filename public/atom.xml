@@ -4,7 +4,7 @@
   <title><![CDATA[John Dreams]]></title>
   <link href="http://blog.johnstorey.org/atom.xml" rel="self"/>
   <link href="http://blog.johnstorey.org/"/>
-  <updated>2014-08-01T05:06:13-07:00</updated>
+  <updated>2014-08-18T06:58:06-07:00</updated>
   <id>http://blog.johnstorey.org/</id>
   <author>
     <name><![CDATA[John Storey]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal 7 Put User Fields in Features]]></title>
+    <link href="http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/"/>
+    <updated>2014-08-18T06:51:05-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features</id>
+    <content type="html"><![CDATA[<p>Here is a quick reminder on how to export User fields into a Feature with Drupal 7.31 and Features 2.X. I got this question this morning from another programmer, and had to experiment to be sure my process would work.</p>
+
+<ol>
+<li>Use Strongarm, and export field_bundle_settings-user-user.</li>
+<li>Export the field in Field Bases.</li>
+<li>Export the field in Field Instances.</li>
+</ol>
+
+
+<p>Normally I keep Field Base settings in their own file to facilitate re-use across content types that may be in separate Features, but that doesn&rsquo;t seem to apply to the User entity, so I put it all in one module.</p>
+
+<p>Now if I could figure out how to field User entities separately based on user role. For the moment I am getting around that use case with careful created UIs, but that is not satisfying to me &hellip;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Drupal 7 Services 7.x-3.7]]></title>
@@ -929,49 +949,6 @@ function chat_rest_default_services_endpoint() {
 
 <p>Happy New Year!
 John</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Node.js and mongoDB BOF]]></title>
-    <link href="http://blog.johnstorey.org/blog/2011/12/09/node-dot-js-and-mongodb-bof/"/>
-    <updated>2011-12-09T16:47:00-08:00</updated>
-    <id>http://blog.johnstorey.org/blog/2011/12/09/node-dot-js-and-mongodb-bof</id>
-    <content type="html"><![CDATA[<p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
-
-<p>mongoDB node.js driver has native and JS BSON libraries. Many forums recommend using the JS one. Moderator agrees. He may split the JS driver out to a completely separate repository and project.</p>
-
-<p>Now it does cool things like getting the raw, unparsed BSON data. Good for HTML5 games for example, where the parsing is too slow.</p>
-
-<p>Then native C++ driver is 2X slower serializing data, and 5X faster deserializer. Moderator blames it on his own limited C++ skills. In practice he does not see this as a limiting factor in most applications.</p>
-
-<h1>GridFS</h1>
-
-<p>Moderator experimenting with a feature like GridFS. Uses a collection of documents that have a chunk in them that is binary. Wants to make binary types in mongo much more efficent. Basically the moment it hits binary, like a video, it starts streaming it without much overhead.</p>
-
-<h1>Mongoose</h1>
-
-<p>If you want performance, don&rsquo;t use it. It&rsquo;s all about validating types; getters and setters; more expressive query builder; etc. It&rsquo;s alot slower.</p>
-
-<p>In V8 try / catch and getter / setter are just not optimized. Also there are some crazy overloading of operator types.</p>
-
-<h1>Safe Writes</h1>
-
-<p>Off by default in JS and most mongoDB drivers. Considering making it on by default. Otherwise there is no way for you to know if your transactions work for example.</p>
-
-<h1>SSL Support</h1>
-
-<p>v2.2 they will add SSL support to the drivers. It&rsquo;s only waiting on US Export license approval.</p>
-
-<h1>Multi CPU systems</h1>
-
-<p>In Node.js you used to have to fire up a node process per CPU. Now it&rsquo;s in a configuration file.</p>
-
-<h1>Advantage of V8</h1>
-
-<p>Because you are on V8 you get to use the latest JS stuff all the time. object.create(), not this.prototype for example.</p>
-
-<p>Buffer objects are created outside of V8 heap and stays until you release it. But is direct memory access speed. Increased JS driver speed by 5x.</p>
 ]]></content>
   </entry>
   

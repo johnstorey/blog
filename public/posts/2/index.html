@@ -133,6 +133,96 @@
   <header>
     
       <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
+        <h1 class="entry-title"><a href="/blog/2012/09/29/first-polyphasic-friday/">First Polyphasic Friday</a></h1>
+        
+    
+    
+      <p class="meta">
+        
+  
+
+
+  
+    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
+  
+
+ - 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-29T00:04:00-07:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2012</time> - 
+        
+
+posted in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/polyphasic/'>polyphasic</a>
+  
+</span>
+
+
+        
+         | <a href="/blog/2012/09/29/first-polyphasic-friday/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here it is midnight on my first weekend on Everyman 3. I lay down for 20 minutes at 10:30 PM, and now I&rsquo;m awake until 3 AM when I take a 3 hour sleep. That&rsquo;s the big sleep for the day, and the majority of the 4 hours a day rest.</p>
+
+<p>So far it&rsquo;s good. I&rsquo;ve been allowing myself a cup of coffee when I first wake from a nap, but now I am wondering if it is interfering with my ability to take my naps. True, I am on day 4 and it is supposed to take a month to fully adapt, but I still feel I don&rsquo;t get to sleep fast enough on the 20 minute nap. In another week I&rsquo;ll have to see where I am &hellip;</p>
+
+<p>My mental faculties are ok, but not the top of where they can be. I am not fully rested &mdash; but I am as rested as I was on a normal weeknights sleep. This is the first night to myself where I don&rsquo;t need to work with the offshore teams. I&rsquo;ve continued working on my long, backlogged TODO list. Today I fixed this blog and put it on GitHub. After 4 months I finally got the email at johnstorey.org working again. After I complete this post my plan is to evaluate ZSH as a Bash replacement. If I have time and motivation after that I will start going through the MIT Open Courseware classes for Scheme. I last programmed a Lisp language about 24 years ago (ouch! getting old, aren&rsquo;t I!). Scheme did not exist back then boys and girls. But these days I keep bumping into Clojure, which is Lisp based. My thought is to</p>
+
+<ul>
+<li>Learn Scheme.</li>
+<li>Review the MIT Open Courseware algorithm classes that are in Scheme.</li>
+<li>Work through a paper I found to write a Scheme compiler in Scheme.</li>
+</ul>
+
+
+<p>This will meet the goals I have of</p>
+
+<ul>
+<li>Getting back into a functional language.</li>
+<li>Lay a foundation for Emacs scripting.</li>
+<li>Refresh my algorithms knowledge &mdash; every developer needs to do this every few years.</li>
+<li>Write a compiler, which strangely, I&rsquo;ve never done. In concept it seems simple. Read some text, follow rules to transform it, and end up with the final transform creating assembly or object code.</li>
+</ul>
+
+
+<p>Not sure how far I will get on the Scheme front tonight as I am feeling an urge to space out and watch Season 3 of Fringe on Amazon. But it would be good to start.</p>
+
+<p>I am enjoying the extra free time. I event started a light exercise routine again. At 11 PM I was the only one in the fitness center on a Friday night. The security guard gave me strange looks as she walked by, but hey, I <em>am</em> living unusual hours right now. I&rsquo;ll monitor how the exercise interacts with my sleep schedule and overall rest.</p>
+
+<p>Now, on to that ZSH evaluation &hellip;</p>
+</div>
+  
+  
+  
+
+
+</div>
+
+      </article>
+    
+    
+      <article class="span4">
+        <div class="article-format">
+
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
         <h1 class="entry-title"><a href="/blog/2012/09/28/blog-reboot/">Blog Reboot</a></h1>
         
     
@@ -955,103 +1045,6 @@ John</p>
 
       </article>
     
-    
-      <article class="span4">
-        <div class="article-format">
-
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
-        <h1 class="entry-title"><a href="/blog/2011/12/09/node-dot-js-and-mongodb-bof/">Node.js and mongoDB BOF</a></h1>
-        
-    
-    
-      <p class="meta">
-        
-  
-
-
-  
-    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
-  
-
- - 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-12-09T16:47:00-08:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2011</time> - 
-        
-
-posted in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/mongodb/'>mongodb</a>
-  
-</span>
-
-
-        
-         | <a href="/blog/2011/12/09/node-dot-js-and-mongodb-bof/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
-
-<p>mongoDB node.js driver has native and JS BSON libraries. Many forums recommend using the JS one. Moderator agrees. He may split the JS driver out to a completely separate repository and project.</p>
-
-<p>Now it does cool things like getting the raw, unparsed BSON data. Good for HTML5 games for example, where the parsing is too slow.</p>
-
-<p>Then native C++ driver is 2X slower serializing data, and 5X faster deserializer. Moderator blames it on his own limited C++ skills. In practice he does not see this as a limiting factor in most applications.</p>
-
-<h1>GridFS</h1>
-
-<p>Moderator experimenting with a feature like GridFS. Uses a collection of documents that have a chunk in them that is binary. Wants to make binary types in mongo much more efficent. Basically the moment it hits binary, like a video, it starts streaming it without much overhead.</p>
-
-<h1>Mongoose</h1>
-
-<p>If you want performance, don&rsquo;t use it. It&rsquo;s all about validating types; getters and setters; more expressive query builder; etc. It&rsquo;s alot slower.</p>
-
-<p>In V8 try / catch and getter / setter are just not optimized. Also there are some crazy overloading of operator types.</p>
-
-<h1>Safe Writes</h1>
-
-<p>Off by default in JS and most mongoDB drivers. Considering making it on by default. Otherwise there is no way for you to know if your transactions work for example.</p>
-
-<h1>SSL Support</h1>
-
-<p>v2.2 they will add SSL support to the drivers. It&rsquo;s only waiting on US Export license approval.</p>
-
-<h1>Multi CPU systems</h1>
-
-<p>In Node.js you used to have to fire up a node process per CPU. Now it&rsquo;s in a configuration file.</p>
-
-<h1>Advantage of V8</h1>
-
-<p>Because you are on V8 you get to use the latest JS stuff all the time. object.create(), not this.prototype for example.</p>
-
-<p>Buffer objects are created outside of V8 heap and stays until you release it. But is direct memory access speed. Increased JS driver speed by 5x.</p>
-</div>
-  
-  
-  
-
-
-</div>
-
-      </article>
-    
     </div>
       <div class="row">
         <ul class="pager">
@@ -1079,6 +1072,10 @@ posted in
     <ul class="recent_posts">
       
         <li>
+          <a href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/">Drupal 7 Put User Fields in Features</a>
+        </li>
+      
+        <li>
           <a href="/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7/">Drupal 7 Services 7.x-3.7</a>
         </li>
       
@@ -1092,10 +1089,6 @@ posted in
       
         <li>
           <a href="/blog/2012/11/14/emacsclient-ignores-init-file/">Emacsclient Ignores Init File</a>
-        </li>
-      
-        <li>
-          <a href="/blog/2012/11/07/emacs-optimizations-to-make/">Emacs Optimizations to Make</a>
         </li>
       
     </ul>

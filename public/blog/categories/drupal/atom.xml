@@ -4,7 +4,7 @@
   <title><![CDATA[Category: drupal | John Dreams]]></title>
   <link href="http://blog.johnstorey.org/blog/categories/drupal/atom.xml" rel="self"/>
   <link href="http://blog.johnstorey.org/"/>
-  <updated>2014-08-01T05:06:13-07:00</updated>
+  <updated>2014-08-18T06:58:06-07:00</updated>
   <id>http://blog.johnstorey.org/</id>
   <author>
     <name><![CDATA[John Storey]]></name>
@@ -12,6 +12,26 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal 7 Put User Fields in Features]]></title>
+    <link href="http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/"/>
+    <updated>2014-08-18T06:51:05-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features</id>
+    <content type="html"><![CDATA[<p>Here is a quick reminder on how to export User fields into a Feature with Drupal 7.31 and Features 2.X. I got this question this morning from another programmer, and had to experiment to be sure my process would work.</p>
+
+<ol>
+<li>Use Strongarm, and export field_bundle_settings-user-user.</li>
+<li>Export the field in Field Bases.</li>
+<li>Export the field in Field Instances.</li>
+</ol>
+
+
+<p>Normally I keep Field Base settings in their own file to facilitate re-use across content types that may be in separate Features, but that doesn&rsquo;t seem to apply to the User entity, so I put it all in one module.</p>
+
+<p>Now if I could figure out how to field User entities separately based on user role. For the moment I am getting around that use case with careful created UIs, but that is not satisfying to me &hellip;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Drupal 7 Services 7.x-3.7]]></title>
@@ -349,41 +369,6 @@ function chat_rest_default_services_endpoint() {
 </code></p>
 
 <p>That&rsquo;s it! Declaring a custom Services endpoint (or here, 3)  really is not that difficult once you understand how to do it.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Deficencies with Vagrant]]></title>
-    <link href="http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant/"/>
-    <updated>2012-01-07T08:13:00-08:00</updated>
-    <id>http://blog.johnstorey.org/blog/2012/01/07/deficencies-with-vagrant</id>
-    <content type="html"><![CDATA[<p>I love the Vagrant project. Someday, hopefully soon, I&rsquo;ll be able to switch my whole developer organization over to using it. Here&rsquo;s a note to myself about what needs to happen first. I&rsquo;m posting so I can refer back from time to time and see if it&rsquo;s something we can use now (don&rsquo;t look at me, I&rsquo;m hacking on (Drupal)[<a href="http://drupal.org/">http://drupal.org/</a>]).</p>
-
-<h1>Cannot Run in Bridged Mode</h1>
-
-<p>You know what? For some reason in Virtual Box XDebug can only talk to a host  debugger if it&rsquo;s running in bridged networking mode. Unfortunately that is not a current Vagrant feature. I have seen a patch to network.rb that does not seem to work for me. Also I heard there is a patch in branch on Debian that was recently submitted.</p>
-
-<p>On a personal level, if anyone can help me get XDebug working on OSX Lion and talking to MacGDP back on the host, I&rsquo;d greatly appreciate it. For my own work.</p>
-
-<h1>Cannot Run on Windows Well</h1>
-
-<p>This is a problem with gems that use native DLLs. Why do I care? <em>I</em> don&rsquo;t. Windows can disappear off the surface of hard drives across the planet for my money. But much of my company is full of developers who don&rsquo;t and don&rsquo;t desire to learn to work with anything other than Windows. I&rsquo;m just not going to move them anytime soon.</p>
-
-<p>Unfortunately here is a current reality</p>
-
-<ul>
-<li>On Windows, Vagrant does not work on Ruby.</li>
-<li>It does work on JRuby.</li>
-<li>JRuby does not allow gems that use native API components.</li>
-<li>Chef requires native API components.</li>
-</ul>
-
-
-<h1>When These Issues Resolve</h1>
-
-<p>I&rsquo;ll be able to move the organization to Vagrant. Until then I&rsquo;ll get some of the value by distributing virtual machines and letting people share their source code folders into it.</p>
-
-<p>It&rsquo;s annoying though. Vagrant is a great piece of software.</p>
 ]]></content>
   </entry>
   

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: investing - John Dreams</title>
+  <title>Drupal 7 Put User Fields in Features - John Dreams</title>
   <meta name="author" content="John Storey">
   <link rel="author" href="humans.txt">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -13,7 +13,7 @@
   
     
   
-  <meta name="description" content=" Category: investing ">
+  <meta name="description" content="Here is a quick reminder on how to export User fields into a Feature with Drupal 7.31 and Features 2.X. I got this question this morning from &hellip;">
   
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,17 +21,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.johnstorey.org/blog/categories/investing/">
+  <link rel="canonical" href="http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
   <meta name="og:type" content="website" />
   <meta name="og:site_name" content="John Dreams" />
-  <meta name="og:title" content="Category: investing" />
-  <meta name="og:description" content=" Category: investing " />
-  <meta name="og:url" content="http://blog.johnstorey.org/blog/categories/investing/index.html"/>
-  <meta name="url" content="http://blog.johnstorey.org/blog/categories/investing/index.html">
+  <meta name="og:title" content="Drupal 7 Put User Fields in Features" />
+  <meta name="og:description" content="Here is a quick reminder on how to export User fields into a Feature with Drupal 7.31 and Features 2.X. I got this question this morning from &hellip;" />
+  <meta name="og:url" content="http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/"/>
+  <meta name="url" content="http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/">
+  
+  <meta name="subject" content="drupal"/>
+  <meta name="category" content="drupal"/>
   
   <meta name="distribution" content="global">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
@@ -54,7 +57,8 @@
 
 </head>
 
-<nav role="navigation"><div class="navbar">
+<body   >
+  <nav role="navigation"><div class="navbar">
   <div class="navbar-inner">
     <a class="brand" href="/">John Dreams</a>
     <ul class="nav">
@@ -77,46 +81,144 @@
   </div>
 </div>
 </nav>
-<div class="wrapper_single">
-  <div class="container">
-    <div class="row">
-      <article class="span8 offset2 article-format" role="article">
-        <div role="div">
-          
-          <header>
-            <h1 class="entry-title">Category: Investing</h1>
-            
-          </header>
-          
-          <div id="blog-archives" class="category">
+  <div class="wrapper_single">
+    <div class="container">
+      <div class="row">
+        <article class="span8 offset2" role="article">
+          <div class="article-format">
+
+  <header>
+    
+      
+        <h1 class="entry-title">Drupal 7 Put User Fields in Features</h1>
+      
+    
+    
+      <p class="meta">
+        
+  
+
+
+  
+    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
+  
+
+ - 
+        
+
+
+
+
+
 
 
 
   
-  <h2>2012</h2>
 
-<article class="archive-article-format">
+
+<time datetime="2014-08-18T06:51:05-07:00" pubdate data-updated="true">Aug 18<sup>th</sup>, 2014</time> - 
+        
+
+posted in
+<span class="categories">
   
-<h2><a href="/blog/2012/05/04/investments-on-sale-again/">Investments on Sale - Again!</a></h2>
-<time datetime="2012-05-04T12:13:00-07:00" pubdate><span class='month'>May</span> <span class='day'>04</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories meta">posted in <a class='category' href='/blog/categories/investing/'>investing</a></span>
-</footer>
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>
+  
+</span>
 
 
-</article>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here is a quick reminder on how to export User fields into a Feature with Drupal 7.31 and Features 2.X. I got this question this morning from another programmer, and had to experiment to be sure my process would work.</p>
+
+<ol>
+<li>Use Strongarm, and export field_bundle_settings-user-user.</li>
+<li>Export the field in Field Bases.</li>
+<li>Export the field in Field Instances.</li>
+</ol>
+
+
+<p>Normally I keep Field Base settings in their own file to facilitate re-use across content types that may be in separate Features, but that doesn&rsquo;t seem to apply to the User entity, so I put it all in one module.</p>
+
+<p>Now if I could figure out how to field User entities separately based on user role. For the moment I am getting around that use case with careful created UIs, but that is not satisfying to me &hellip;</p>
+</div>
+
+
+
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+
+  
+    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
+  
+
+ - 
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-18T06:51:05-07:00" pubdate data-updated="true">Aug 18<sup>th</sup>, 2014</time> - 
+      
+
+posted in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/" data-via="johnroberstorey" data-counturl="http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    
+      <a class="pull-left" href="/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7/" title="Previous Post: Drupal 7 Services 7.x-3.7">&laquo; Drupal 7 Services 7.x-3.7</a>
+    
+    
+  </footer>
 
 </div>
 
           
-        </div>
-      
-      </article>
+            <div class="article-format">
+              <h1>Comments</h1>
+              <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+          
+        </article>
+      </div>
     </div>
   </div>
-</div>
-<div id="footer-widgets">
+  <div id="footer-widgets">
   <div class="container">
     <div class="row">
   <div class="span3">
@@ -211,7 +313,7 @@
   </div>
 </footer>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 <script>window.jQuery || document.write('<script src="/javascripts/libs/jquery-1.7.2.min.js" type="text/javascript"><\/script>')</script>
 <script src="/javascripts/libs/bootstrap.min.js" type="text/javascript"></script>
 <script src="/javascripts/jquery.tweet.js" type="text/javascript"></script>
@@ -224,7 +326,10 @@
       var disqus_shortname = 'blogjohnstoreyorg';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2014/08/18/drupal-7-put-user-fields-in-features/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -252,3 +357,5 @@
 
 
 
+</body>
+</html>

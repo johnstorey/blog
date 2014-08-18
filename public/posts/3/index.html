@@ -133,6 +133,103 @@
   <header>
     
       <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
+        <h1 class="entry-title"><a href="/blog/2011/12/09/node-dot-js-and-mongodb-bof/">Node.js and mongoDB BOF</a></h1>
+        
+    
+    
+      <p class="meta">
+        
+  
+
+
+  
+    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
+  
+
+ - 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-09T16:47:00-08:00" pubdate data-updated="true">Dec 9<sup>th</sup>, 2011</time> - 
+        
+
+posted in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mongodb/'>mongodb</a>
+  
+</span>
+
+
+        
+         | <a href="/blog/2011/12/09/node-dot-js-and-mongodb-bof/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
+
+<p>mongoDB node.js driver has native and JS BSON libraries. Many forums recommend using the JS one. Moderator agrees. He may split the JS driver out to a completely separate repository and project.</p>
+
+<p>Now it does cool things like getting the raw, unparsed BSON data. Good for HTML5 games for example, where the parsing is too slow.</p>
+
+<p>Then native C++ driver is 2X slower serializing data, and 5X faster deserializer. Moderator blames it on his own limited C++ skills. In practice he does not see this as a limiting factor in most applications.</p>
+
+<h1>GridFS</h1>
+
+<p>Moderator experimenting with a feature like GridFS. Uses a collection of documents that have a chunk in them that is binary. Wants to make binary types in mongo much more efficent. Basically the moment it hits binary, like a video, it starts streaming it without much overhead.</p>
+
+<h1>Mongoose</h1>
+
+<p>If you want performance, don&rsquo;t use it. It&rsquo;s all about validating types; getters and setters; more expressive query builder; etc. It&rsquo;s alot slower.</p>
+
+<p>In V8 try / catch and getter / setter are just not optimized. Also there are some crazy overloading of operator types.</p>
+
+<h1>Safe Writes</h1>
+
+<p>Off by default in JS and most mongoDB drivers. Considering making it on by default. Otherwise there is no way for you to know if your transactions work for example.</p>
+
+<h1>SSL Support</h1>
+
+<p>v2.2 they will add SSL support to the drivers. It&rsquo;s only waiting on US Export license approval.</p>
+
+<h1>Multi CPU systems</h1>
+
+<p>In Node.js you used to have to fire up a node process per CPU. Now it&rsquo;s in a configuration file.</p>
+
+<h1>Advantage of V8</h1>
+
+<p>Because you are on V8 you get to use the latest JS stuff all the time. object.create(), not this.prototype for example.</p>
+
+<p>Buffer objects are created outside of V8 heap and stays until you release it. But is direct memory access speed. Increased JS driver speed by 5x.</p>
+</div>
+  
+  
+  
+
+
+</div>
+
+      </article>
+    
+    
+      <article class="span4">
+        <div class="article-format">
+
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
         <h1 class="entry-title"><a href="/blog/2011/12/09/mopub-scaling/">MoPub Scaling</a></h1>
         
     
@@ -372,7 +469,7 @@ posted in
   <div class="entry-content"><p><em>These are unedited notes from the MongoSV 2011 Conference</em></p>
 
 <p>Jared Rosoff
-<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#106;&#115;&#x72;&#64;&#49;&#x30;&#x67;&#101;&#x6e;&#x2e;&#x63;&#111;&#109;">&#106;&#x73;&#114;&#64;&#49;&#x30;&#103;&#x65;&#x6e;&#x2e;&#99;&#x6f;&#109;</a></p>
+<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#x6a;&#x73;&#x72;&#x40;&#49;&#x30;&#x67;&#101;&#x6e;&#46;&#99;&#111;&#109;">&#106;&#x73;&#114;&#x40;&#x31;&#48;&#x67;&#x65;&#x6e;&#x2e;&#x63;&#111;&#109;</a></p>
 
 <h1>Single node setup</h1>
 
@@ -1131,233 +1228,6 @@ things with the tools I have.</p>
 
       </article>
     
-    
-      <article class="span4">
-        <div class="article-format">
-
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
-        <h1 class="entry-title"><a href="/blog/2011/07/10/personal-projects-ami-0.5/">Personal Projects AMI 0.5</a></h1>
-        
-    
-    
-      <p class="meta">
-        
-  
-
-
-  
-    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
-  
-
- - 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-10T07:03:00-07:00" pubdate data-updated="true">Jul 10<sup>th</sup>, 2011</time> - 
-        
-
-posted in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/amazon/'>amazon</a>
-  
-</span>
-
-
-        
-         | <a href="/blog/2011/07/10/personal-projects-ami-0.5/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>The Need</h1>
-
-<p>Every developer has their own projects. Mostly you can keep local source code repositories and
-be happy. But what if you are working with a friend or two, and want to share your code? Github gives a decent answer
-for this, and if you want a private repository the cost is not too bad. But what if, as I wrote about in an earlier
-post, you want to keep your own private configuration files for moving from machine to machine? Or you just don&rsquo;t want
-someone else holding your code? In that case you want your own repository.</p>
-
-<p>Might as well make it into an Amazon AMI.</p>
-
-<p>So here is the first release (well v0.21) of an Amazon AMI that will let you quickly set up multiple projects with
-git and and a great defect tracker.</p>
-
-<h1>Solution Choices</h1>
-
-<h2>EC2 is Cheap</h2>
-
-<p>Recently I looked again at Amazon instance costs as part of a cost and security audit for a client. It turns out that
-small instances, if bought reserved for a year, are now US $54. Micro-instances are $14 month to month, and less if
-reserved for a year.</p>
-
-<p>Which such low costs it makes sense to just run the repository on Amazon. My goal is, as features are added in later
-versions, to keep this running smoothly on a micro-instance.</p>
-
-<h2>Which AMI?</h2>
-
-<p>Again, this is not a hard choice. I wanted a 32-bit AMI image of Ubuntu, and Canoncial has helpful links
-at <a href="http://cloud.ubuntu.com.">http://cloud.ubuntu.com.</a> Why 32-bit? Because Amazon small instances are not available on 64-bit AMIs.</p>
-
-<p>For the current release the AMI is in the US West region. Clearly this is not acceptable, and getting it
-available in all regions is in the works.</p>
-
-<h2>Gitosis or Gitalite?</h2>
-
-<p>It&rsquo;s not enough to have a git repository. You want features such as
-&ndash;  Be able to add and remove users with public keys, not by creating user accounts for them
-&ndash;  Be able to host multiple repositories easily
-&ndash;  Be able to add and remove user access to repositories via configuration
-&ndash;  Have all your configuration choices versioned so you can roll back to earlier setups</p>
-
-<p>Both Gitosis and Gitalite achieve these goals by keeping a text configuration file stored in their underlying Git repositories.
-You can add users, remove them, attach them to various project repositories, and control the type of access you desire. This
-is great! But Gitosis has one fault in my mind. There seems to be no way to <em>control access at the branch level</em>. In public
-projects this is necessary in order to allow you to manage a project, let others branch within it, then only allow them to
-issue pull requests to you rather than commit directly to the main branch itself. In the enterprise this functionality
-is required to implement development workflow policies. People <em>will</em> commit to the main branch if they have access to it,
-no matter what policies are in place. They will do it the night before a major deliverable, break the build, and cause
-you major pain.</p>
-
-<p>Don&rsquo;t let this happen to you. Use Gitolite, with it&rsquo;s branch level ACLs.</p>
-
-<p>I installed it according to these <a href="http://computercamp.cdwilson.us/git-gitolite-git-daemon-gitweb-setup-on-ubunt">blog instructions</a>.</p>
-
-<p>Unfortunately I never got the Gitweb working with these instructions.</p>
-
-<h2>Mantis or JIRA or ?</h2>
-
-<p>You want a bug tracker with multiple project support, because you&rsquo;ll have multiple projects (or this solution
-may be overkill for you). The choice here was quick and simple for me:</p>
-
-<ul>
-<li>I believe JIRA to be more functional, and all my clients use it</li>
-<li>I believe Mantis to be less functional</li>
-<li>My impression is Mantis requires drastically fewer resources</li>
-<li>Since I&rsquo;ll interact with them mostly through Eclipse&rsquo;s Mylyn plugin, they will look the same to me</li>
-<li>I want to keep resources down to run an an EC2 micro-instance</li>
-</ul>
-
-
-<p>Victor: Mantis.</p>
-
-<p>Installed as specified <a href="http://www.ghacks.net/2009/09/08/install-mantis-bug-tracking-tool-on-your-ubuntu-server/">in this blog post</a>. As it
-stands Mantis cannot send e-mail, which will cripple it. So I recommend you <a href="http://www.mantisbt.org/forums/viewtopic.php?t=15398&amp;f=3">follow these instructions</a>
- and you&rsquo;ll have it sending e-mail via GMail in 5 minutes. Specifically, the AMI is set-up for GMail. You just need to add in your GMail
- username and password by editing /var/www/mantis/config.inc.php.</p>
-
-<p> Of course you can set up a full-fledged mail server and do it properly.</p>
-
-<h2>Gitweb or Gitalist?</h2>
-
-<p>Ah, now the real choices. I must have spent 6 hours over 3 days trying to get either these working with Gitolite. All to get functionality
-I already have and am more likely to use via my Eclipse IDE. At that point I stepped back, decided the value add of the web interface did not
-match the effort I was putting in. It&rsquo;s not in this version of the AMI.</p>
-
-<p>That being said, even with the few themes I found, Gitweb appears ugly. If anyone can get it running and let me know how before I
-get back to this I&rsquo;d use it. But more, I&rsquo;d love to see <a href="http://www.gitalist.com/">Gitalist</a> running here. Much prettier and
-maybe just a bit more functional.</p>
-
-<p>For now though there is no web interface to Git on the AMI. Did I mention that your IDE already does all this? Why leave it?</p>
-
-<h1>How To Use It</h1>
-
-<h2>Get It</h2>
-
-<p>Log into your Amazon account and select the US-West region. The AMI you want is ami-6dbeec28.</p>
-
-<p>Make sure you give it a security group with ports 22, 80, 443 and 9418 open.</p>
-
-<h2>Set-up Mantis</h2>
-
-<p>Mantis is configured with the default log-in user</p>
-
-<pre><code>administrator
-root
-</code></pre>
-
-<p>I&rsquo;d advise you change it ASAP, then follow the link above to get email working. Really, all I have done is take out my GMail account settings
-and left the rest in. So if you insert your GMail username and password you should be good to go.</p>
-
-<p>That&rsquo;s it. Issue tracking is now enabled.</p>
-
-<h2>Set-up Gitolite</h2>
-
-<p>Now here I had to stop part way through. Why? Setting up Gitolite requires the use of <em>your</em> public key. That&rsquo;s how administrative access is controlled.
-There is not much left to do though. Do the following</p>
-
-<ul>
-<li>SCP your public key to the /tmp directory of your EC2 instance (let&rsquo;s call it username.pub)</li>
-<li>SSH into the EC2 instance</li>
-<li>sudo chmod 666 /tmp/username.pub</li>
-<li>sudo -H -u gitolite gl-setup /tmp/username.pub</li>
-<li>sudo chmod g+r /var/lib/gitolite/projects.list</li>
-<li>sudo chmod -R g+rx /var/lib/gitolite/repositories</li>
-<li>sudo vi /var/lib/gitolite/.gitolite.rc</li>
-<li> Change the $REPO_MASK to 027</li>
-<li>Reboot the instance</li>
-<li> sudo reboot</li>
-</ul>
-
-
-<p>Now we can test it out on the local machine</p>
-
-<ul>
-<li>git clone gitolite@git.server:gitolite-admin.git</li>
-<li>cd gitolite-admin</li>
-<li>vi conf/gitolite.conf</li>
-<li>For the testing repo enable the git-daemon access by adding</li>
-<li> R = daemon</li>
-<li>Commit the file and push it</li>
-<li> git commit -a -m &ldquo;Enable git-daemon for testing.git&rdquo;</li>
-<li> git push</li>
-<li>Now you can clone the testing repository with
-
-<ul>
-<li>git clone git://git.server/testing.git</li>
-</ul>
-</li>
-</ul>
-
-
-<p>That&rsquo;s it! Go read up on the details of how to configure Gitolite &mdash; you&rsquo;ll be very happy with what
-you can now do!</p>
-
-<h1>Futures</h1>
-
-<p>Clearly there are a number of features missing that need to be in future versions of this solution.
-In order of importance to me they are
-&ndash;  OpenVPN: I want to optionally lock down the solution for client projects
-&ndash;  Gitalist: web repository browsers are very popular, and I should provide that for team members at work
-&ndash;  Script the final set-up steps for Gitolite
-&ndash;  Gerrit: Code reviews are something I strongly support, and I want support built into workflows around this AMI
-&ndash;  CI: Probably Hudson/Jenkins. The only worry here is the overhead may mean it does not work in an EC2 micro-instance</p>
-
-<p>Feedback is welcome. This was put together quickly, and I&rsquo;m sure there are many improvements that can be made
-beyond the ones I&rsquo;ve listed above!</p>
-</div>
-  
-  
-  
-
-
-</div>
-
-      </article>
-    
     </div>
       <div class="row">
         <ul class="pager">
@@ -1385,6 +1255,10 @@ beyond the ones I&rsquo;ve listed above!</p>
     <ul class="recent_posts">
       
         <li>
+          <a href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/">Drupal 7 Put User Fields in Features</a>
+        </li>
+      
+        <li>
           <a href="/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7/">Drupal 7 Services 7.x-3.7</a>
         </li>
       
@@ -1398,10 +1272,6 @@ beyond the ones I&rsquo;ve listed above!</p>
       
         <li>
           <a href="/blog/2012/11/14/emacsclient-ignores-init-file/">Emacsclient Ignores Init File</a>
-        </li>
-      
-        <li>
-          <a href="/blog/2012/11/07/emacs-optimizations-to-make/">Emacs Optimizations to Make</a>
         </li>
       
     </ul>

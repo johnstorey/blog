@@ -133,6 +133,80 @@
   <header>
     
       <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
+        <h1 class="entry-title"><a href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/">Drupal 7 Put User Fields in Features</a></h1>
+        
+    
+    
+      <p class="meta">
+        
+  
+
+
+  
+    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
+  
+
+ - 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-18T06:51:05-07:00" pubdate data-updated="true">Aug 18<sup>th</sup>, 2014</time> - 
+        
+
+posted in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>
+  
+</span>
+
+
+        
+         | <a href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here is a quick reminder on how to export User fields into a Feature with Drupal 7.31 and Features 2.X. I got this question this morning from another programmer, and had to experiment to be sure my process would work.</p>
+
+<ol>
+<li>Use Strongarm, and export field_bundle_settings-user-user.</li>
+<li>Export the field in Field Bases.</li>
+<li>Export the field in Field Instances.</li>
+</ol>
+
+
+<p>Normally I keep Field Base settings in their own file to facilitate re-use across content types that may be in separate Features, but that doesn&rsquo;t seem to apply to the User entity, so I put it all in one module.</p>
+
+<p>Now if I could figure out how to field User entities separately based on user role. For the moment I am getting around that use case with careful created UIs, but that is not satisfying to me &hellip;</p>
+</div>
+  
+  
+  
+
+
+</div>
+
+      </article>
+    
+    
+      <article class="span4">
+        <div class="article-format">
+
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
         <h1 class="entry-title"><a href="/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7/">Drupal 7 Services 7.x-3.7</a></h1>
         
     
@@ -1124,96 +1198,6 @@ posted in
 
       </article>
     
-    
-      <article class="span4">
-        <div class="article-format">
-
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
-        <h1 class="entry-title"><a href="/blog/2012/09/29/first-polyphasic-friday/">First Polyphasic Friday</a></h1>
-        
-    
-    
-      <p class="meta">
-        
-  
-
-
-  
-    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
-  
-
- - 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-29T00:04:00-07:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2012</time> - 
-        
-
-posted in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/polyphasic/'>polyphasic</a>
-  
-</span>
-
-
-        
-         | <a href="/blog/2012/09/29/first-polyphasic-friday/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Here it is midnight on my first weekend on Everyman 3. I lay down for 20 minutes at 10:30 PM, and now I&rsquo;m awake until 3 AM when I take a 3 hour sleep. That&rsquo;s the big sleep for the day, and the majority of the 4 hours a day rest.</p>
-
-<p>So far it&rsquo;s good. I&rsquo;ve been allowing myself a cup of coffee when I first wake from a nap, but now I am wondering if it is interfering with my ability to take my naps. True, I am on day 4 and it is supposed to take a month to fully adapt, but I still feel I don&rsquo;t get to sleep fast enough on the 20 minute nap. In another week I&rsquo;ll have to see where I am &hellip;</p>
-
-<p>My mental faculties are ok, but not the top of where they can be. I am not fully rested &mdash; but I am as rested as I was on a normal weeknights sleep. This is the first night to myself where I don&rsquo;t need to work with the offshore teams. I&rsquo;ve continued working on my long, backlogged TODO list. Today I fixed this blog and put it on GitHub. After 4 months I finally got the email at johnstorey.org working again. After I complete this post my plan is to evaluate ZSH as a Bash replacement. If I have time and motivation after that I will start going through the MIT Open Courseware classes for Scheme. I last programmed a Lisp language about 24 years ago (ouch! getting old, aren&rsquo;t I!). Scheme did not exist back then boys and girls. But these days I keep bumping into Clojure, which is Lisp based. My thought is to</p>
-
-<ul>
-<li>Learn Scheme.</li>
-<li>Review the MIT Open Courseware algorithm classes that are in Scheme.</li>
-<li>Work through a paper I found to write a Scheme compiler in Scheme.</li>
-</ul>
-
-
-<p>This will meet the goals I have of</p>
-
-<ul>
-<li>Getting back into a functional language.</li>
-<li>Lay a foundation for Emacs scripting.</li>
-<li>Refresh my algorithms knowledge &mdash; every developer needs to do this every few years.</li>
-<li>Write a compiler, which strangely, I&rsquo;ve never done. In concept it seems simple. Read some text, follow rules to transform it, and end up with the final transform creating assembly or object code.</li>
-</ul>
-
-
-<p>Not sure how far I will get on the Scheme front tonight as I am feeling an urge to space out and watch Season 3 of Fringe on Amazon. But it would be good to start.</p>
-
-<p>I am enjoying the extra free time. I event started a light exercise routine again. At 11 PM I was the only one in the fitness center on a Friday night. The security guard gave me strange looks as she walked by, but hey, I <em>am</em> living unusual hours right now. I&rsquo;ll monitor how the exercise interacts with my sleep schedule and overall rest.</p>
-
-<p>Now, on to that ZSH evaluation &hellip;</p>
-</div>
-  
-  
-  
-
-
-</div>
-
-      </article>
-    
     </div>
       <div class="row">
         <ul class="pager">
@@ -1237,6 +1221,10 @@ posted in
     <ul class="recent_posts">
       
         <li>
+          <a href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/">Drupal 7 Put User Fields in Features</a>
+        </li>
+      
+        <li>
           <a href="/blog/2014/07/31/drupal-7-services-7-dot-x-3-dot-7/">Drupal 7 Services 7.x-3.7</a>
         </li>
       
@@ -1250,10 +1238,6 @@ posted in
       
         <li>
           <a href="/blog/2012/11/14/emacsclient-ignores-init-file/">Emacsclient Ignores Init File</a>
-        </li>
-      
-        <li>
-          <a href="/blog/2012/11/07/emacs-optimizations-to-make/">Emacs Optimizations to Make</a>
         </li>
       
     </ul>
