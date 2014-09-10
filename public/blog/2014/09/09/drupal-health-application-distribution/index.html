@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Emacsclient Ignores Init File - John Dreams</title>
+  <title>Drupal Health Application Distribution - John Dreams</title>
   <meta name="author" content="John Storey">
   <link rel="author" href="humans.txt">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -13,7 +13,8 @@
   
     
   
-  <meta name="description" content="Strangely emacsclient -t does not seem to use my ~/.emacs.d/init.el file in the latest Emacs 24 when I start it as a daemon and open a frame. This &hellip;">
+  <meta name="description" content="Announcing a pre-alpha distribution of a Drupal Distribution for building health care
+related applications. After seeing multiple attempts to build &hellip;">
   
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,20 +22,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/">
+  <link rel="canonical" href="http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Cantarell' rel='stylesheet' type='text/css'>
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="John Dreams" type="application/atom+xml">
   <meta name="og:type" content="website" />
   <meta name="og:site_name" content="John Dreams" />
-  <meta name="og:title" content="Emacsclient Ignores Init File" />
-  <meta name="og:description" content="Strangely emacsclient -t does not seem to use my ~/.emacs.d/init.el file in the latest Emacs 24 when I start it as a daemon and open a frame. This &hellip;" />
-  <meta name="og:url" content="http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/"/>
-  <meta name="url" content="http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/">
+  <meta name="og:title" content="Drupal Health Application Distribution" />
+  <meta name="og:description" content="Announcing a pre-alpha distribution of a Drupal Distribution for building health care
+related applications. After seeing multiple attempts to build &hellip;" />
+  <meta name="og:url" content="http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/"/>
+  <meta name="url" content="http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/">
   
-  <meta name="subject" content="emacs"/>
-  <meta name="category" content="emacs"/>
+  <meta name="subject" content="drupal"/>
+  <meta name="category" content="drupal"/>
   
   <meta name="distribution" content="global">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
@@ -90,7 +92,7 @@
   <header>
     
       
-        <h1 class="entry-title">Emacsclient Ignores Init File</h1>
+        <h1 class="entry-title">Drupal Health Application Distribution</h1>
       
     
     
@@ -116,13 +118,13 @@
   
 
 
-<time datetime="2012-11-14T21:47:00-08:00" pubdate data-updated="true">Nov 14<sup>th</sup>, 2012</time> - 
+<time datetime="2014-09-09T19:01:24-07:00" pubdate data-updated="true">Sep 9<sup>th</sup>, 2014</time> - 
         
 
 posted in
 <span class="categories">
   
-    <a class='category' href='/blog/categories/emacs/'>emacs</a>
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>
   
 </span>
 
@@ -135,35 +137,52 @@ posted in
   </header>
 
 
-  <div class="entry-content"><p>Strangely</p>
+  <div class="entry-content"><p>Announcing a pre-alpha distribution of a Drupal Distribution for building health care
+related applications. After seeing multiple attempts to build Drupal solutions in the
+field I did a little research, did not find anything like this, and decided to write
+one on Panopoly. It&rsquo;s not necessarily far enough along that you&rsquo;d think about using
+it, but I&rsquo;d love some feedback.</p>
 
-<p><code></p>
+<p>Here is an update I sent to some interested parties earlier today:</p>
 
-<pre><code>emacsclient -t
+<h1>GitHub Repo</h1>
+
+<p>First, the install profile can be found at</p>
+
+<pre><code>https://github.com/johnstorey/hpplat
 </code></pre>
 
-<p></code></p>
+<p>I&rsquo;d  really love if someone could install it and give the fields on the Provider and Patient content types a sanity check. Does it look like the major fields exist?</p>
 
-<p>does not seem to use my ~/.emacs.d/init.el file in the latest Emacs 24 when I start it as a daemon and open a frame. This is true on Ubuntu 12.?? and OSX.</p>
+<p>The rest of this update relates to code still on my hard drive, but which should be pushed to Github this week.</p>
 
-<p>This is really irritating, but since I really only need one frame 99% of the time I guess I&rsquo;ll ignore it. I did put an hour into playing with it and following Google Searches, but if anyone can tell me why this is so, I&rsquo;d love to know. I&rsquo;d like to have the daemon started when I boot my Macbook and my development VM, then have the client come up fast.</p>
+<h1>RESTful APIs</h1>
 
-<p>Interestingly if I load the init file in a buffer and evaluate the buffer, it all works fine.</p>
+<p>The eternal struggle of fine and coarse grained APIs got some thinking time, along with the fact that I can&rsquo;t really predict usage patterns of clients of the platform. So here is what I ended up doing</p>
 
-<p>Humpf.</p>
+<ul>
+<li> Use the Services module, mostly due to familiarity.</li>
+<li> Have the basic GET, POST, UPDATE and DELETE (CRUD) endpoints.</li>
+<li> Add an endpoint that allows you to pass in an API version. It returns a JSON object which lists all the current endpoints at that API version, with a description of what parameters they take (ala HATEOAS).</li>
+<li> Have an endpoint &lsquo;compose&rsquo; that allows you to send a JSON object listing as many of the endpoints, with their parameters, and get back the results of calling all of them in a single HTTP request.</li>
+</ul>
 
-<p><strong>UPDATE:</strong> Of course this was simple late night, unclear thinking. All that was not working was keyboard-translate, which makes sense. Adding an alias to my environment worked around the issue and now all is well.</p>
 
-<p><code></p>
+<p>The &lsquo;compose&rsquo; endpoint is an attempt to balance the need for a coarse grained API and the fact that I can&rsquo;t know an individual application&rsquo;s usage patterns for the APIs in advance. Any thoughts on this approach?</p>
 
-<pre><code>alias emacs=emacsclient -t --eval '(keyboard-translate ?\C-t ?\C-x)'
-</code></pre>
+<p>Secondly, I know I can&rsquo;t control the data structures that will need to be sent to and from the client. So each CRUD endpoint implements a hook allowing the application creator to interact with each endpoint, changing the data structure or performing some function. So now the platform can be simply customized to the application data structure on a mobile application.</p>
 
-<p></code></p>
+<h1>Tests</h1>
 
-<p>Now my emacs setup runs in all my environments properly. Next: move the various dotfilies into a <em>dotfiles/</em> directory, toss it on github, and replicate that across environments. This will also neccessitate some thought as I commonly run tmux on my Macbook, ssh to my development server, then run tmux there. So the same .tmux-conf file with the same control key clearly won&rsquo;t work.</p>
+<p>I have barely started writing SimpleTests, and remember that I really don&rsquo;t like SimpleTest. So anyone who wants to work on that, I&rsquo;d be really grateful. If left to me there might be some PHPUnit / Behat behemoth instead &hellip;</p>
 
-<p>Maybe it&rsquo;s time to simply stop doing that and change my workflow. A problem to think about after a good nights sleep &hellip;</p>
+<h1>Ghost Module</h1>
+
+<p>The current code is written as classic D7 modules, but I have recently become aware of the Ghost module that would let me write future modules in a D8 way that should make future porting much easier. Does anyone have any experience with Ghost?</p>
+
+<h1>TrueVault</h1>
+
+<p>More as an item of interest, I am sure you all saw the health related functionality in Apple&rsquo;s announcements, and are aware of the iOS SDK health related APIs. But did you see that TrueVault announced an iOS SDK in it&rsquo;s partner program? That may be something to keep an eye on.</p>
 </div>
 
 
@@ -194,13 +213,13 @@ posted in
   
 
 
-<time datetime="2012-11-14T21:47:00-08:00" pubdate data-updated="true">Nov 14<sup>th</sup>, 2012</time> - 
+<time datetime="2014-09-09T19:01:24-07:00" pubdate data-updated="true">Sep 9<sup>th</sup>, 2014</time> - 
       
 
 posted in
 <span class="categories">
   
-    <a class='category' href='/blog/categories/emacs/'>emacs</a>
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>
   
 </span>
 
@@ -209,7 +228,7 @@ posted in
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/" data-via="johnroberstorey" data-counturl="http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/" data-via="johnroberstorey" data-counturl="http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/" >Tweet</a>
   
   
   
@@ -217,10 +236,8 @@ posted in
 
     
     
-      <a class="pull-left" href="/blog/2012/11/07/emacs-optimizations-to-make/" title="Previous Post: Emacs Optimizations to Make">&laquo; Emacs Optimizations to Make</a>
+      <a class="pull-left" href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/" title="Previous Post: Drupal 7 Put User Fields in Features">&laquo; Drupal 7 Put User Fields in Features</a>
     
-    
-      <a class="pull-right" href="/blog/2012/12/06/emacs-dired-nodes/" title="Next Post: Emacs Dired Nodes">Emacs Dired Nodes &raquo;</a>
     
   </footer>
 
@@ -346,8 +363,8 @@ posted in
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/';
-        var disqus_url = 'http://blog.johnstorey.org/blog/2012/11/14/emacsclient-ignores-init-file/';
+        var disqus_identifier = 'http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/';
+        var disqus_url = 'http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/';
         var disqus_script = 'embed.js';
       
     (function () {

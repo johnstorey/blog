@@ -133,6 +133,114 @@
   <header>
     
       <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
+        <h1 class="entry-title"><a href="/blog/2014/09/09/drupal-health-application-distribution/">Drupal Health Application Distribution</a></h1>
+        
+    
+    
+      <p class="meta">
+        
+  
+
+
+  
+    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
+  
+
+ - 
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-09T19:01:24-07:00" pubdate data-updated="true">Sep 9<sup>th</sup>, 2014</time> - 
+        
+
+posted in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>
+  
+</span>
+
+
+        
+         | <a href="/blog/2014/09/09/drupal-health-application-distribution/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Announcing a pre-alpha distribution of a Drupal Distribution for building health care
+related applications. After seeing multiple attempts to build Drupal solutions in the
+field I did a little research, did not find anything like this, and decided to write
+one on Panopoly. It&rsquo;s not necessarily far enough along that you&rsquo;d think about using
+it, but I&rsquo;d love some feedback.</p>
+
+<p>Here is an update I sent to some interested parties earlier today:</p>
+
+<h1>GitHub Repo</h1>
+
+<p>First, the install profile can be found at</p>
+
+<pre><code>https://github.com/johnstorey/hpplat
+</code></pre>
+
+<p>I&rsquo;d  really love if someone could install it and give the fields on the Provider and Patient content types a sanity check. Does it look like the major fields exist?</p>
+
+<p>The rest of this update relates to code still on my hard drive, but which should be pushed to Github this week.</p>
+
+<h1>RESTful APIs</h1>
+
+<p>The eternal struggle of fine and coarse grained APIs got some thinking time, along with the fact that I can&rsquo;t really predict usage patterns of clients of the platform. So here is what I ended up doing</p>
+
+<ul>
+<li> Use the Services module, mostly due to familiarity.</li>
+<li> Have the basic GET, POST, UPDATE and DELETE (CRUD) endpoints.</li>
+<li> Add an endpoint that allows you to pass in an API version. It returns a JSON object which lists all the current endpoints at that API version, with a description of what parameters they take (ala HATEOAS).</li>
+<li> Have an endpoint &lsquo;compose&rsquo; that allows you to send a JSON object listing as many of the endpoints, with their parameters, and get back the results of calling all of them in a single HTTP request.</li>
+</ul>
+
+
+<p>The &lsquo;compose&rsquo; endpoint is an attempt to balance the need for a coarse grained API and the fact that I can&rsquo;t know an individual application&rsquo;s usage patterns for the APIs in advance. Any thoughts on this approach?</p>
+
+<p>Secondly, I know I can&rsquo;t control the data structures that will need to be sent to and from the client. So each CRUD endpoint implements a hook allowing the application creator to interact with each endpoint, changing the data structure or performing some function. So now the platform can be simply customized to the application data structure on a mobile application.</p>
+
+<h1>Tests</h1>
+
+<p>I have barely started writing SimpleTests, and remember that I really don&rsquo;t like SimpleTest. So anyone who wants to work on that, I&rsquo;d be really grateful. If left to me there might be some PHPUnit / Behat behemoth instead &hellip;</p>
+
+<h1>Ghost Module</h1>
+
+<p>The current code is written as classic D7 modules, but I have recently become aware of the Ghost module that would let me write future modules in a D8 way that should make future porting much easier. Does anyone have any experience with Ghost?</p>
+
+<h1>TrueVault</h1>
+
+<p>More as an item of interest, I am sure you all saw the health related functionality in Apple&rsquo;s announcements, and are aware of the iOS SDK health related APIs. But did you see that TrueVault announced an iOS SDK in it&rsquo;s partner program? That may be something to keep an eye on.</p>
+</div>
+  
+  
+  
+
+
+</div>
+
+      </article>
+    
+    
+      <article class="span4">
+        <div class="article-format">
+
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
         <h1 class="entry-title"><a href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/">Drupal 7 Put User Fields in Features</a></h1>
         
     
@@ -1113,91 +1221,6 @@ posted in
 
       </article>
     
-    
-      <article class="span4">
-        <div class="article-format">
-
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.--> 
-        <h1 class="entry-title"><a href="/blog/2012/09/29/sleep-still-rules-me/">&#8216;Sleep Still Rules Me&#8217;</a></h1>
-        
-    
-    
-      <p class="meta">
-        
-  
-
-
-  
-    <span class="byline author vcard">by <span class="fn">John Storey</span></span>
-  
-
- - 
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-29T16:55:00-07:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2012</time> - 
-        
-
-posted in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/polyphasic/'>polyphasic</a>
-  
-</span>
-
-
-        
-         | <a href="/blog/2012/09/29/sleep-still-rules-me/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is more a note to myself so I can reflect on it in the future.</p>
-
-<p>I am now on day 6 of Everyman 3. I misset the alarm for my 11 AM nap and overslept by about an hour. So I figured &ldquo;hey, no worries, at least I can skip my 4 PM nap.&rdquo; At 4 I was in a local coffee shop watching an MIT Open CourseWare class. Suddenly a wave of weariness washed over me.</p>
-
-<p>Apparently my body is getting used to sleeping at 4 PM for 20 minutes. This is great! So I went home and lay down. Without even realizing that I had fallen asleep I awoke 13 minutes later. I felt relaxed and very awake.</p>
-
-<p>So what am I deducing? My body is adjusting to the Everyman 3 sleep schedule well. While I could have stayed awake it would have been very sub-optimal.</p>
-
-<p>Things I did in the last 24 hours I would not have done on a regular sleep schedule:</p>
-
-<ul>
-<li>Evaluate ZSH and installed it on my Macbook Air.</li>
-<li>Found an open source tiling window manager, Spectacle, and installed it on the Macbook Air as well.</li>
-<li>Went through a calculus class with <a href="http://thegreatcourses.com">The Great Courses</a>.</li>
-<li>Got about half way through the first MIT lecture I am taking.</li>
-</ul>
-
-
-<p>That&rsquo;s on top of my early Saturday morning bike ride, reading of Barron&rsquo;s, and catching up on the companies in my portfolio.</p>
-
-<p>It&rsquo;s 5 PM now, and I plan to sleep only another 20 minutes in the next 10. What will I finish during that time?</p>
-
-<p>I&rsquo;m loving this. Now to make some dinner, then get back to the MIT course. Eventually the my cute half(I refuse to say &lsquo;better half&rsquo; preferring equality) will wake up and we&rsquo;ll go to the movies to see Dredd. Yes, on top of everything else, I now have time to tend to the relationship again, and that&rsquo;s paying nice dividends as well.</p>
-</div>
-  
-  
-  
-
-
-</div>
-
-      </article>
-    
     </div>
       <div class="row">
         <ul class="pager">
@@ -1221,6 +1244,10 @@ posted in
     <ul class="recent_posts">
       
         <li>
+          <a href="/blog/2014/09/09/drupal-health-application-distribution/">Drupal Health Application Distribution</a>
+        </li>
+      
+        <li>
           <a href="/blog/2014/08/18/drupal-7-put-user-fields-in-features/">Drupal 7 Put User Fields in Features</a>
         </li>
       
@@ -1234,10 +1261,6 @@ posted in
       
         <li>
           <a href="/blog/2012/12/06/emacs-dired-nodes/">Emacs Dired Nodes</a>
-        </li>
-      
-        <li>
-          <a href="/blog/2012/11/14/emacsclient-ignores-init-file/">Emacsclient Ignores Init File</a>
         </li>
       
     </ul>

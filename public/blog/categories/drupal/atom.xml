@@ -4,7 +4,7 @@
   <title><![CDATA[Category: drupal | John Dreams]]></title>
   <link href="http://blog.johnstorey.org/blog/categories/drupal/atom.xml" rel="self"/>
   <link href="http://blog.johnstorey.org/"/>
-  <updated>2014-08-18T06:58:06-07:00</updated>
+  <updated>2014-09-09T19:07:33-07:00</updated>
   <id>http://blog.johnstorey.org/</id>
   <author>
     <name><![CDATA[John Storey]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal Health Application Distribution]]></title>
+    <link href="http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution/"/>
+    <updated>2014-09-09T19:01:24-07:00</updated>
+    <id>http://blog.johnstorey.org/blog/2014/09/09/drupal-health-application-distribution</id>
+    <content type="html"><![CDATA[<p>Announcing a pre-alpha distribution of a Drupal Distribution for building health care
+related applications. After seeing multiple attempts to build Drupal solutions in the
+field I did a little research, did not find anything like this, and decided to write
+one on Panopoly. It&rsquo;s not necessarily far enough along that you&rsquo;d think about using
+it, but I&rsquo;d love some feedback.</p>
+
+<p>Here is an update I sent to some interested parties earlier today:</p>
+
+<h1>GitHub Repo</h1>
+
+<p>First, the install profile can be found at</p>
+
+<pre><code>https://github.com/johnstorey/hpplat
+</code></pre>
+
+<p>I&rsquo;d  really love if someone could install it and give the fields on the Provider and Patient content types a sanity check. Does it look like the major fields exist?</p>
+
+<p>The rest of this update relates to code still on my hard drive, but which should be pushed to Github this week.</p>
+
+<h1>RESTful APIs</h1>
+
+<p>The eternal struggle of fine and coarse grained APIs got some thinking time, along with the fact that I can&rsquo;t really predict usage patterns of clients of the platform. So here is what I ended up doing</p>
+
+<ul>
+<li> Use the Services module, mostly due to familiarity.</li>
+<li> Have the basic GET, POST, UPDATE and DELETE (CRUD) endpoints.</li>
+<li> Add an endpoint that allows you to pass in an API version. It returns a JSON object which lists all the current endpoints at that API version, with a description of what parameters they take (ala HATEOAS).</li>
+<li> Have an endpoint &lsquo;compose&rsquo; that allows you to send a JSON object listing as many of the endpoints, with their parameters, and get back the results of calling all of them in a single HTTP request.</li>
+</ul>
+
+
+<p>The &lsquo;compose&rsquo; endpoint is an attempt to balance the need for a coarse grained API and the fact that I can&rsquo;t know an individual application&rsquo;s usage patterns for the APIs in advance. Any thoughts on this approach?</p>
+
+<p>Secondly, I know I can&rsquo;t control the data structures that will need to be sent to and from the client. So each CRUD endpoint implements a hook allowing the application creator to interact with each endpoint, changing the data structure or performing some function. So now the platform can be simply customized to the application data structure on a mobile application.</p>
+
+<h1>Tests</h1>
+
+<p>I have barely started writing SimpleTests, and remember that I really don&rsquo;t like SimpleTest. So anyone who wants to work on that, I&rsquo;d be really grateful. If left to me there might be some PHPUnit / Behat behemoth instead &hellip;</p>
+
+<h1>Ghost Module</h1>
+
+<p>The current code is written as classic D7 modules, but I have recently become aware of the Ghost module that would let me write future modules in a D8 way that should make future porting much easier. Does anyone have any experience with Ghost?</p>
+
+<h1>TrueVault</h1>
+
+<p>More as an item of interest, I am sure you all saw the health related functionality in Apple&rsquo;s announcements, and are aware of the iOS SDK health related APIs. But did you see that TrueVault announced an iOS SDK in it&rsquo;s partner program? That may be something to keep an eye on.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Drupal 7 Put User Fields in Features]]></title>
@@ -207,168 +261,6 @@ Within that organization, only let the Doctor and Nurse referenced by a Prescrip
 <li> Etc.</li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Adventures in Drupal Services endpoints]]></title>
-    <link href="http://blog.johnstorey.org/blog/2012/02/14/adventures-in-drupal-services-endpoints/"/>
-    <updated>2012-02-14T10:06:00-08:00</updated>
-    <id>http://blog.johnstorey.org/blog/2012/02/14/adventures-in-drupal-services-endpoints</id>
-    <content type="html"><![CDATA[<p>Adventures with Drupal Services</p>
-
-<p>If you are writing a web services interface on top of Drupal 7, you might be tempted to do something like use menu callbacks. The menu system in Drupal really is just a bunch of code that is called and spits back HTML for you. It&rsquo;s common to write your own menu code that takes and spits back whatever you want. Now that I think of it, this is probably how the Drupal Services module is written way down. There is certainly no immediately obvious reason not to do it that way.</p>
-
-<p>These are some notes I found while getting a simple services module written. They, like my current knowledge, are incomplete. In many areas I have yet to fathom why they are like this. My concern is limited to the use of the REST Server in the Services 3 code.</p>
-
-<h1>More than CRUD.</h1>
-
-<p>All this section comes from reading the code in services/servers/rest_server/includes/RESTServer.inc., particularly the method <strong>resolveController()</strong>. This method is the source of the most common error when writing your own services &mdash; <strong>Cannot find controller</strong>. It is worth your time to read the code and get a sense of how it works.</p>
-
-<p>Services has CRUD hardwired into it. It assumes the following CRUD methods:</p>
-
-<ul>
-<li>retrieve</li>
-<li>create</li>
-<li>update</li>
-<li>delete</li>
-</ul>
-
-
-<p>Now this is clearly not enough to make a pretty, full featured REST API. So Services 3 allows you to add in two other types of API endpoints.</p>
-
-<h2>Actions.</h2>
-
-<p>According to the README for the REST server for services, actions</p>
-
-<p><quote>
-are performed directly on the resource type, not an individual resource.
-</quote></p>
-
-<p>An example is given of telling a search engine to reindex itself. This does not act on any particular piece of content, but rather works across all the content at one time.</p>
-
-<p>For my purposes I wanted to use more descriptive names on my endpoints than, say, &lsquo;create&rsquo; so I only used actions. But I could have easily given an alias to the create endpoint in the code. In retrospect I should have gone that way but we&rsquo;ll look at code using actions for everything in this post.</p>
-
-<h2>Targeted Actions.</h2>
-
-<p>These are like actions, something that does not fit in the default CRUD API layout. The difference is that these work on an particular piece of content. For example, an endpoint might tell Drupal to append some content to an entity.</p>
-
-<p>POST <a href="http://example.com/api/entity/123/append/run%20concluded">http://example.com/api/entity/123/append/run%20concluded</a></p>
-
-<p>This hypothetical call would append the string &ldquo;run concluded&rdquo; to some field on the entity with etid 123.</p>
-
-<p>I did not use targeted actions, so they won&rsquo;t be in the code in this post, but the idea is prett simple.</p>
-
-<h2>Relations.</h2>
-
-<p>Relations are a little different in that they retrieve content related to the content in question. For example, you might want an API to get a list of all files associated with a particular entity. You might want it to read like this</p>
-
-<p>GET <a href="http://example.com/api/entity/243/filelist">http://example.com/api/entity/243/filelist</a></p>
-
-<p>Pretty simple when you understand it. These terms are all used in the documentation, but how to create anything other than the basic CRUD endpoints in your custom code is not explained. We&rsquo;ll be showing you how to create custom actions (discerned from studying how the code works) here. Presumably relations are not all that different, but I will not swear to it.</p>
-
-<h2>Why all the different types?</h2>
-
-<p>I can only assume that there is some REST specification of which I am unaware. It seems fine to me to make them all &lsquo;actions&rsquo;, which is much like saying &lsquo;menu callbacks&rsquo;. The code for the REST server would be simplified, as would writing hooks for it. But Greg Dunlap has been doing Services for quite some time, and I have faith that he led a total rewrite of the framework for a reason. So for now I am concerning myself with what is, rather than why it is that way.</p>
-
-<p>(brief pause as plane is landing and I need to shut off the laptop.)</p>
-
-<h1>Some code &mdash; finally!</h1>
-
-<p>At the end of the day, the best thing turns out to study the <strong>resolveController()</strong> method in <strong>RESTServer.inc</strong>, as explained above. Then look at the implementations of <strong>hook_services_resources()</strong> in the directory <strong>services/resources</strong>. They will show you how to declare actions.</p>
-
-<p>With all this background, we can finally do the actual simple part: write the code.</p>
-
-<h2>Hooks away!</h2>
-
-<p>Some days I love Drupal&rsquo;s hook system. It makes coding so pleasurable. Other times I wonder about bootstrap costs. But that&rsquo;s another story.</p>
-
-<p>First, let&rsquo;s declare a simple api with actions only and no CRUD. Here are some custom entry points for the &lsquo;drupalchat&rsquo; endpoint. Also notice that the &lsquo;messagecreate&rsquo; endpoint takes a &lsquo;struct&rsquo; type of parameter, which is populated by Services with payload data for a POST call. For the sake of simplicity we&rsquo;ll not comment on the standard access callback.</p>
-
-<p><code>
-/<em>*
- * Implements hook_services_resources().
- </em>/
-function chat_rest_services_resources() {
-  $resources[&lsquo;drupalchat&rsquo;] = array();
-  $resources[&lsquo;drupalchat&rsquo;][&lsquo;actions&rsquo;] = array(</p>
-
-<pre><code>'messagecreate' =&gt; array(
-  'help' =&gt; 'Send a new chat message.',
-  'callback' =&gt; '_chat_rest_send_msg',
-  'access callback' =&gt; 'chat_rest_access',
-  'access arguments' =&gt; array('create'),
-  'access arguments append' =&gt; TRUE,
-  'args' =&gt; array(
-    array(
-      'name' =&gt; 'data',
-      'type' =&gt; 'struct',
-      'description' =&gt; 'Recipient user id and message to send.',
-      'source' =&gt; 'data',
-      'optional' =&gt; FALSE,
-    ),
-  ),
-),
-'newmessages' =&gt; array(
-  'help' =&gt; 'Get any new chat messages.',
-  'callback' =&gt; '_chat_rest_retrieve',
-  'access callback' =&gt; 'chat_rest_access',
-  'access arguments' =&gt; array('new'),
-  'access arguments append' =&gt; TRUE,
-),
-'updatebuddylist' =&gt; array(
-  'help' =&gt; 'Get currently buddy list status.',
-  'callback' =&gt; '_chat_rest_buddylist',
-  'access callback' =&gt; 'chat_rest_access',
-  'access arguments' =&gt; array('new'),
-  'access arguments append' =&gt; TRUE,
-),
-</code></pre>
-
-<p>  );</p>
-
-<p>  return $resources;
-}
-</code></p>
-
-<p>Lastly, define the endpoints to be shown in the Services configuration page.</p>
-
-<p><code>
-function chat_rest_default_services_endpoint() {
-  $endpoint = new stdClass;
-  $endpoint->disabled = FALSE; // endpoint disabled initially
-  $endpoint->name = &lsquo;drupalchat&rsquo;;
-  $endpoint->title = &lsquo;Drupalchat REST API&rsquo;;
-  $endpoint->server = &lsquo;rest_server&rsquo;;
-  $endpoint->path = &lsquo;js-api&rsquo;;
-  $endpoint->authentication = array(</p>
-
-<pre><code>'drupalchat' =&gt; array(
-  'alias' =&gt; '',
-  'actions' =&gt; array(
-    'messagecreate' =&gt; array(
-      'enabled' =&gt; 1,
-    ),
-    'newmessages' =&gt; array(
-      'enabled' =&gt; 1,
-    ),
-    'updatebuddylist' =&gt; array(
-      'enabled' =&gt; 1,
-    ),
-  ),
-),
-</code></pre>
-
-<p>  );</p>
-
-<p>  // TODO turn this debug to 0
-  $endpoint->debug = 1;
-  $endpoints[] = $endpoint;
-  return $endpoints;
-}
-</code></p>
-
-<p>That&rsquo;s it! Declaring a custom Services endpoint (or here, 3)  really is not that difficult once you understand how to do it.</p>
 ]]></content>
   </entry>
   
